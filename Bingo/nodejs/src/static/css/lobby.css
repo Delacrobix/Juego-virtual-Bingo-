@@ -1,0 +1,60 @@
+body{
+    background: -webkit-linear-gradient(to left, #3f2b96, #a8c0ff);
+    background: linear-gradient(to left, #3f2b96, #a8c0ff); 
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#principal-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.secondary-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-div{
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    max-width: 750px;
+}
+
+h1{
+    padding: 3%;
+    font-size: 50px;
+}
+
+h2{
+    padding-bottom: 25px;
+    padding-top: 35px;
+}
+
+#countdown-min{
+    font-size: 50px;
+}
+
+#countdown-sec{
+    font-size: 50px;
+}
+
+#count{
+    font-size: 25px;
+    font-style: italic;
+    background-color: #a8c0ff;
+    padding: 13px;
+    border-radius: 50%;
+}
+
+#message{
+    font-size: 35px;
+}
+
+.rules{
+    font-size: 25px;
+}

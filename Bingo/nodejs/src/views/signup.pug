@@ -1,0 +1,26 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", href="/css/signup.css")
+        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx' crossorigin='anonymous')
+        title Signup
+    body 
+        div#principal-div
+            
+            div#input-form
+                h3 Registrarse
+                div.mb-3
+                    label.form-label(for='input-user') Usuario
+                    input#input-user.form-control(type='text' aria-describedby='emailHelp')
+                div.mb-3
+                    label.form-label(for='input-password') Contraseña
+                    input#input-password.form-control(type='password')
+                a.btn.btn-primary(type='button', id='submit-btn') Registrarse
+                a.btn.btn-secondary(type='button', href="/login" id="return-btn") Volver al login
+
+        script(type='text/javascript' src="/js/signup.js")
+        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')
+
