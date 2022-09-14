@@ -38,7 +38,10 @@
 
         /6_bingo-virtual/Bingo/pom.xml
 
-    Para ejecutar la aplicación Java se debe ejecutar desde el IDE
+    Para ejecutar la aplicación Java se debe ejecutar desde el IDE. Cuando ambas aplicaciones (NodeJS y Spring Boot) estén iniciadas, puede acceder a la aplicación desde las siguientes direcciones:
+
+        localhost:8081/Login (Para iniciar sesion)
+        localhost:8081/signup (para registrarse)
 
 ### <strong>Experiencia de usuario:</strong> <a name="id20"></a>
 
