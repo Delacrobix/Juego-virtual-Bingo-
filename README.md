@@ -1,8 +1,18 @@
-# Juego-virtual-Bingo-
+# Juego: Bingo virtual
 
-### <strong>Instalación de dependencias y ejecución del programa:</strong><a name="id19"></a>
+### <strong>Tecnologías, instalación de dependencias y ejecución del programa:</strong><a name="id19"></a>
 
-- <strong>Base de datos:</strong> El script encargado de desplegar las tablas usadas para el proyecto se encuentra en la siguiente dirección: 
+- <strong>Tecnologías usadas:</strong>
+    - Java
+    - Spring Boot
+    - MySQL
+    - NodeJS
+    - MongoDB
+<br></br>
+
+<strong>Dependencias</strong>
+
+- <strong>Base de datos:</strong> Para la ejecución de esta aplicación se necesita <a href="https://www.mysql.com" target="_blank"><strong> MySQL</strong></a> instalado. El script encargado de desplegar las tablas usadas para el proyecto se encuentra en la siguiente dirección: 
 
         /6_bingo-virtual/base-de-datos.sql
 
@@ -28,6 +38,8 @@
 
         /6_bingo-virtual/Bingo/pom.xml
 
+    Para ejecutar la aplicación Java se debe ejecutar desde el IDE
+
 ### <strong>Experiencia de usuario:</strong> <a name="id20"></a>
 
 La aplicación se compone de 4 módulos con los cuales el usuario puede interactuar: El formulario de registro, el formulario de ingreso, el lobby, y el bingo.
@@ -37,7 +49,7 @@ La aplicación se compone de 4 módulos con los cuales el usuario puede interact
 <br>
     ![Notificación de registro exitoso.](https://github.com/Delacrobix/Sofka-Canteras-2/blob/doc/DOC/images/2022-08-06_14h46_36.png)
 
-En el formulario de registro el usuario puede ingresar el nombre de usuario que desee tener y la contraseña. Dicho nombre de usuario no debe haber sido usado por ningún otro usuario registrado.
+En el formulario de registro el usuario puede ingresar el nombre de usuario que desee y la contraseña. Dicho nombre de usuario no debe haber sido usado por ningún otro usuario registrado.
 
 > Formulario de inicio de sesion:
     ![Formulario de inicio de sesion](https://github.com/Delacrobix/Sofka-Canteras-2/blob/doc/DOC/images/2022-08-06_14h47_16.png)
@@ -47,12 +59,12 @@ Una vez registrado el usuario puede iniciar sesion con el usuario y contraseña 
 > Lobby:
     ![Lobby del juego](https://github.com/Delacrobix/Sofka-Canteras-2/blob/doc/DOC/images/2022-08-06_14h48_01.png)
 
-Una vez iniciada sesion el usuario sera redireccionado al lobby de la aplicación donde esperara que otros jugadores se unan para asi iniciar el juego.
+Una vez iniciada la sesion, el usuario sera redireccionado al lobby de la aplicación donde esperara que otros jugadores se unan para asi iniciar el juego. En caso de que ningun usuario se una se iniciara una partida single-player.
 
 > Bingo:
     ![Bingo](https://github.com/Delacrobix/Sofka-Canteras-2/blob/doc/DOC/images/2022-08-06_14h48_51.png)
 
-Cuando termine la cuenta regresiva en el lobby, el usuario sera redireccionado al juego en si. Aqui el jugador se le asignara una tabla de bingo totalmente random en la cual podrá llenar las fichas que vayan saliendo en pantalla y que coincidan con los espacios que tenga en la tabla.
+Cuando termine la cuenta regresiva en el lobby, el usuario sera redireccionado al juego. Aquí el jugador se le asignara una tabla de bingo totalmente random en la cual podrá llenar las fichas que vayan saliendo en pantalla y que coincidan con los espacios que tenga en la tabla.
 
 El usuario también podrá visualizar los otros participantes del juego.
 
@@ -61,7 +73,7 @@ El usuario también podrá visualizar los otros participantes del juego.
 <br>
     ![Casilla marcada que no coincide con las balotas](https://github.com/Delacrobix/Sofka-Canteras-2/blob/doc/DOC/images/2022-08-06_14h50_04.png)
 
-Cuando el jugador decida marcar las casillas que coincidan con las balotas que hayan sido arrojadas por la balotera, dicha balota sera coloreada en rojo, indicando asi que ha sido marcada. Si por algún casual el usuario intenta marcar una casilla que no coincida con ninguna balota el sistema informara al usuario que no puede marcar dicha casilla.
+Cuando el jugador decida marcar las casillas que coincidan con las balotas que hayan sido arrojadas por la balotera, dicha balota sera coloreada en rojo, indicando asi que ha sido marcada. Si por algún casual el usuario intenta marcar una casilla que no coincida con ninguna balota, el sistema informara al usuario que no puede marcar dicha casilla.
 
 > Anuncio de la victoria:
     ![Victoria real](https://github.com/Delacrobix/Sofka-Canteras-2/blob/doc/DOC/images/2022-08-06_14h55_09.png)

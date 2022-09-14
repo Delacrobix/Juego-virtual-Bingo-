@@ -70,8 +70,7 @@ exports.addUser = async function (req, res){
   
     new_user.password = await new_user.encryptPassword(password);
   
-    new_user.save(new_user)
-      .then(us => console.log(us));
+    new_user.save(new_user);
   
     res.send(new_user);
   }

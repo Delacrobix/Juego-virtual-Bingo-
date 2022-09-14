@@ -58,7 +58,7 @@ bingo_btn.addEventListener ('click', async () => {
 async function printPlayers(){
     gamers_list = await getPlayers();
 
-    if(gamers_list.length < 2){
+    if(gamers_list.length < 1){
         await finishGame();
         alert('Deben participar en el juego almenos dos jugadores. El juego sera finalizado');
 
