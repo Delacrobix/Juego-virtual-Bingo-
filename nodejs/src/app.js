@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const app = express();
 
@@ -20,8 +21,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.set('view engine', 'pug');
 app.use(methodOverride());
-app.use(express.static(__dirname + '/static'));
 
+//* configuracion de las vistas
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'static')));
+app.set('views', path.join(__dirname, '..', 'frontend', 'views'));
+
+
+console.log(path.join(__dirname, '..', 'frontend'))
 app.use(session({
     secret: 'sec',
     resave: true,
