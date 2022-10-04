@@ -1,7 +1,6 @@
 /**
  * *Cuerpo de la aplicación:
  * *Aplicación construida con express y nodejs, mongodb en la  base de datos y
- * *pug como motor de plantillas.
  */
 
 require('dotenv').config();
