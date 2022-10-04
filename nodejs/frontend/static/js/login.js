@@ -8,7 +8,7 @@ async function sendUser(new_user){
     const delay = ms => new Promise(res => setTimeout(res, ms));
     var user_info;
 
-    await fetch('http://localhost:8081/user/log', {
+    await fetch('/user/log', {
         method: 'POST',
         body: JSON.stringify(new_user),
         headers: {

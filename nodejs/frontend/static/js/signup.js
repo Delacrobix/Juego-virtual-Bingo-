@@ -7,7 +7,7 @@ submit.addEventListener ('click', () => {
 async function sendData(user){
     let new_user;
 
-    await fetch('http://localhost:8081/addUser', {
+    await fetch('/addUser', {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
