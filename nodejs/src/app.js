@@ -4,6 +4,7 @@
  * *pug como motor de plantillas.
  */
 
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
@@ -11,6 +12,9 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 
 const app = express();
+
+const MONGODB = process.env.MONGODB,
+      PORT = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -24,8 +28,8 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.listen(8081, () =>{
-    console.log('Running on port 8081');
+app.listen(PORT, () =>{
+    console.log(`Server running on: ${PORT}`);
 });
 
 /**
@@ -36,6 +40,6 @@ app.use(require('./routes/routes'));
 /**
  * *Conexión a la base de datos.
  */
-mongoose.connect('mongodb://localhost/BingoUsers', {})
+mongoose.connect(MONGODB, {})
     .then(db => console.log('DB is connected.'))
     .catch(err => console.error(err));

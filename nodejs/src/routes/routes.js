@@ -1,6 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const controllers = require('../controllers/UserController');
+const express = require('express'),
+      router = express.Router(),
+      controllers = require('../controllers/UserController');
 
 /**
  * *Render de las vistas con sus respectivas rutas.
