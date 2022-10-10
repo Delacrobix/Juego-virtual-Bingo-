@@ -136,6 +136,7 @@ public class BingoController {
     public ResponseEntity<Bingo> getActuallyGame() {
         try {
             var game = bingo_service.list().get(bingo_service.list().size() - 1);
+            log.info(String.valueOf(bingo_service.list().size()));
 
             if(game.isGame_state()){
                 return new ResponseEntity<>(game, HttpStatus.ACCEPTED);
