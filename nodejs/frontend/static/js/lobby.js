@@ -1,3 +1,5 @@
+const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
+
 /**
  * *Obtiene el id del jugador que esta en la url.
  */
@@ -11,7 +13,7 @@ function getId(){
 async function getTime(){
     let time;
 
-    await fetch('/getCount', {})
+    await fetch(`${JAVA_APP}/getCount`, {})
         .then(res => {
             return res.json();
         }).then(data => {
@@ -27,7 +29,7 @@ async function setTime(minutes, seg){
         seg: seg
     };
 
-    await fetch('/setCountdown', {
+    await fetch(`${JAVA_APP}/setCountdown`, {
         method: 'POST',
         body: JSON.stringify(time),
         headers: {
@@ -46,7 +48,7 @@ async function gamers(gamer_id){
         id_mongo: gamer_id
     }
 
-    await fetch('/gamers', {
+    await fetch(`${JAVA_APP}/gamers`, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -58,7 +60,7 @@ async function gamers(gamer_id){
 
 async function startGame(){
     let game;
-    await fetch('/startGame', {
+    await fetch(`${JAVA_APP}/startGame`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
@@ -77,7 +79,7 @@ async function startGame(){
 async function getBingo(){
     let bingo;
 
-    await fetch('/getActuallyGame', {})  
+    await fetch(`${JAVA_APP}/getActuallyGame`, {})  
         .then(res => {
             return res.json();
         }).then(data => {
