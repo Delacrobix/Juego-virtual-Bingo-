@@ -29,6 +29,8 @@ async function setTime(minutes, seg){
         seg: seg
     };
 
+    alert(`${JAVA_APP}/setCountdown`)
+
     await fetch(`${JAVA_APP}/setCountdown`, {
         method: 'POST',
         body: JSON.stringify(time),
