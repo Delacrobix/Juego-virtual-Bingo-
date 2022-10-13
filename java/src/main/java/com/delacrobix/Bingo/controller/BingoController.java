@@ -39,7 +39,7 @@ public class BingoController {
      * @param countdown Objeto que contiene lol valores de minutos y segundos que se tardara el contador en
      * llegar a cero.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/setCountdown")
     public ResponseEntity<Countdown> countdown(@RequestBody Countdown countdown){
         Countdown count = null;
@@ -68,7 +68,7 @@ public class BingoController {
     /**
      * Recibe un usuario y lo guarda en la base de datos.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/gamers")
     public ResponseEntity<Gamer> saveGamers(@RequestBody Gamer gamer){
         var game = bingo_service.list().get(bingo_service.list().size() - 1);
@@ -86,7 +86,7 @@ public class BingoController {
      * @return un objeto Countdown que contiene los minutos y segundos
      * existentes en la base de datos.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @GetMapping(path = "/getCount")
     public ResponseEntity<Countdown> getCount() {
         Countdown count = null;
@@ -103,7 +103,7 @@ public class BingoController {
     /**
      * Inicia el juego asignando una clave principal 'game_number' al juego.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/startGame")
     public ResponseEntity<Bingo> startGame(){
         var bingo = new Bingo();
@@ -131,7 +131,7 @@ public class BingoController {
     /**
      * @return retorna los datos del juego que esta actualmente en curso.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @GetMapping(path = "/getActuallyGame")
     public ResponseEntity<Bingo> getActuallyGame() {
         try {
@@ -160,7 +160,7 @@ public class BingoController {
      * guardando todo lo anterior en la base de datos.
      * @return Envía una tabla de bingo al usuario.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/sendCards")
     public ResponseEntity<Card> sendCards(@RequestBody Gamer player){
         var card_numbers = bingo_service.createCardNumbers();
@@ -230,7 +230,7 @@ public class BingoController {
      * @param id de la columna requerida.
      * @return la columna encontrada de la búsqueda por id en la base de datos.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @GetMapping(path = "/sendColumn/{id}")
     public ResponseEntity<Optional<ColumnLetter>> sendColumn(@PathVariable("id") Long id) {
         var column = columnLetter_service.findById(id);
@@ -241,7 +241,7 @@ public class BingoController {
     /**
      * @return la lista de todos los jugadores participantes del juego en curso.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @GetMapping(path = "/allGamers")
     public ResponseEntity<List<Gamer>> sendPlayers() {
         var game_list = bingo_service.list();
@@ -254,7 +254,7 @@ public class BingoController {
         return new ResponseEntity<>(gamers, HttpStatus.ACCEPTED);
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @GetMapping(path = "/isInGame/{id}")
     public ResponseEntity<Boolean> isInGame(@PathVariable("id") Long id) {
         var game = bingo_service.findById(id);
@@ -269,7 +269,7 @@ public class BingoController {
      * @param mongo_id id del jugador que marco la balota.
      * @return el jugador actualizado.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/ballotsGamer/{mongo_id}")
     public ResponseEntity<Gamer> ballotsFromGamer(@PathVariable("mongo_id") String mongo_id, @RequestBody Integer ballot){
         var gamer_database = new Gamer();
@@ -303,7 +303,7 @@ public class BingoController {
      * Inicia la ruleta de la cual saldrán las 75 balotas del juego.
      * @param seconds segundos que servirán de intervalo entre balota y balota.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/trigger")
     public ResponseEntity<String> ballotsTrigger(@RequestBody Integer seconds) {
         var game_list = bingo_service.list();
@@ -347,7 +347,7 @@ public class BingoController {
      * Termina el juego cambiando su estado de true, a false.
      * @return el juego actualizado.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/endGame")
     public ResponseEntity<Bingo> finishGame() {
         var game_list = bingo_service.list();
@@ -366,7 +366,7 @@ public class BingoController {
      * @param gamer jugador a descalificar.
      * @return la lista de jugadores que aun están en el juego.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/disqualify")
     public ResponseEntity<List<Integer>> disqualifyPlayer(@RequestBody Gamer gamer) {
         var player = gamer_service.findByMongoId(gamer);
@@ -403,7 +403,7 @@ public class BingoController {
      * @return una lista de Integers con cada una de las balotas sacadas en el juego
      * por la ruleta.
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @GetMapping(path = "/allBallots")
     public ResponseEntity<List<Integer>> allBallots() {
         var ballots_list = ballotsObtained_service.list();
@@ -417,7 +417,7 @@ public class BingoController {
      * @param gamer
      * @return
      */
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @PostMapping(path = "/winner")
     public ResponseEntity<Boolean> isWinner(@RequestBody Gamer gamer){
 
@@ -454,7 +454,7 @@ public class BingoController {
         return new ResponseEntity<>(is_win, HttpStatus.ACCEPTED);
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    @CrossOrigin(origins = "https://auth-module.up.railway.app")
     @GetMapping(path = "/getWinner")
     public ResponseEntity<Bingo> getWinner(){
         var game = bingo_service.list().get(bingo_service.list().size() - 1);
