@@ -7,6 +7,8 @@ function getId(){
     let pathname = window.location.pathname;
     pathname = pathname.slice(1)
 
+    alert(pathname);
+
     return pathname;
 }
 
