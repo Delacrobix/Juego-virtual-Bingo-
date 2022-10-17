@@ -1,4 +1,5 @@
-const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
+//const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
+const LOCAL = 'https://bingo-module.rj.r.appspot.com';
 
 /**
  * *Obtiene el id del jugador que esta en la url.
@@ -13,7 +14,7 @@ function getId(){
 async function getTime(){
     let time;
 
-    await fetch(`${JAVA_APP}/getCount`, {})
+    await fetch(`${LOCAL}/getCount`, {})
         .then(res => {
             return res.json();
         }).then(data => {
@@ -29,9 +30,9 @@ async function setTime(minutes, seg){
         seg: seg
     };
 
-    alert(`${JAVA_APP}/setCountdown`)
+    alert(`${LOCAL}/setCountdown`)
 
-    await fetch(`${JAVA_APP}/setCountdown`, {
+    await fetch(`${LOCAL}/setCountdown`, {
         method: 'POST',
         body: JSON.stringify(time),
         headers: {
@@ -50,7 +51,7 @@ async function gamers(gamer_id){
         id_mongo: gamer_id
     }
 
-    await fetch(`${JAVA_APP}/gamers`, {
+    await fetch(`${LOCAL}/gamers`, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
@@ -62,7 +63,8 @@ async function gamers(gamer_id){
 
 async function startGame(){
     let game;
-    await fetch(`${JAVA_APP}/startGame`, {
+
+    await fetch(`${LOCAL}/startGame`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
@@ -81,7 +83,7 @@ async function startGame(){
 async function getBingo(){
     let bingo;
 
-    await fetch(`${JAVA_APP}/getActuallyGame`, {})  
+    await fetch(`${LOCAL}/getActuallyGame`, {})  
         .then(res => {
             return res.json();
         }).then(data => {
@@ -106,7 +108,7 @@ async function countdown(){
      * * Método que configura el tiempo de espera en el lobby
      * * con los parámetros (minutos, segundos).
      */
-    setTime(0, 15);
+    setTime(0, 10);
     await delay(500);
 
     let time;
@@ -134,6 +136,8 @@ async function countdown(){
      * *Envía los ids de los jugadores al backend en spring boot.
      */
     await gamers(getId());
+
+    await delay(10000);
 
     window.location.href = '/bingo/' + getId();
 }

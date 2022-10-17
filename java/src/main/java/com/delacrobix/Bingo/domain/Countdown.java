@@ -25,8 +25,8 @@ public class Countdown implements Serializable {
     private Long id;
 
     @Column(name = "minute")
-    private Integer minute;
+    private int minute;
 
     @Column(name = "seg")
-    private Integer seg;
+    private int seg;
 }

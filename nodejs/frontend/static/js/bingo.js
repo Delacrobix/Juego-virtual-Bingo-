@@ -8,6 +8,7 @@ const bingo_btn = document.getElementById('bingo-btn');
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
+const LOCAL = 'http://localhost:8080';
 
 /**
  * *Evento que identifica si el usuario presiona un botón en la tabla de bingo.
@@ -79,7 +80,7 @@ async function printPlayers(){
 async function getPlayerName(id){
     let user;
 
-    await fetch(`http://localhost:8081/getUser/${id}`, {})  
+    await fetch(`/getUser/${id}`, {})  
         .then(res => {
             return res.json();
         }).then(data => {
@@ -100,7 +101,7 @@ function writeWinner(id){
 async function getWinnerId(){
     let winner;
 
-    await fetch(`${JAVA_APP}/getWinner`, {})  
+    await fetch(`${LOCAL}/getWinner`, {})  
         .then(res => {
             return res.json();
         }).then(data => {
@@ -138,7 +139,7 @@ function createTable(users){
 }
 
 async function finishGame(){
-    await fetch(`${JAVA_APP}/endGame`, {
+    await fetch(`${LOCAL}/endGame`, {
         method: 'POST',
         headers: {
             'Content-type': 'application/json',
@@ -158,7 +159,7 @@ async function disqualifyPlayer(){
 
     let list_players;
 
-    await fetch(`${JAVA_APP}/disqualify`, {
+    await fetch(`${LOCAL}/disqualify`, {
         method: 'POST',
         body: JSON.stringify(player),
         headers: {
@@ -178,7 +179,7 @@ async function disqualifyPlayer(){
 async function getPlayers(){
     let players;
 
-    await fetch(`${JAVA_APP}/allGamers`, {})  
+    await fetch(`${LOCAL}/allGamers`, {})  
         .then(res => {
             return res.json();  
         }).then(data => {
@@ -195,7 +196,7 @@ async function isWinner(){
 
     let is_winner;
 
-    await fetch(`${JAVA_APP}/winner`, {
+    await fetch(`${LOCAL}/winner`, {
         method: 'POST',
         body: JSON.stringify(player),
         headers: {
@@ -218,7 +219,7 @@ async function getCard(){
         id_mongo: mongo_id
     }
 
-    await fetch(`${JAVA_APP}/sendCards`, {
+    await fetch(`${LOCAL}/sendCards`, {
         method: 'POST',
         body: JSON.stringify(player),
         headers: {
@@ -245,7 +246,7 @@ async function getCard(){
 async function setColumn(column_id){
     let column;
 
-    await fetch(`${JAVA_APP}/sendColumn/${column_id}`, {})  
+    await fetch(`${LOCAL}/sendColumn/${column_id}`, {})  
         .then(res => res.json())
         .then(json =>{
             column = {
@@ -263,7 +264,7 @@ async function setColumn(column_id){
 }
 
 async function sendBallotGamer(id, ballot){
-    await fetch(`${JAVA_APP}/ballotsGamer/${id}`, {
+    await fetch(`${LOCAL}/ballotsGamer/${id}`, {
         method: 'POST',
         body: JSON.stringify(ballot),
         headers: {
@@ -272,13 +273,11 @@ async function sendBallotGamer(id, ballot){
     })  
         .then(res => {
             return res.json();
-        }).then(data => {
-            console.log(data);
         });
 }
 
 async function initRoulette(seconds){
-    await fetch(`${JAVA_APP}/trigger`, {
+    await fetch(`${LOCAL}/trigger`, {
         method: 'POST',
         body: JSON.stringify(seconds),
         headers: {
@@ -290,7 +289,7 @@ async function initRoulette(seconds){
 async function getBallots(){
     let ballots;
 
-    await fetch(`${JAVA_APP}/allBallots`, {})
+    await fetch(`${LOCAL}/allBallots`, {})
         .then(res => {
             return res.json();
         })
@@ -304,7 +303,7 @@ async function getBallots(){
 async function getGameState(id){
     let state;
 
-    await fetch(`${JAVA_APP}/isInGame/${id}`, {})  
+    await fetch(`${LOCAL}/isInGame/${id}`, {})  
         .then(res => {
             return res.json();
         }).then(data => {
@@ -317,7 +316,7 @@ async function getGameState(id){
 async function getBingo(){
     let bingo;
 
-    await fetch(`${JAVA_APP}/getActuallyGame`, {})  
+    await fetch(`${LOCAL}/getActuallyGame`, {})  
         .then(res => {
             return res.json();
         }).then(data => {

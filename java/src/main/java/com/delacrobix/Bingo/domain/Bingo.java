@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Data
 @Entity
-@Table(name = "Bingo")
+@Table(name = "bingo")
 public class Bingo implements Serializable {
 
     private static final long serialVersionUID = 1L;
