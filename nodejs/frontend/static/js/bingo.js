@@ -8,7 +8,8 @@ const bingo_btn = document.getElementById('bingo-btn');
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
-const LOCAL = 'http://localhost:8080';
+//const LOCAL = 'http://localhost:8080';
+const LOCAL = 'https://bingo-module.rj.r.appspot.com';
 
 /**
  * *Evento que identifica si el usuario presiona un botón en la tabla de bingo.
