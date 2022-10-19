@@ -1,6 +1,6 @@
 //const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
-const LOCAL = "http://localhost:8080";
+const LOCAL = 'http://localhost:8080';
 const socket = io();
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -35,10 +35,10 @@ async function setTime(minutes, seg) {
   };
 
   await fetch(`${LOCAL}/setCountdown`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(time),
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     },
   }).then((res) => res.json());
 
@@ -51,10 +51,10 @@ async function gamers(gamer_id) {
   };
 
   await fetch(`${LOCAL}/gamers`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(user),
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     },
   }).then((res) => res.json());
 }
@@ -63,9 +63,9 @@ async function startGame() {
   let game;
 
   await fetch(`${LOCAL}/startGame`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     },
   })
     .then((res) => res.json())
@@ -96,12 +96,12 @@ async function countdown() {
   /**
    * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
    */
-  if (await getBingo()) {
-    alert(
-      "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
-    );
-    window.location.href = "/login";
-  }
+  // if (await getBingo()) {
+  //   alert(
+  //     'Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego'
+  //   );
+  //   window.location.href = '/login';
+  // }
 
   /**
    * * Método que configura el tiempo de espera en el lobby
@@ -112,18 +112,18 @@ async function countdown() {
 
   let time;
 
-  do {
+  //do {
     // try{
     //     time = await getTime();
     // } catch {
     //     break;
     // }
 
-    document.getElementById("countdown-min").innerHTML = time.minute + " : ";
-    document.getElementById("countdown-sec").innerHTML = time.seg;
+    // document.getElementById('countdown-min').innerHTML = time.minute + ' : ';
+    // document.getElementById('countdown-sec').innerHTML = time.seg;
 
-    await delay(250);
-  } while (time.minute >= -1 && time.seg >= 0);
+  //   await delay(250);
+  // } while (time.minute >= -1 && time.seg >= 0);
 
   await delay(Math.floor(Math.random() * (2500 - 0) + 0));
   /**
@@ -141,42 +141,10 @@ async function countdown() {
   //window.location.href = '/bingo/' + getId();
 }
 
-function getRemainTime(deadline) {
-  let now = new Date();
-  let remain = (new Date(deadline) - now + 1000) / 1000;
-  let remain_seconds = ("0" + Math.floor(remain % 60)).slice(-2);
-  let remain_minutes = ("0" + Math.floor((remain / 60) % 60)).slice(-2);
+socket.on('Tiempo', function (data) {
 
-  return {
-    remain: remain,
-    seg: remain_seconds,
-    min: remain_minutes,
-  };
-}
+  document.getElementById('countdown-min').innerHTML = data.min + ' : ';
+  document.getElementById('countdown-sec').innerHTML = data.seg;
+});
 
-const count = (deadline) => {
-  const timer_update = setInterval( () => {
-    let t = getRemainTime(deadline);
-
-    document.getElementById("countdown-min").innerHTML = t.min;
-    document.getElementById("countdown-sec").innerHTML = t.seg;
-
-    if(t.remain < 1){
-        clearInterval(timer_update);
-        alert("Termino")
-    }
-  }, 1000);
-
-  
-
-  socket.emit("Tiempo", {
-    seg: i,
-    min: 0,
-  });
-
-  socket.on("Tiempo", function (data) {
-  });
-}
-
-count('Mon Oct 17 2022 16:25:15 GMT-0500');
 countdown();
