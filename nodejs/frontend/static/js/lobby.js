@@ -1,6 +1,6 @@
 //const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
-const LOCAL = 'http://localhost:8080';
+const LOCAL = "http://localhost:8080";
 const socket = io();
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -35,10 +35,10 @@ async function setTime(minutes, seg) {
   };
 
   await fetch(`${LOCAL}/setCountdown`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(time),
     headers: {
-      'Content-type': 'application/json',
+      "Content-type": "application/json",
     },
   }).then((res) => res.json());
 
@@ -51,10 +51,10 @@ async function gamers(gamer_id) {
   };
 
   await fetch(`${LOCAL}/gamers`, {
-    method: 'POST',
+    method: "POST",
     body: JSON.stringify(user),
     headers: {
-      'Content-type': 'application/json',
+      "Content-type": "application/json",
     },
   }).then((res) => res.json());
 }
@@ -63,9 +63,9 @@ async function startGame() {
   let game;
 
   await fetch(`${LOCAL}/startGame`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-type': 'application/json',
+      "Content-type": "application/json",
     },
   })
     .then((res) => res.json())
@@ -113,14 +113,14 @@ async function countdown() {
   let time;
 
   //do {
-    // try{
-    //     time = await getTime();
-    // } catch {
-    //     break;
-    // }
+  // try{
+  //     time = await getTime();
+  // } catch {
+  //     break;
+  // }
 
-    // document.getElementById('countdown-min').innerHTML = time.minute + ' : ';
-    // document.getElementById('countdown-sec').innerHTML = time.seg;
+  // document.getElementById('countdown-min').innerHTML = time.minute + ' : ';
+  // document.getElementById('countdown-sec').innerHTML = time.seg;
 
   //   await delay(250);
   // } while (time.minute >= -1 && time.seg >= 0);
@@ -140,11 +140,12 @@ async function countdown() {
 
   //window.location.href = '/bingo/' + getId();
 }
+const listener = (eventName, ...args) => {
 
-socket.on('Tiempo', function (data) {
-
-  document.getElementById('countdown-min').innerHTML = data.min + ' : ';
-  document.getElementById('countdown-sec').innerHTML = data.seg;
+}
+socket.prependAny((eventName, data) => {
+  document.getElementById("countdown-min").innerHTML = data.min + " : ";
+  document.getElementById("countdown-sec").innerHTML = data.seg;
 });
 
 countdown();

@@ -1,7 +1,6 @@
-const express = require('express'),
-      router = express.Router(),
-      controllers = require('../controllers/countdown-controllers');
-
+const express = require('express');
+const router = express.Router();
+const controllers = require('../controllers/countdown-controllers');
 
 /**
  * *Rutas dedicadas al registro y control de los usuarios.

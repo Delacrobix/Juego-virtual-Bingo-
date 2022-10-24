@@ -1,8 +1,12 @@
-const DateSchema = require('../models/date');
+const DateSchema = require("../models/date");
 
-exports.getRemainTime = (remain) => {
-  // let now = new Date();
-  // let remain = (new Date(deadline) - now + 1000) / 1000;
+getDeadline = () => {
+  const date = new DateSchema();
+
+  return date.calculateDeadline(10);
+};
+
+getRemainTime = (remain) => {
   let remain_seconds = ("0" + Math.floor(remain % 60)).slice(-2);
   let remain_minutes = ("0" + Math.floor((remain / 60) % 60)).slice(-2);
 
@@ -11,12 +15,66 @@ exports.getRemainTime = (remain) => {
     seg: remain_seconds,
     min: remain_minutes,
   };
-}
+};
 
-exports.findDate = async (req, res) => {
+exports.startCountdown = async (socket) => {
+  const deadline = getDeadline();
+
+  const timer_update = setInterval(async () => {
+    let now = new Date();
+
+    let remain = ((deadline - now + 1000) / 1000) % 60;
+    let t = getRemainTime(remain);
+
+    console.log(remain);
+
+    // socket.to('room_count').emit('Tiempo', {
+    //   seg: t.seg,
+    //   min: t.min,
+    // });
+
+    socket.emit('Tiempo', {
+      seg: t.seg,
+      min: t.min,
+    });
+
+    if (t.remain < 1) {
+      await deleteFlag();
+      clearInterval(timer_update);
+    }
+  }, 1000);
+};
+
+exports.findDate = async () => {
   let date = await DateSchema.findOne();
 
-  if(!date){
-    console.log('Date not found');
+  if (date) {
+    return true;
   }
-}
+
+  return false;
+};
+
+exports.saveFlag = async () => {
+  let flag = new DateSchema({
+    flag: 0,
+  });
+
+  await flag.save((err, res) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.log(res);
+    }
+  });
+};
+
+deleteFlag = async () => {
+  await DateSchema.deleteMany({ flag: { $gte: 0 } })
+    .then(function () {
+      console.log('Data deleted'); // Success
+    })
+    .catch(function (error) {
+      console.log(error); // Failure
+    });
+};

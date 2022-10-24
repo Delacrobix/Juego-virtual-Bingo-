@@ -17,7 +17,6 @@ async function sendUser(new_user){
     })  .then(res => res.json())
         .then(data =>{
             user_info = data;
-            console.log(data)
         });
 
     if(user_info.flag){
