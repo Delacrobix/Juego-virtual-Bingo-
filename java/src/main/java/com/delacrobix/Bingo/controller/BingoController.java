@@ -30,41 +30,7 @@ public class BingoController {
 
     @Autowired
     private BallotsObtainedService ballotsObtained_service;
-
-    @Autowired
-    private CountdownService countdown_Service;
-
-    /**
-     * Se encarga de iniciar un conteo que dependera de los valores contenidos en el objeto 'countdown'.
-     * @param countdown Objeto que contiene lol valores de minutos y segundos que se tardara el contador en
-     * llegar a cero.
-     */
-    //@CrossOrigin(origins = "https://auth-module.up.railway.app")
-    @PostMapping(path = "/setCountdown")
-    public ResponseEntity<Countdown> countdown(@RequestBody Countdown countdown){
-        Countdown count = null;
-
-        try{
-            count = countdown_Service.list().get(countdown_Service.list().size() - 1);
-
-            return new ResponseEntity<>(count, HttpStatus.CREATED);
-        } catch (Exception e) {
-
-            // *Si no existe ningún registro, crea uno.
-            count = new Countdown();
-            count.setMinute(countdown.getMinute());
-            count.setSeg(countdown.getSeg());
-
-            countdown_Service.save(count);
-        }
-
-        // *Si no hay un conteo activo
-        count = countdown_Service.startCountdown(count);
-        countdown_Service.delete(count);
-
-        return new ResponseEntity<>(count, HttpStatus.CREATED);
-    }
-
+    
     /**
      * Recibe un usuario y lo guarda en la base de datos.
      */
@@ -81,24 +47,6 @@ public class BingoController {
         return new ResponseEntity<>(gamer, HttpStatus.CREATED);
     }
 
-    /**
-     * Obtiene los datos del contador en la base de datos.
-     * @return un objeto Countdown que contiene los minutos y segundos
-     * existentes en la base de datos.
-     */
-    //@CrossOrigin(origins = "https://auth-module.up.railway.app")
-    @GetMapping(path = "/getCount")
-    public ResponseEntity<Countdown> getCount() {
-        Countdown count = null;
-
-        try {
-            count = countdown_Service.list().get(countdown_Service.list().size() - 1);
-        } catch (Exception e) {
-            log.info("Error: ", e);
-        }
-
-        return new ResponseEntity<>(count, HttpStatus.ACCEPTED);
-    }
 
     /**
      * Inicia el juego asignando una clave principal 'game_number' al juego.

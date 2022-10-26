@@ -28,12 +28,7 @@ exports.startCountdown = async (socket) => {
 
     console.log(remain);
 
-    // socket.to('room_count').emit('Tiempo', {
-    //   seg: t.seg,
-    //   min: t.min,
-    // });
-
-    socket.emit('Tiempo', {
+    socket.broadcast.emit('server:count', {
       seg: t.seg,
       min: t.min,
     });

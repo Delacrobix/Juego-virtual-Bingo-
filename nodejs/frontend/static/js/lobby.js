@@ -1,6 +1,6 @@
 //const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
-const LOCAL = "http://localhost:8080";
+const LOCAL = 'http://localhost:8080';
 const socket = io();
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
@@ -14,35 +14,30 @@ function getId() {
   return pathname;
 }
 
-async function getTime() {
-  let time;
+function createTable(users){
+  let t_body = document.getElementById('t-bodyPlayers');
+  let tr;
+  let td;
 
-  await fetch(`${LOCAL}/getCount`, {})
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      time = data;
-    });
+  
 
-  return time;
-}
+  for(let i = 0; i < users.length; i++){
+      tr = document.createElement('tr');
+      t_body.appendChild(tr);
 
-async function setTime(minutes, seg) {
-  let time = {
-    minute: minutes,
-    seg: seg,
-  };
+      td = document.createElement('td');
+      td.innerHTML = i + 1;
+      tr.appendChild(td);
 
-  await fetch(`${LOCAL}/setCountdown`, {
-    method: "POST",
-    body: JSON.stringify(time),
-    headers: {
-      "Content-type": "application/json",
-    },
-  }).then((res) => res.json());
+      td = document.createElement('td');
+      td.id = 'player-' + (i + 1);
+      td.innerHTML = users[i].user
+      tr.appendChild(td);
 
-  return time;
+      td = document.createElement('td');
+      td.id = 'winner-' + (i + 1);
+      tr.appendChild(td);
+  }
 }
 
 async function gamers(gamer_id) {
@@ -51,10 +46,10 @@ async function gamers(gamer_id) {
   };
 
   await fetch(`${LOCAL}/gamers`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(user),
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     },
   }).then((res) => res.json());
 }
@@ -63,9 +58,9 @@ async function startGame() {
   let game;
 
   await fetch(`${LOCAL}/startGame`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     },
   })
     .then((res) => res.json())
@@ -103,29 +98,8 @@ async function countdown() {
   //   window.location.href = '/login';
   // }
 
-  /**
-   * * Método que configura el tiempo de espera en el lobby
-   * * con los parámetros (minutos, segundos).
-   */
-  await setTime(0, 12);
-  await delay(500);
 
-  let time;
-
-  //do {
-  // try{
-  //     time = await getTime();
-  // } catch {
-  //     break;
-  // }
-
-  // document.getElementById('countdown-min').innerHTML = time.minute + ' : ';
-  // document.getElementById('countdown-sec').innerHTML = time.seg;
-
-  //   await delay(250);
-  // } while (time.minute >= -1 && time.seg >= 0);
-
-  await delay(Math.floor(Math.random() * (2500 - 0) + 0));
+  //await delay(Math.floor(Math.random() * (2500 - 0) + 0));
   /**
    * *Crea el juego nuevo.
    */
@@ -135,17 +109,18 @@ async function countdown() {
    * *Envía los ids de los jugadores al backend en spring boot.
    */
   await gamers(getId());
+}
 
-  await delay(250);
+socket.on('server:count', (data) => {
+
+  document.getElementById('countdown-min').innerHTML = data.min + ' : ';
+  document.getElementById('countdown-sec').innerHTML = data.seg;
 
   //window.location.href = '/bingo/' + getId();
-}
-const listener = (eventName, ...args) => {
+});
 
-}
-socket.prependAny((eventName, data) => {
-  document.getElementById("countdown-min").innerHTML = data.min + " : ";
-  document.getElementById("countdown-sec").innerHTML = data.seg;
+socket.on('server:users', users => {
+  createTable(users);
 });
 
 countdown();
