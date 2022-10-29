@@ -14,28 +14,34 @@ function getId() {
   return pathname;
 }
 
+function deleteChilds(element){
+  let childs = element.childNodes;
+
+  for(let i = childs.length - 1; i > -1; i--){
+    childs[i].remove();
+  }
+}
+
 function createTable(users){
   let t_body = document.getElementById('t-bodyPlayers');
+
+  deleteChilds(t_body);
+  
   let tr;
   let td;
-
-  
 
   for(let i = 0; i < users.length; i++){
       tr = document.createElement('tr');
       t_body.appendChild(tr);
 
       td = document.createElement('td');
+      td.id = 't-counter' + (i + 1);
       td.innerHTML = i + 1;
       tr.appendChild(td);
 
       td = document.createElement('td');
       td.id = 'player-' + (i + 1);
-      td.innerHTML = users[i].user
-      tr.appendChild(td);
-
-      td = document.createElement('td');
-      td.id = 'winner-' + (i + 1);
+      td.innerHTML = users[i]
       tr.appendChild(td);
   }
 }
