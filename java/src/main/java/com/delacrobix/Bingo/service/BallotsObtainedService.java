@@ -16,7 +16,6 @@ public class BallotsObtainedService implements IBallotsObtainedService{
     private BallotsObtainedDao ballotsObtained_dao;
 
     @Override
-    //@Transactional
     public void initRoule(Integer seconds) {
         List<Integer> ballots = new ArrayList<>();
 

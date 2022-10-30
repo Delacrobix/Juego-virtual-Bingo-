@@ -410,30 +410,3 @@ public class BingoController {
         return new ResponseEntity<>(game, HttpStatus.ACCEPTED);
     }
 }
-
-/*TODO: Realizar el envio de cartas a un jugador que se haya desconectado, vuelva a ingresar y el juego aun este activo
-        Esto debe retornar las tablas del jugador con las fichas marcadas por el. Se debe buscar su ID en el juego, en
-        en caso de que haya sido descalificado, no podra volver
- */
-
-/* TODO: controlar que el usuario sea unico a la hora de registrarse */
-
-/* TODO: En caso de que el juego este en curso y un nuevo usuario entre, lanzarle un mensaje que vuelva pronto */
-
-/* TODO: mostrar lista de jugadores en sala de espera*/
-
-/* TODO: Documentacion de como usar el programa con pantallazos, inclusibe la experiencia de ussuario*/
-
-/* TODO: documentar script base de datos */
-
-/*TODO: quices*/
-
-/* TODO: Controlar el caso en que salgan todas las balotas */
-
-/*TODO: eliminar el count_state*/
-
-/*TODO: cuando solo un jugador juega, el juego no se cierra cuando un jugador es descalificado*/
-
-/*TODO: detener el juego una vez haya terminado (backend)*/
-
-/*TODO: mejorar optimizacion a la hora de buscar balotas*/

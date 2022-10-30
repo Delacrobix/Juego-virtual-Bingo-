@@ -10,14 +10,13 @@ const io = SocketIO(server);
 io.on("connection", async (socket) => {
   console.log("Connection done", socket.id);
 
-  socket.on('client:user', user => {
-    
-    if(users.indexOf(user.user.user) === -1) {
+  socket.on("client:user", (user) => {
+    if (users.indexOf(user.user.user) === -1) {
       users.push(user.user.user);
     }
   });
 
-  socket.emit('server:users', users);
+  socket.emit("server:users", users);
 
   let is_started = await count_controllers.findDate(socket);
 

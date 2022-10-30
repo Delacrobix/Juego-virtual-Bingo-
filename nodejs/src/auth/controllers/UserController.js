@@ -1,11 +1,11 @@
-const User = require('../models/UserSchema');
+const User = require("../models/UserSchema");
 
 exports.findUserById = function (req, res) {
   let user_id = req.params.userId;
 
   User.findById(user_id).exec(function (err, User) {
     return res.status(200).jsonp({
-      user: User.user
+      user: User.user,
     });
   });
 };
@@ -21,7 +21,7 @@ exports.findUserAndPassword = async function (req, res) {
     user: user,
   });
 
-  if(!us){
+  if (!us) {
     us = await User.findOne({
       email: user,
     });
@@ -29,20 +29,20 @@ exports.findUserAndPassword = async function (req, res) {
 
   if (!us) {
     return res.status(200).jsonp({
-      message: 'Username or email not found.',
+      message: "Username or email not found.",
       flag: true,
     });
   } else {
     let match = await us.comparePassword(password);
-    
-    if(match) {
+
+    if (match) {
       return res.status(200).jsonp({
         user: user,
         id: us._id,
       });
     } else {
       return res.status(200).jsonp({
-        message: 'Incorrect password.',
+        message: "Incorrect password.",
         flag: true,
       });
     }
@@ -55,12 +55,12 @@ exports.findUserAndPassword = async function (req, res) {
  * añade el registro a la base de datos.
  */
 exports.addUser = async function (req, res) {
-  let { user, email, password  } = req.body;
+  let { user, email, password } = req.body;
 
   // *Validación de campos vacíos
-  if((user.length == 0) || (email.length == 0) || (password.length == 0)){
+  if (user.length == 0 || email.length == 0 || password.length == 0) {
     return res.status(200).jsonp({
-      message: 'Must be fill in all required fields.'
+      message: "Must be fill in all required fields.",
     });
   }
 
@@ -74,12 +74,11 @@ exports.addUser = async function (req, res) {
 
   if (_email) {
     return res.status(200).jsonp({
-      message: 'The email address is already registered.',
+      message: "The email address is already registered.",
     });
   } else if (_user) {
-
     return res.status(200).jsonp({
-      message: 'The user is already registered.',
+      message: "The user is already registered.",
     });
   } else {
     let new_user = new User({
