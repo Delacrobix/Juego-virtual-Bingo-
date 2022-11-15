@@ -97,12 +97,12 @@ async function countdown() {
   /**
    * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
    */
-  // if (await getBingo()) {
-  //   alert(
-  //     'Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego'
-  //   );
-  //   window.location.href = '/login';
-  // }
+  if (await getBingo()) {
+    alert(
+      "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
+    );
+    window.location.href = "/login";
+  }
 
   //await delay(Math.floor(Math.random() * (2500 - 0) + 0));
   /**
@@ -114,17 +114,18 @@ async function countdown() {
    * *Envía los ids de los jugadores al backend en spring boot.
    */
   await gamers(getId());
+  window.location.href = '/bingo/' + getId();
 }
 
 socket.on("server:count", (data) => {
   document.getElementById("countdown-min").innerHTML = data.min + " : ";
   document.getElementById("countdown-sec").innerHTML = data.seg;
-
-  //window.location.href = '/bingo/' + getId();
 });
 
 socket.on("server:users", (users) => {
   createTable(users);
 });
 
-countdown();
+socket.on('server:start-game', () => {
+  countdown();
+});

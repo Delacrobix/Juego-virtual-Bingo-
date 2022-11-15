@@ -19,3 +19,6 @@
 - Detener el juego una vez haya terminado (backend)
 
 - Mejorar optimización a la hora de buscar balotas
+
+BUGS:
+ - No funciona la autenticación por google

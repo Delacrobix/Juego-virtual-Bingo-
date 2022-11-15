@@ -35,6 +35,9 @@ exports.startCountdown = async (socket) => {
 
     if (t.remain < 1) {
       await deleteFlag();
+
+      socket.emit('server:start-game', {});
+
       clearInterval(timer_update);
     }
   }, 1000);

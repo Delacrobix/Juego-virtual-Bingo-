@@ -44,7 +44,7 @@ router.get(
 router.get(
   "/google/callbackURL",
   passport.authenticate("google", {
-    successRedirect: "/protected/",
+    successRedirect: "/protected",
     failureRedirect: "/auth/failure",
   })
 );
@@ -55,8 +55,8 @@ router.get("/auth/logout", (req, res) => {
       return next(err);
     }
   });
-  req.session.destroy();
-  res.redirect("/login", {});
+  req.session = null;
+  res.redirect("/login");
 });
 
 /**
