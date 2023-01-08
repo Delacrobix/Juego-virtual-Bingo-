@@ -10,9 +10,9 @@ namespace NETCoreAPIMySQL.Data
     {
         public MySQLConfiguration(string connectionString)
         {
-            connecionString = connectionString;
+            ConnecionString = connectionString;
         }
        
-       public string connecionString { get; set; }
+       public string ConnecionString { get; set; }
     }
 }

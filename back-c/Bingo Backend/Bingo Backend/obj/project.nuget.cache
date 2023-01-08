@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "l5GCSt/ahj5uJ3Jcp3AkG4jF7K3RysmIelU30xBNqGgODqyfTiywKApEsZpJ5/FFPCm5VK3oqWnESi8YboJOPA==",
+  "dgSpecHash": "T3LBW77hy6OR03TBY8d9XdMge/5F4bkJiHfR/VDWL/Aqi1g9J+cI6glaKBK+cmEzB8/IYN3luIeIVn/uUGpIsg==",
   "success": true,
   "projectFilePath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\Bingo Backend\\Bingo Backend\\Bingo Backend.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Jeffr\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\Jeffr\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
     "C:\\Users\\Jeffr\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
     "C:\\Users\\Jeffr\\.nuget\\packages\\k4os.compression.lz4.streams\\1.2.6\\k4os.compression.lz4.streams.1.2.6.nupkg.sha512",
