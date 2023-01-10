@@ -8,10 +8,12 @@ namespace NETCoreAPIMySQL.Model
 {
     public class Gamer
     {
-        public int id { get; set; }
-        public int id_gamer { get; set; }
-        public string id_mongo { get; set; }
-        public int game_number { get; set; }
-        public string gamer_ballots { get; set; }
+        public int Id { get; set; }
+
+        public string Mongo_id { get; set; } //Cadena id enviada desde mongoDB
+
+        public int Game_id { get; set; }
+
+        public string Gamer_ballots { get; set; }
     }
 }

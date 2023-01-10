@@ -22,6 +22,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
         {
             return new MySqlConnection(_connectionString.ConnecionString);
         }
+
         public async Task<bool> DeleteBingo(Bingo bingo)
         {
             var db = dbConnection();
@@ -37,32 +38,32 @@ namespace NETCoreAPIMySQL.Data.Respositories
         {
             var db = dbConnection();
 
-            var sql = @" SELECT id, game_number, id_cards, id_gamers, game_state, winner_id 
+            var sql = @" SELECT id, cards_id, gamers_id, game_state, winner_id 
                          FROM Bingo ";
 
             return await db.QueryAsync<Bingo>(sql, new { });
         }
 
-        public async Task<Bingo> GetDetails(int id_)
+        public async Task<Bingo> GetDetails(int Id)
         {
             var db = dbConnection();
 
-            var sql = @" SELECT id, game_number, id_cards, id_gamers, game_state, winner_id 
+            var sql = @" SELECT id, cards_id, gamers_id, game_state, winner_id 
                          FROM Bingo 
-                         FROM id_ = @id";
+                         WHERE id = @Id";
 
-            return await db.QueryFirstOrDefaultAsync<Bingo>(sql, new { id = id_ });
+            return await db.QueryFirstOrDefaultAsync<Bingo>(sql, new { id = Id });
         }
 
         public async Task<bool> InsertBingo(Bingo bingo)
         {
             var db = dbConnection();
 
-            var sql = @" INSERT INTO Bingo (game_number, id_cards, id_gamers, game_state, winner_id) 
-                         VALUES (@Game_number, @Id_cards, @Id_gamers, @Game_state, @Winner_id)";
+            var sql = @" INSERT INTO Bingo (id, cards_id, gamers_id, game_state, winner_id) 
+                         VALUES (@id, @cards_id, @gamers_id, @game_state, @winner_id)";
 
-            var result = await db.ExecuteAsync(sql, new 
-                { bingo.id_cards, bingo.id_gamers, bingo.game_state, bingo.winner_id });
+            var result = await db.ExecuteAsync(sql, new
+            { bingo.Id, bingo.Cards_id, bingo.Gamers_id, bingo.Game_state, bingo.Winner_id });
 
             return result > 0;
         }
@@ -72,15 +73,15 @@ namespace NETCoreAPIMySQL.Data.Respositories
             var db = dbConnection();
 
             var sql = @" UPDATE Bingo 
-                         SET  game_number = @Game_number, 
-                              id_cards = @Id_cards, 
-                              id_gamers = @Id_gamers, 
-                              game_state = @Game_state, 
-                              winner_id = @Winner_id 
-                         WHERE id = @Id";
+                         SET  id = @id, 
+                              cards_id = @cards_id, 
+                              gamers_id = @gamers_id, 
+                              game_state = @game_state, 
+                              winner_id = @winner_id 
+                         WHERE id = @id";
 
-            var result = await db.ExecuteAsync(sql, new 
-                { bingo.game_number, bingo.id_cards, bingo.id_gamers, bingo.game_state, bingo.winner_id });
+            var result = await db.ExecuteAsync(sql, new
+            { bingo.Id, bingo.Cards_id, bingo.Gamers_id, bingo.Game_state, bingo.Winner_id });
 
             return result > 0;
         }

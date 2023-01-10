@@ -16,6 +16,32 @@ namespace Bingo_Backend.Controllers
             _bingoRepository = bingoRepository;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateNewGame()
+        {
+            var bingo_new = new Bingo();
+            var bingo_list = await _bingoRepository.GetAllBingos();
+            var last_bingo = bingo_list.LastOrDefault();
+
+            //Si no existe un juego anterior, crea el primero
+            if(last_bingo == null)
+            {
+                bingo_new.Game_state = true;
+                await _bingoRepository.InsertBingo(bingo_new);
+
+            } else
+            {
+                //Si no hay un juego iniciado, inicie uno nuevo
+                if(!last_bingo.Game_state)
+                {
+                    bingo_new.Game_state = true;
+                    await _bingoRepository.InsertBingo(bingo_new);
+                }
+            }
+
+            return Created("BINGO CREATED SUCCESSFULLY", bingo_new);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAllBingos()
         {

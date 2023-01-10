@@ -8,8 +8,10 @@ namespace NETCoreAPIMySQL.Model
 {
     public class Ballots_obteined
     {
-        public int id { get; set; }
-        public int game_number { get; set; }
-        public string ballots { get; set; }
+        public int Id { get; set; }
+
+        public int Game_id { get; set; } //GAME_ID == GAME_NUMBER
+
+        public string Ballots { get; set; }
     }
 }

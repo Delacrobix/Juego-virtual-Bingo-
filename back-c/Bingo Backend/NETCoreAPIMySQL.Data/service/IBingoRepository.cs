@@ -10,9 +10,13 @@ namespace NETCoreAPIMySQL.Data.Respositories
     public interface IBingoRepository
     {
         Task<IEnumerable<Bingo>> GetAllBingos();
+
         Task<Bingo> GetDetails(int id);
+
         Task<bool> InsertBingo(Bingo bingo);
+
         Task<bool> UpdateBingo(Bingo bingo);
+
         Task<bool> DeleteBingo(Bingo bingo);
     }
 }

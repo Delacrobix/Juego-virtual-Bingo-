@@ -8,11 +8,14 @@ namespace NETCoreAPIMySQL.Model
 {
     public class Bingo
     {
-        public int id { get; set; }
-        public int game_number { get; set; }
-        public string id_cards { get; set; }
-        public string id_gamers { get; set; }
-        public bool game_state { get; set; }
-        public string winner_id { get; set; }
+        public int Id { get; set; }
+
+        public string Cards_id { get; set; }
+
+        public string Gamers_id { get; set; }
+
+        public bool Game_state { get; set; }
+
+        public string Winner_id { get; set; }
     }
 }

@@ -8,14 +8,20 @@ namespace NETCoreAPIMySQL.Model
 {
     public class Card
     {
-        public int id { get; set; }
-        public int id_card { get; set; }
+        public int Id { get; set; }
+
         public int B_id { get; set; }
+
         public int I_id { get; set; }
+
         public int N_id { get; set; }
+
         public int G_id { get; set; }
+
         public int O_id { get; set; }
-        public int id_gamer { get; set; }
-        public int game_number { get; set; }
+
+        public int Gamer_id { get; set; }
+
+        public int Game_id { get; set; } //GAME_ID == GAME_NUMBER
     }
 }
