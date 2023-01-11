@@ -52,3 +52,4 @@ D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\Bingo Backend\obj\Debug\ne
 D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\Bingo Backend\obj\Debug\net6.0\Bingo Backend.pdb
 D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\Bingo Backend\obj\Debug\net6.0\Bingo Backend.genruntimeconfig.cache
 D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\Bingo Backend\obj\Debug\net6.0\ref\Bingo Backend.dll
+D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\Bingo Backend\obj\Debug\net6.0\Bingo Backend.MvcApplicationPartsAssemblyInfo.cs

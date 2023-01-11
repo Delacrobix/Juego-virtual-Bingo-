@@ -8,6 +8,11 @@ namespace NETCoreAPIMySQL.Data.Respositories
     {
         private readonly MySQLConfiguration _connectionString;
 
+        public GamerRepository(MySQLConfiguration connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         protected MySqlConnection dbConnection()
         {
             return new MySqlConnection(_connectionString.ConnecionString);
@@ -23,6 +28,17 @@ namespace NETCoreAPIMySQL.Data.Respositories
             { gamer.Id, gamer.Mongo_id, gamer.Game_id, gamer.Gamer_ballots});
 
             return result > 0;
+        }
+
+        public async Task<IEnumerable<Gamer>> GetAllGamersByGameId(int Id)
+        {
+            var db = dbConnection();
+
+            var sql = @" SELECT id, mongo_id, game_id, gamer_ballots
+                         FROM Gamer 
+                         WHERE id = @Id";
+
+            return await db.QueryAsync<Gamer>(sql, new { });
         }
     }
 }

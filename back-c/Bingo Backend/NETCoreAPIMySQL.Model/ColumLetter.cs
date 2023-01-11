@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NETCoreAPIMySQL.Model
 {
-    public class Colum_letter
+    public class ColumLetter
     {
         public int Id { get; set; }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NETCoreAPIMySQL.Model
 {
-    public class Ballots_obteined
+    public class BallotsObteined
     {
         public int Id { get; set; }
 

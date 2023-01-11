@@ -9,9 +9,11 @@ namespace NETCoreAPIMySQL.Data.Respositories
 {
     public interface IBingoRepository
     {
+        Task<IEnumerable<int>> NumStringToArr(string str);
+
         Task<IEnumerable<Bingo>> GetAllBingos();
 
-        Task<Bingo> GetDetails(int id);
+        Task<Bingo> FindById(int id);
 
         Task<bool> InsertBingo(Bingo bingo);
 

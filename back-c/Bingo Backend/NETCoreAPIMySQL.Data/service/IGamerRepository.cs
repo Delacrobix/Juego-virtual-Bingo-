@@ -10,5 +10,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
     public interface IGamerRepository
     {
         Task<bool> InsertGamer(Gamer gamer);
+
+        Task<IEnumerable<Gamer>> GetAllGamersByGameId();
     }
 }

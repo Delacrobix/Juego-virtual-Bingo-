@@ -13,7 +13,7 @@ builder.Services.AddSwaggerGen();
 var mySQLConfiguration = new MySQLConfiguration(builder.Configuration.GetConnectionString("MySQLConnection"));
 builder.Services.AddSingleton(mySQLConfiguration);
 
-builder.Services.AddScoped<GamerRepository, BingoRepository>();
+builder.Services.AddScoped<BingoRepository>();
 
 var app = builder.Build();
 
