@@ -29,7 +29,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
 
             var sql = @"DELETE FROM Bingo WHERE id = @Id";
 
-            var result = await db.ExecuteAsync(sql, new { Id = bingo.id });
+            var result = await db.ExecuteAsync(sql, new { Id = bingo.Id });
 
             return result > 0;
         }

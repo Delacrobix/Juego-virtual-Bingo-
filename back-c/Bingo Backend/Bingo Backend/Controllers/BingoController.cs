@@ -9,14 +9,33 @@ namespace Bingo_Backend.Controllers
     [ApiController]
     public class BingoController : ControllerBase
     {
-        private readonly IBingoRepository _bingoRepository;
+        private readonly GamerRepository _bingoRepository;
 
-        public BingoController(IBingoRepository bingoRepository)
+        public BingoController(GamerRepository bingoRepository)
         {
             _bingoRepository = bingoRepository;
         }
 
-        [HttpPost]
+        [HttpPost("save-gamer")]
+        public async Task<IActionResult> AsingGamerToGame([FromBody] Gamer gamer)
+        {
+            var bingo_list = await _bingoRepository.GetAllBingos();
+            var last_bingo = bingo_list.LastOrDefault();
+
+            if (last_bingo == null)
+            {
+                return BadRequest();
+
+            } else
+            {
+                gamer.Game_id = last_bingo.Id;
+                
+            }
+
+            return
+        }
+
+        [HttpPost("new-game")]  
         public async Task<IActionResult> CreateNewGame()
         {
             var bingo_new = new Bingo();
@@ -93,7 +112,7 @@ namespace Bingo_Backend.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteBingo(int id)
         {
-            await _bingoRepository.DeleteBingo(new Bingo { id = id });
+            await _bingoRepository.DeleteBingo(new Bingo { Id = id });
 
             return NoContent();
         }
