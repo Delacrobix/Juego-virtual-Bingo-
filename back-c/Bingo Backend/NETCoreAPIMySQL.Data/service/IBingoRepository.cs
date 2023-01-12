@@ -9,7 +9,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
 {
     public interface IBingoRepository
     {
-        Task<IEnumerable<int>> NumStringToArr(string str);
+        Task<IEnumerable<List<int>>> NumStringToArr(string str);
 
         Task<IEnumerable<Bingo>> GetAllBingos();
 
