@@ -11,6 +11,6 @@ namespace NETCoreAPIMySQL.Data.Respositories
     {
         Task<bool> InsertGamer(Gamer gamer);
 
-        Task<IEnumerable<Gamer>> GetAllGamersByGameId();
+        Task<IEnumerable<Gamer>> GetAllGamersByGameId(int Id);
     }
 }

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace NETCoreAPIMySQL.Data.service
 {
-    public interface IColumLetterRepository
+    public interface IBallotsObteinedRepository
     {
-        Task<ColumnLetter> FindById(int id);
+        public Task<IEnumerable<BallotsObteined>> GetAllBallotsObtained();
 
-        public Task<IEnumerable<ColumnLetter>> GetAllColumnLetters();
+        public Task<BallotsObteined> FindById(int id);
     }
 }

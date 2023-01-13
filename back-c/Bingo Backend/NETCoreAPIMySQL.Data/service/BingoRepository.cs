@@ -25,6 +25,50 @@ namespace NETCoreAPIMySQL.Data.Respositories
             return new MySqlConnection(_connectionString.ConnecionString);
         }
 
+        public List<int[]> CreateCardColumns()
+        {
+            List<int[]> columns = new List<int[]>();
+
+            columns.Add(CreateColumn(5, 1, 15));
+            columns.Add(CreateColumn(5, 16, 30));
+            columns.Add(CreateColumn(4, 31, 45));
+            columns.Add(CreateColumn(5, 46, 60));
+            columns.Add(CreateColumn(5, 61, 75));
+
+            return columns;
+        }
+
+        public int[] CreateColumn(int cells, int min, int max)
+        {
+            int[] column = new int[cells];
+            int i = 0;
+                
+            while (i < cells)
+            {
+                bool flag = true;
+
+                Random r = new Random();
+                int n = r.Next(min, max + 1);
+
+                foreach (int k in column)
+                {
+                    if (k == n)
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+
+                if (flag)
+                {
+                    column[i] = n;
+                    i++;
+                }
+            }
+
+            return column;
+        }
+
         public async Task<IEnumerable<int>> NumStringToArr(string str)
         {
             string[] aux = str.Split(',');
@@ -38,7 +82,34 @@ namespace NETCoreAPIMySQL.Data.Respositories
             task.Start();
             var ballots = await task;
 
-            return ballots;
+            return ballots.ToList();
+        }
+
+        public int GenerateBallot(string ballots_string)
+        {
+            var ballots = NumStringToArr(ballots_string);
+
+            while (true)
+            {
+                Random r = new Random();
+                int random = r.Next(1, 76);
+
+                bool IsNewBall = true;
+
+                foreach (int ball in (IEnumerable<int>)ballots)
+                {
+                    if (random == ball)
+                    {
+                        IsNewBall = false;
+                        break;
+                    }
+                }
+
+                if (IsNewBall)
+                {
+                    return random;
+                }
+            }
         }
 
         public async Task<string> NumListToString(List<int> ballots)
