@@ -12,21 +12,5 @@ namespace Bingo_Backend.Controllers
     {
         private readonly BingoRepository _bingoRepository;
         private readonly GamerRepository _gamerRepository;
-
-        [HttpPost]
-        public async Task<IActionResult> SendCards([FromBody] Gamer gamer)
-        {
-            if (gamer == null)
-            {
-                return BadRequest();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            return Ok();
-        }
     }
 }

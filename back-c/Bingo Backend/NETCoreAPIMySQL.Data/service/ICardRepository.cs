@@ -10,5 +10,9 @@ namespace NETCoreAPIMySQL.Data.service
     public interface ICardRepository
     {
         public Task<Card> FindByGamerId(int Id);
+
+        public Task<bool> InsertCard(Card card);
+
+        public Task<IEnumerable<Card>> GetAllCards();
     }
 }

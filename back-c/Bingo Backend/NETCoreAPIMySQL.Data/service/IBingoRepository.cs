@@ -9,7 +9,6 @@ namespace NETCoreAPIMySQL.Data.Respositories
 {
     public interface IBingoRepository
     {
-
         Task<IEnumerable<Bingo>> GetAllBingos();
 
         Task<Bingo> FindById(int id);

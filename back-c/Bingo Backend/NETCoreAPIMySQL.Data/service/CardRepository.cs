@@ -33,10 +33,54 @@ namespace NETCoreAPIMySQL.Data.service
             card.G_id = ids[3];
             card.O_id = ids[4];
 
-            card.Game_id = id_game);
-            card.Gamer_id = id_gamer);
+            card.Game_id = id_game;
+            card.Gamer_id = id_gamer;
 
             return card;
+        }
+
+        public async Task<bool> InsertCard(Card card)
+        {
+            var db = dbConnection();
+
+            var sql = @" INSERT INTO Card (id, B_id, I_id, N_id, G_id, O_id, gamer_id, game_id) 
+                         VALUES (@id, @B_id, @I_id, @N_id, @G_id, @O_id, @gamer_id, @game_id)";
+
+            var result = await db.ExecuteAsync(sql, new
+            { card.Id, card.I_id, card.B_id, card.N_id, card.G_id, card.O_id, card.Gamer_id, card.Game_id });
+
+            return result > 0;
+        }
+
+        public async Task<IEnumerable<Card>> GetAllCards()
+        {
+            var db = dbConnection();
+
+            var sql = @" SELECT id, B_id, I_id, N_id, G_id, O_id, gamer_id, game_id, 
+                         FROM Card ";
+
+            return await db.QueryAsync<Card>(sql, new { });
+        }
+
+        public async Task<bool> UpdateCard(Card card)
+        {
+            var db = dbConnection();
+
+            var sql = @" UPDATE Card 
+                         SET  id = @id, 
+                              B_id = @B_id,
+                              I_id = @I_id,
+                              N_id = @N_id,
+                              G_id = @G_id,
+                              O_id = @O_id,
+                              gamer_id = @gamer_id, 
+                              game_id = @gameid
+                         WHERE id = @id";
+
+            var result = await db.ExecuteAsync(sql, new
+            { card.Id, card.B_id, card.I_id, card.N_id, card.G_id, card.O_id, card.Gamer_id, card.Game_id });
+
+            return result > 0;
         }
 
         public async Task<Card> FindByGamerId(int gamerId)

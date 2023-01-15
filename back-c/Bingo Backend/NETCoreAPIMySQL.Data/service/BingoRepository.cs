@@ -278,19 +278,19 @@ namespace NETCoreAPIMySQL.Data.Respositories
 
                 foreach (int ball in ballots)
                 {
-                    if (Object.Equals(ball, columns[j][0]))
+                    if (Object.Equals(ball, columns[i][0]))
                     {
                         verticalArr[0] = 1;
-                    } else if (Object.Equals(ball, columns[j][1]))
+                    } else if (Object.Equals(ball, columns[i][1]))
                     {
                         verticalArr[1] = 1;
-                    } else if (Object.Equals(ball, columns[j][3]))
+                    } else if (Object.Equals(ball, columns[i][3]))
                     {
                         verticalArr[3] = 1;
-                    } else if (Object.Equals(ball, columns[j][4]))
+                    } else if (Object.Equals(ball, columns[i][4]))
                     {
                         verticalArr[4] = 1;
-                    } else if ((Object.Equals(ball, columns[j][2])) || (Object.Equals(0, columns[j][2])))
+                    } else if ((Object.Equals(ball, columns[i][2])) || (Object.Equals(0, columns[i][2])))
                     {
                         verticalArr[2] = 1;
                     }

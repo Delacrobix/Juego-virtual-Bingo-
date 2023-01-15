@@ -4,10 +4,14 @@ using NETCoreAPIMySQL.Model;
 
 namespace Bingo_Backend.Controllers
 {
+    [Route("api/ColumnLetter")]
+    [ApiController]
     public class ColumLetterController : ControllerBase
     {
         private readonly ColumLetterRepository _columLetterRepository;
 
+        //? No esta siendo usado
+        [HttpGet("send-column")]
         public async Task<IActionResult> SendColumById([FromBody] int id)
         {
             var colum = await _columLetterRepository.FindById(id);

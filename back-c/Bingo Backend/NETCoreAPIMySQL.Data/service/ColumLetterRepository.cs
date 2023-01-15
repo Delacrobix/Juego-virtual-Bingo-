@@ -79,6 +79,20 @@ namespace NETCoreAPIMySQL.Data.service
             return await db.QueryFirstOrDefaultAsync<IEnumerable<ColumnLetter>>(sql, new { });
         }
 
+        public async Task<bool> InsertColumnLetter(ColumnLetter columnLetter)
+        {
+            var db = dbConnection();
+
+            var sql = @" INSERT INTO Column_letter (id, card_id, letter, n1, n2, n3, n4, n5) 
+                         VALUES (@id, @card_id, @letter, @n1, @n2, @n3, @n4, @n5)";
+
+            var result = await db.ExecuteAsync(sql, new
+                { columnLetter.Id, columnLetter.Card_id, columnLetter.Letter, columnLetter.N1, 
+                  columnLetter.N2, columnLetter.N3, columnLetter.N4, columnLetter.N5 });
+
+            return result > 0;
+        }
+
         public async Task<ColumnLetter> FindById(int Id)
         {
             var db = dbConnection();

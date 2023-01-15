@@ -11,6 +11,10 @@ namespace Bingo_Backend.Controllers
         private readonly BingoRepository _bingoRepository;
         private readonly GamerRepository _gamerRepository;
 
+        /**
+         * Asigna el Id del juego al jugador y suma el id del jugador
+         * en la lista de jugadores del juego en curso
+         */
         [HttpPost("save-gamer")]
         public async Task<IActionResult> AsingGamerToGame([FromBody] Gamer gamer)
         {
@@ -25,24 +29,30 @@ namespace Bingo_Backend.Controllers
             }
 
             var bingo_list = await _bingoRepository.GetAllBingos();
-            var last_bingo = bingo_list.LastOrDefault();
+            var currentGame = bingo_list.LastOrDefault();
 
-            if (last_bingo == null)
+            if (currentGame == null)
             {
                 return BadRequest();
             }
             else
             {
-                gamer.Game_id = last_bingo.Id;
+                gamer.Game_id = currentGame.Id;
+
+                var gamersIds = (List<int>)(IEnumerable<int>)_bingoRepository.NumStringToArr(currentGame.Gamers_id);
+                gamersIds.Add(gamer.Id);
+
+                currentGame.Gamers_id = await _bingoRepository.NumListToString(gamersIds);
                 await _gamerRepository.InsertGamer(gamer);
+                await _bingoRepository.UpdateBingo(currentGame);
             }
 
             //return Created("GAME ASING TO GAMER.", gamer);
             return NoContent();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> SendPlayerOfCurrentGame()
+        [HttpGet("send-all-players")]
+        public async Task<IActionResult> SendPlayersOfCurrentGame()
         {
             var bingo_list = await _bingoRepository.GetAllBingos();
             var last_bingo = bingo_list.LastOrDefault();

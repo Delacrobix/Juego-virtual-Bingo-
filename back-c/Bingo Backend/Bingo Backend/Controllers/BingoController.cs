@@ -76,6 +76,60 @@ namespace Bingo_Backend.Controllers
             return Ok(bingo.Game_status);
         }
 
+        [HttpPost("send-cards")]
+        public async Task<IActionResult> BuildCards(string mongoId)
+        {
+            //Crea, guarda y obtenga la carta para asignarle un ID de la base de datos a la carta
+            //Cuando regresa la carta de la base de datos, ya tiene un ID asignado
+            var card = new Card();
+            await _cardRepository.InsertCard(card);
+            var cardList = await _cardRepository.GetAllCards();
+            card = cardList.LastOrDefault();
+
+            int[] columnsIds = new int[5];
+            var cardColumns = _bingoRepository.CreateCardColumns();
+
+            columnsIds[0] = await SaveColumn(cardColumns[0], 'B', card.Id);
+            columnsIds[1] = await SaveColumn(cardColumns[1], 'I', card.Id);
+            columnsIds[2] = await SaveColumn(cardColumns[2], 'N', card.Id);
+            columnsIds[3] = await SaveColumn(cardColumns[3], 'G', card.Id);
+            columnsIds[4] = await SaveColumn(cardColumns[4], 'O', card.Id);
+
+            var gamerDatabase = await _gamerRepository.FindByMongoId(mongoId);
+            var gameList = await _bingoRepository.GetAllBingos();
+            var currentGame = gameList.LastOrDefault();
+
+            if (currentGame == null)
+            {
+                return BadRequest();
+            }
+
+            //Se actualiza el juego con los nuevos datos
+            var cardToSave = _cardRepository.GenerateCard(columnsIds, currentGame.Id, gamerDatabase.Id);
+            var cardsIds = (List<int>)(IEnumerable<int>)_bingoRepository.NumStringToArr(currentGame.Cards_id);
+          
+            cardsIds.Add(card.Id);
+
+            currentGame.Cards_id = await _bingoRepository.NumListToString(cardsIds);
+
+            await _bingoRepository.UpdateBingo(currentGame);
+            await _cardRepository.UpdateCard(card);
+
+            return Ok(card);
+        }
+
+        [HttpPost]
+        public async Task<int> SaveColumn(int[] column, char letter, int cardId)
+        {
+            var columnToSave = _columLetterRepository.GenerateColumn(column, letter, cardId);
+            await _columLetterRepository.InsertColumnLetter(columnToSave);
+
+            var columnList = await _columLetterRepository.GetAllColumnLetters();
+            var lastColumn = columnList.LastOrDefault();
+
+            return lastColumn.Id;
+        }
+
         [HttpPost("disqualify")]
         public async Task<IActionResult> DisqualifyPlayer([FromBody]Gamer gamerFroDisqualify)
         {
@@ -107,19 +161,43 @@ namespace Bingo_Backend.Controllers
             {
                 return NotFound("NO SE ENCONTRO LISTA DE JUGADORES");
             }
+
+            //Se desasocia el jugador del juego
+            gamerInfo.Game_id = 0;
+            await _gamerRepository.Update(gamerInfo);
+
+            //Guarda el juego con la lista de jugadores actualizada
+            currentGame.Gamers_id = await _bingoRepository.NumListToString(playerList);
+            await _bingoRepository.UpdateBingo(currentGame);
+
+            return Ok(playerList);
         }
 
-        [HttpPost("ballotsGamer")]
-        public async Task<IActionResult> BallotMarkedForPlayer(string mongo_id, int ballot)
+        [HttpPost("ballots-gamer")]
+        public async Task<IActionResult> BallotMarkedForPlayer(string mongoId, int ballot)
         {
-            var gamerDatabase = await _gamerRepository.FindByMongoId(mongo_id);
-
+            var gamerDatabase = await _gamerRepository.FindByMongoId(mongoId);
             var gameList = await _bingoRepository.GetAllBingos();
             var currentGame = gameList.LastOrDefault();
 
+            if ((gamerDatabase == null) || (currentGame == null))
+            {
+                return BadRequest();
+            }
+
+            //Linea en JAVA que no entiendo su funcion
+            //gamerDatabase.Game_id = currentGame.Id;
+
+            var ballotsGamer = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(gamerDatabase.Gamer_ballots);
+            ballotsGamer.Add(ballot);
+
+            gamerDatabase.Gamer_ballots = await _bingoRepository.NumListToString(ballotsGamer);
+            await _gamerRepository.Update(gamerDatabase);
+
+            return Ok(gamerDatabase);
         }
 
-        [HttpPost("/is-winner")]
+        [HttpPost("is-winner")]
         public async Task<IActionResult> IsWinner(string mongoId)
         {
             var gamerDatabase = await _gamerRepository.FindByMongoId(mongoId);
@@ -167,7 +245,7 @@ namespace Bingo_Backend.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteBingo(int id)
         {
             await _bingoRepository.DeleteBingo(new Bingo { Id = id });

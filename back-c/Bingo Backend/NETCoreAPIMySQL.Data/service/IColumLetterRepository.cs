@@ -12,5 +12,7 @@ namespace NETCoreAPIMySQL.Data.service
         Task<ColumnLetter> FindById(int id);
 
         public Task<IEnumerable<ColumnLetter>> GetAllColumnLetters();
+
+        public Task<bool> InsertColumnLetter(ColumnLetter columnLetter);
     }
 }
