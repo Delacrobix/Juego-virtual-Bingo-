@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using NETCoreAPIMySQL.Data.Respositories;
 using NETCoreAPIMySQL.Data.service;
 using NETCoreAPIMySQL.Model;
@@ -13,7 +14,14 @@ namespace Bingo_Backend.Controllers
         private readonly BingoRepository _bingoRepository;
         private readonly GamerRepository _gamerRepository;
         private readonly CardRepository _cardRepository;
+        private readonly BallotsObteinedRepository _ballotsObteinedRepository;
         private readonly ColumLetterRepository _columLetterRepository;
+        private readonly IHubContext<BingoHub> _hubContext;
+
+        public BingoController(IHubContext<BingoHub> hubContext)
+        {
+            _hubContext = hubContext;
+        }
 
         [HttpPost("new-game")]  
         public async Task<IActionResult> CreateNewGame()
@@ -116,6 +124,12 @@ namespace Bingo_Backend.Controllers
             await _cardRepository.UpdateCard(card);
 
             return Ok(card);
+        }
+
+        [HttpGet]
+        public async Task SendBallot()
+        {
+            await _hubContext.Clients.All.SendAsync("ballot", await _ballotsObteinedRepository.GetOneBallot());
         }
 
         [HttpPost]
