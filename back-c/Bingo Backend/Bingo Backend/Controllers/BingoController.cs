@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using NETCoreAPIMySQL.Data.Respositories;
 using NETCoreAPIMySQL.Data.service;
 using NETCoreAPIMySQL.Model;
+using Org.BouncyCastle.Pkcs;
 
 namespace Bingo_Backend.Controllers
 {
@@ -126,10 +127,11 @@ namespace Bingo_Backend.Controllers
             return Ok(card);
         }
 
-        [HttpGet]
-        public async Task SendBallot()
+        [HttpGet("send-ballot")]
+        public async Task<IActionResult> SendBallot()
         {
-            await _hubContext.Clients.All.SendAsync("ballot", await _ballotsObteinedRepository.GetOneBallot());
+            await _hubContext.Clients.All.SendAsync("send-ballot", "Enviando");
+            return Ok();
         }
 
         [HttpPost]
