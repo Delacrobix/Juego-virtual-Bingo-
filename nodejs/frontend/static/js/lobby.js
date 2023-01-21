@@ -1,8 +1,7 @@
 //const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
-const LOCAL = "http://localhost:8080";
+const LOCAL = "http://localhost:7230";
 const socket = io();
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 /**
  * *Obtiene el id del jugador que esta en la url.
@@ -48,10 +47,10 @@ function createTable(users) {
 
 async function gamers(gamer_id) {
   let user = {
-    id_mongo: gamer_id,
+    Mongo_id: gamer_id,
   };
 
-  await fetch(`${LOCAL}/gamers`, {
+  await fetch(`${LOCAL}/gamer/save-gamer`, {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
@@ -63,7 +62,7 @@ async function gamers(gamer_id) {
 async function startGame() {
   let game;
 
-  await fetch(`${LOCAL}/startGame`, {
+  await fetch(`${LOCAL}/bingo/new-game`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",

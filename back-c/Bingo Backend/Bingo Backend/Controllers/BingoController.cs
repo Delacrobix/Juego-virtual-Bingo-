@@ -8,7 +8,7 @@ using Org.BouncyCastle.Pkcs;
 
 namespace Bingo_Backend.Controllers
 {
-    [Route("api/bingo")]
+    [Route("/bingo")]
     [ApiController]
     public class BingoController : ControllerBase
     {
@@ -27,28 +27,30 @@ namespace Bingo_Backend.Controllers
         [HttpPost("new-game")]  
         public async Task<IActionResult> CreateNewGame()
         {
-            var bingo_new = new Bingo();
-            var bingo_list = await _bingoRepository.GetAllBingos();
-            var last_bingo = bingo_list.LastOrDefault();
+            var bingoNew = new Bingo();
 
-            //Si no existe un juego anterior, crea el primero
-            if(last_bingo == null)
+            try
             {
-                bingo_new.Game_status = true;
-                await _bingoRepository.InsertBingo(bingo_new);
+                var bingoList = await _bingoRepository.GetAllBingos();
+                var lastBingo = bingoList.LastOrDefault();
 
-            } else
-            {
                 //Si no hay un juego iniciado, inicie uno nuevo
-                if(!last_bingo.Game_status)
+                if (!lastBingo.Game_status)
                 {
-                    bingo_new.Game_status = true;
-                    await _bingoRepository.InsertBingo(bingo_new);
+                    bingoNew.Game_status = true;
+                    await _bingoRepository.InsertBingo(bingoNew);
+                } else
+                {
+                    return BadRequest("There is already one game started.");
                 }
+            } catch(NullReferenceException e)
+            {
+                bingoNew.Game_status = true;
+                await _bingoRepository.InsertBingo(bingoNew);
             }
 
             //return Created("BINGO CREATED SUCCESSFULLY", bingo_new);
-            return NoContent();
+            return Ok("Bingo has been created successfully");
         }
 
         [HttpGet("current-game")]
@@ -131,7 +133,7 @@ namespace Bingo_Backend.Controllers
         public async Task<IActionResult> SendBallot()
         {
             await _hubContext.Clients.All.SendAsync("send-ballot", "Enviando");
-            return Ok();
+            return Ok("funciona");
         }
 
         [HttpPost]

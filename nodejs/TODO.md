@@ -20,5 +20,7 @@
 
 - Mejorar optimización a la hora de buscar balotas
 
+- Revisar el caso de que un usuario no se pueda registrar si funciona correctamente
+
 BUGS:
  - No funciona la autenticación por google

@@ -6,7 +6,6 @@ submit.addEventListener("click", () => {
 });
 
 async function sendUser(new_user) {
-  const delay = (ms) => new Promise((res) => setTimeout(res, ms));
   var user_info;
 
   await fetch("/user/log", {

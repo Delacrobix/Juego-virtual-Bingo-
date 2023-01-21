@@ -333,7 +333,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
         {
             var db = dbConnection();
 
-            var sql = @" SELECT id, cards_id, gamers_id, game_status, winner_id 
+            var sql = @"SELECT id, cards_id, gamers_id, game_status, winner_id 
                          FROM Bingo ";
 
             return await db.QueryAsync<Bingo>(sql, new { });

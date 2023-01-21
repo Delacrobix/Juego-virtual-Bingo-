@@ -1,83 +1,91 @@
-body{
-    background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #eaafc8, #654ea3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+body {
+  background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
+  background: linear-gradient(to right, #eaafc8, #654ea3);
 
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-#principal-div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#principal-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#bingo-table{
-    background: -webkit-linear-gradient(to right, #3f2b96, #a8c0ff);  
-    background: linear-gradient(to right, #3f2b96, #a8c0ff); 
-    width: 600px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+#bingo-table {
+  background: -webkit-linear-gradient(to right, #3f2b96, #a8c0ff);
+  background: linear-gradient(to right, #3f2b96, #a8c0ff);
+  width: 600px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
-#div-gamers{
-    width: 600px;
+#div-gamers {
+  width: 600px;
 }
 
-#table-gamers{
-    width: 350px;
-    margin-left: 250px;
-    border-radius: 25px;
-    background-color: #e7e7e9;
-    margin-bottom: 50px;
-    margin-left: 125px;
+#table-gamers {
+  width: 350px;
+  margin-left: 250px;
+  border-radius: 25px;
+  background-color: #e7e7e9;
+  margin-bottom: 50px;
+  margin-left: 125px;
 }
 
-.secondary-div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.secondary-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-#bingo-btn{
-    width: 600px;
+#bingo-btn {
+  width: 600px;
 }
 
-#ballots-list{
-    font-size: 25px;
+/* *Ballotas salientes*/
+.ballots-div {
+  align-items: center;
+  justify-content: center;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
-#countdown-sec{
-    font-size: 27px;
+#ballots-list {
+  font-size: 25px;
 }
 
-.token{
-    display: block;
-    margin: 9px;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+#countdown-sec {
+  font-size: 27px;
 }
 
-#table{
-    width: 525px;
-    margin: auto;
+.token {
+  display: block;
+  margin: 9px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
 
-.token-bingo{
-    display: block;
-    margin: 9px;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    background-color:rgb(255, 193, 7)
+#table {
+  width: 525px;
+  margin: auto;
 }
 
-#div-alert{
-    font-size: 25px;
+.token-bingo {
+  display: block;
+  margin: 9px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: rgb(255, 193, 7);
 }
 
-#div-winner{
-    font-size: 50px;
+#div-alert {
+  font-size: 25px;
+}
+
+#div-winner {
+  font-size: 50px;
 }

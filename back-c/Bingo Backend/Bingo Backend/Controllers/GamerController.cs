@@ -4,7 +4,7 @@ using NETCoreAPIMySQL.Model;
 
 namespace Bingo_Backend.Controllers
 {
-    [Route("api/gamer")]
+    [Route("/gamer")]
     [ApiController]
     public class GamerController : ControllerBase
     {
@@ -16,11 +16,11 @@ namespace Bingo_Backend.Controllers
          * en la lista de jugadores del juego en curso
          */
         [HttpPost("save-gamer")]
-        public async Task<IActionResult> AsingGamerToGame([FromBody] Gamer gamer)
+        public async Task<IActionResult> AsingGamerToGame(Gamer gamer)
         {
             if (gamer == null)
             {
-                return BadRequest();
+                return BadRequest("BadRequest");
             }
 
             if (!ModelState.IsValid)
@@ -29,13 +29,18 @@ namespace Bingo_Backend.Controllers
             }
 
             var bingo_list = await _bingoRepository.GetAllBingos();
+
+            if(bingo_list == null)
+            {
+                return BadRequest();
+            }
+
             var currentGame = bingo_list.LastOrDefault();
 
             if (currentGame == null)
             {
                 return BadRequest();
-            }
-            else
+            } else
             {
                 gamer.Game_id = currentGame.Id;
 

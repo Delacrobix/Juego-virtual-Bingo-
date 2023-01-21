@@ -17,6 +17,14 @@ exports.findUserById = function (req, res) {
 exports.findUserAndPassword = async function (req, res) {
   let { user, password } = req.body;
 
+  if(password.length == 0){
+    return res.status(200).jsonp("Empty password");
+  }
+
+  if(user.length == 0){
+    return res.status(200).jsonp("Empty username");
+  }
+
   let us = await User.findOne({
     user: user,
   });
@@ -62,6 +70,10 @@ exports.addUser = async function (req, res) {
     return res.status(200).jsonp({
       message: "Must be fill in all required fields.",
     });
+  }
+
+  if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(email))){
+    return res.status(200).jsonp("The email address :" + email + " is invalid.");
   }
 
   let _email = await User.findOne({
