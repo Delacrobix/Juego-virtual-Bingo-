@@ -9,10 +9,14 @@ namespace NETCoreAPIMySQL.Data.service
 {
     public interface ICardRepository
     {
-        public Task<Card> FindByGamerId(int Id);
+        public Card GenerateCard(int[] ids, int id_game, int id_gamer);
 
         public Task<bool> InsertCard(Card card);
 
+        public Task<bool> UpdateCard(Card card);
+
         public Task<IEnumerable<Card>> GetAllCards();
+
+        public Task<Card> FindByGamerId(int Id);
     }
 }

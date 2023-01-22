@@ -9,7 +9,12 @@ namespace NETCoreAPIMySQL.Data.Respositories
 {
     public interface IGamerRepository
     {
+
+        public Task<bool> Update(Gamer gamer);
+
         Task<bool> InsertGamer(Gamer gamer);
+
+        public Task<Gamer> FindByMongoId(string Id);
 
         Task<IEnumerable<Gamer>> GetAllGamersByGameId(int Id);
     }

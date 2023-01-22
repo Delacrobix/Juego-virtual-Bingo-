@@ -9,8 +9,8 @@ namespace Bingo_Backend.Controllers
     [ApiController]
     public class BallotsObteinedControlller : ControllerBase
     {
-        private readonly BallotsObteinedRepository _ballotsObteinedRepository;
-        private readonly BingoRepository _bingoRepository;
+        private readonly IBallotsObteinedRepository _ballotsObteinedRepository;
+        private readonly IBingoRepository _bingoRepository;
 
         [HttpGet("send-game-ballots")]
         public async Task<IActionResult> SendAllBallotsByGame(int gameId)

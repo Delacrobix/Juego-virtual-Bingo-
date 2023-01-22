@@ -8,8 +8,8 @@ namespace Bingo_Backend.Controllers
     [ApiController]
     public class GamerController : ControllerBase
     {
-        private readonly BingoRepository _bingoRepository;
-        private readonly GamerRepository _gamerRepository;
+        private readonly IBingoRepository _bingoRepository;
+        private readonly IGamerRepository _gamerRepository;
 
         /**
          * Asigna el Id del juego al jugador y suma el id del jugador

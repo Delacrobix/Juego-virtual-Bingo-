@@ -85,6 +85,26 @@ namespace NETCoreAPIMySQL.Data.Respositories
             return ballots.ToList();
         }
 
+        public async Task<string> NumListToString(List<int> ballots)
+        {
+            var task = new Task<string>(() =>
+            {
+                string result = "";
+
+                foreach (int i in ballots)
+                {
+                    result = new StringBuilder().Append(i).Append(',').ToString();
+                }
+
+                return result;
+            });
+
+            task.Start();
+            string ballots_string = await task;
+            
+            return ballots_string;
+        }
+
         public int GenerateBallot(string ballots_string)
         {
             var ballots = NumStringToArr(ballots_string);
@@ -112,26 +132,6 @@ namespace NETCoreAPIMySQL.Data.Respositories
             }
         }
 
-        public async Task<string> NumListToString(List<int> ballots)
-        {
-            var task = new Task<string>(() =>
-            {
-                string result = "";
-
-                foreach (int i in ballots)
-                {
-                    result = new StringBuilder().Append(i).Append(',').ToString();
-                }
-
-                return result;
-            });
-
-            task.Start();
-            string ballots_string = await task;
-            
-            return ballots_string;
-        }
-
         public bool IsWinner(List<int> ballots, List<int[]> columns)
         {
             if (FourCornersWin(ballots, columns))
@@ -152,6 +152,19 @@ namespace NETCoreAPIMySQL.Data.Respositories
             } else {
                 return false;
             }
+        }
+
+        public bool IsWinner(int[] markers)
+        {
+            foreach(int i in markers)
+            {
+                if(i == 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public bool FourCornersWin(List<int> ballots, List<int[]> columns)
@@ -305,19 +318,6 @@ namespace NETCoreAPIMySQL.Data.Respositories
             return false;
         }
 
-        private bool IsWinner(int[] markers)
-        {
-            foreach(int i in markers)
-            {
-                if(i == 0)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         public async Task<bool> DeleteBingo(Bingo bingo)
         {
             var db = dbConnection();
@@ -333,8 +333,8 @@ namespace NETCoreAPIMySQL.Data.Respositories
         {
             var db = dbConnection();
 
-            var sql = @"SELECT id, cards_id, gamers_id, game_status, winner_id 
-                         FROM Bingo ";
+            var sql = @"SELECT id, cards_id, gamers_id, game_state, winner_id 
+                         FROM Bingo";
 
             return await db.QueryAsync<Bingo>(sql, new { });
         }

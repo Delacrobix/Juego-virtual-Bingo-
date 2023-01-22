@@ -8,7 +8,7 @@ namespace Bingo_Backend.Controllers
     [ApiController]
     public class ColumLetterController : ControllerBase
     {
-        private readonly ColumLetterRepository _columLetterRepository;
+        private readonly IColumLetterRepository _columLetterRepository;
 
         //? No esta siendo usado
         [HttpGet("send-column")]

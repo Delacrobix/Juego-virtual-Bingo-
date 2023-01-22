@@ -12,16 +12,21 @@ namespace Bingo_Backend.Controllers
     [ApiController]
     public class BingoController : ControllerBase
     {
-        private readonly BingoRepository _bingoRepository;
-        private readonly GamerRepository _gamerRepository;
-        private readonly CardRepository _cardRepository;
-        private readonly BallotsObteinedRepository _ballotsObteinedRepository;
-        private readonly ColumLetterRepository _columLetterRepository;
+        private readonly IBingoRepository _bingoRepository;
+        private readonly IGamerRepository _gamerRepository;
+        private readonly ICardRepository _cardRepository;
+        private readonly IBallotsObteinedRepository _ballotsObteinedRepository;
+        private readonly IColumLetterRepository _columLetterRepository;
         private readonly IHubContext<BingoHub> _hubContext;
 
-        public BingoController(IHubContext<BingoHub> hubContext)
+        //public BingoController(IHubContext<BingoHub> hubContext)
+        //{
+        //    _hubContext = hubContext;
+        //}
+         
+        public BingoController(IBingoRepository bingoRepository)
         {
-            _hubContext = hubContext;
+                _bingoRepository = bingoRepository;
         }
 
         [HttpPost("new-game")]  
@@ -269,6 +274,12 @@ namespace Bingo_Backend.Controllers
             await _bingoRepository.DeleteBingo(new Bingo { Id = id });
 
             return NoContent();
+        }
+
+        [HttpGet("get-all-games")]
+        public async Task<IActionResult> GetAllBingos()
+        {
+            return Ok(await _bingoRepository.GetAllBingos());
         }
     }
 }

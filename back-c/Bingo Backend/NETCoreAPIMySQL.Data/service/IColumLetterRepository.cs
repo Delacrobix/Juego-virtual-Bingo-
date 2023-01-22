@@ -9,10 +9,14 @@ namespace NETCoreAPIMySQL.Data.service
 {
     public interface IColumLetterRepository
     {
-        Task<ColumnLetter> FindById(int id);
+        public ColumnLetter GenerateColumn(int[] column, char letter, int card_id);
+
+        public List<int[]> BuildColumnsArrays(List<ColumnLetter> columnList, int id);
 
         public Task<IEnumerable<ColumnLetter>> GetAllColumnLetters();
 
         public Task<bool> InsertColumnLetter(ColumnLetter columnLetter);
+
+        Task<ColumnLetter> FindById(int id);
     }
 }

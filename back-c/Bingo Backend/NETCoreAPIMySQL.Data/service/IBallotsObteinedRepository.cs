@@ -9,10 +9,12 @@ namespace NETCoreAPIMySQL.Data.service
 {
     public interface IBallotsObteinedRepository
     {
-        public Task<IEnumerable<BallotsObteined>> GetAllBallotsObtained();
+        public Task<int> GetOneBallot();
 
         public Task<bool> UpdateBallots(BallotsObteined ballotsobtained);
 
         public Task<BallotsObteined> FindById(int id);
+
+        public Task<IEnumerable<BallotsObteined>> GetAllBallotsObtained();
     }
 }

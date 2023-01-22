@@ -10,7 +10,7 @@ namespace Bingo_Backend.Controllers
     [ApiController]
     public class CardController : ControllerBase
     {
-        private readonly BingoRepository _bingoRepository;
-        private readonly GamerRepository _gamerRepository;
+        private readonly IBingoRepository _bingoRepository;
+        private readonly IGamerRepository _gamerRepository;
     }
 }
