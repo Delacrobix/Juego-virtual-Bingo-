@@ -14,8 +14,15 @@ namespace NETCoreAPIMySQL.Model
 
         public string Gamers_id { get; set; }
 
-        public bool Game_status { get; set; }
+        public bool Game_state { get; set; }
 
         public string Winner_id { get; set; }
+
+        public Bingo()
+        {
+            Cards_id = string.Empty;
+            Gamers_id = string.Empty;
+            Winner_id = string.Empty;
+        }
     }
 }

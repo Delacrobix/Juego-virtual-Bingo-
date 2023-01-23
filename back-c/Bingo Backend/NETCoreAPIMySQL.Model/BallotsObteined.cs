@@ -13,5 +13,10 @@ namespace NETCoreAPIMySQL.Model
         public int Game_id { get; set; } //GAME_ID == GAME_NUMBER
 
         public string Ballots { get; set; }
+
+        public BallotsObteined()
+        {
+            Ballots = string.Empty;
+        }
     }
 }

@@ -1,6 +1,7 @@
 using Bingo_Backend.Controllers;
 using NETCoreAPIMySQL.Data;
 using NETCoreAPIMySQL.Data.Respositories;
+using NETCoreAPIMySQL.Data.service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,11 @@ builder.Services.AddSwaggerGen();
 var mySQLConfiguration = new MySQLConfiguration(builder.Configuration.GetConnectionString("MySQLConnection"));
 builder.Services.AddSingleton(mySQLConfiguration);
 
-builder.Services.AddScoped<BingoRepository>();
+builder.Services.AddScoped<IBallotsObteinedRepository, BallotsObteinedRepository>();
+builder.Services.AddScoped<IBingoRepository, BingoRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
+builder.Services.AddScoped<IColumLetterRepository, ColumLetterRepository>();
+builder.Services.AddScoped<IGamerRepository, GamerRepository>();
 
 var app = builder.Build();
 app.MapHub<BingoHub>("/wss");

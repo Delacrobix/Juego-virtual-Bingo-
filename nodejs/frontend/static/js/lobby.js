@@ -50,7 +50,7 @@ async function gamers(gamer_id) {
     Mongo_id: gamer_id,
   };
 
-  await fetch(`${LOCAL}/gamer/save-gamer`, {
+  await fetch(`${LOCAL}/api/gamer/save-gamer-in-game`, {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
@@ -62,7 +62,7 @@ async function gamers(gamer_id) {
 async function startGame() {
   let game;
 
-  await fetch(`${LOCAL}/bingo/new-game`, {
+  await fetch(`${LOCAL}/api/bingo/new-game`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -79,17 +79,17 @@ async function startGame() {
 }
 
 async function getBingo() {
-  let bingo;
+  let currentGameState;
 
-  await fetch(`${LOCAL}/getActuallyGame`, {})
+  await fetch(`${LOCAL}/api/Bingo/current-game`, {})
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      bingo = data;
+      currentGameState = data;
     });
 
-  return bingo.game_state;
+  return currentGameState;
 }
 
 async function countdown() {
@@ -100,6 +100,7 @@ async function countdown() {
     alert(
       "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
     );
+
     window.location.href = "/login";
   }
 

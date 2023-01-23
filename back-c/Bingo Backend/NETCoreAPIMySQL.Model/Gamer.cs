@@ -15,5 +15,11 @@ namespace NETCoreAPIMySQL.Model
         public int Game_id { get; set; }
 
         public string Gamer_ballots { get; set; }
+
+        public Gamer()
+        {
+            Mongo_id = string.Empty;
+            Gamer_ballots= string.Empty;
+        }
     }
 }

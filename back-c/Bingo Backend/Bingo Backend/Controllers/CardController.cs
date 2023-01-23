@@ -12,5 +12,11 @@ namespace Bingo_Backend.Controllers
     {
         private readonly IBingoRepository _bingoRepository;
         private readonly IGamerRepository _gamerRepository;
+
+        public CardController(IBingoRepository bingoRepository, IGamerRepository gamerRepository)
+        {
+            _bingoRepository = bingoRepository;
+            _gamerRepository = gamerRepository;
+        }
     }
 }

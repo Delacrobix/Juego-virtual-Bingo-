@@ -10,6 +10,11 @@ namespace Bingo_Backend.Controllers
     {
         private readonly IColumLetterRepository _columLetterRepository;
 
+        public ColumLetterController(IColumLetterRepository columLetterRepository)
+        {
+            _columLetterRepository = columLetterRepository;
+        }
+
         //? No esta siendo usado
         [HttpGet("send-column")]
         public async Task<IActionResult> SendColumById([FromBody] int id)
