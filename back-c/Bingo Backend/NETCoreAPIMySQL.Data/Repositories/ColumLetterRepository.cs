@@ -73,10 +73,10 @@ namespace NETCoreAPIMySQL.Data.service
         {
             var db = dbConnection();
 
-            var sql = @" SELECT id, card_id, letter, n1, n2, n3, n4, n5,
-                         FROM Colum_letter";
+            var sql = @"SELECT id, card_id, letter, n1, n2, n3, n4, n5
+                         FROM Column_letter";
 
-            return await db.QueryFirstOrDefaultAsync<IEnumerable<ColumnLetter>>(sql, new { });
+            return await db.QueryAsync<ColumnLetter>(sql, new { });
         }
 
         public async Task<bool> InsertColumnLetter(ColumnLetter columnLetter)

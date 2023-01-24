@@ -51,18 +51,8 @@ namespace Bingo_Backend.Controllers
                 gamer = await _gamerRepository.FindByMongoId(gamer.Mongo_id);
 
                 var gamersIds = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Gamers_id);
-                
-                foreach(int x in gamersIds)
-                {
-                    Debug.WriteLine("DATO: " + x);
-                }
-
+         
                 gamersIds.Add(gamer.Id);
-
-                foreach (int x in gamersIds)
-                {
-                    Debug.WriteLine("DATA: " + x);
-                }
 
                 currentGame.Gamers_id = await _bingoRepository.NumListToString(gamersIds);
                 

@@ -5,7 +5,6 @@ var areWinner = false;
 const mongo_id = getId();
 const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const JAVA_APP = "https://bingo-module.rj.r.appspot.com";
 const LOCAL = "http://localhost:8080";
@@ -225,28 +224,28 @@ async function isWinner() {
 
 async function getCard() {
   let card;
-  let player = {
-    id_mongo: mongo_id,
+  let gamer = {
+    Mongo_id : mongo_id
   };
-
-  await fetch(`${LOCAL}/sendCards`, {
+  //LALALA
+  await fetch(`${LOCAL}/api/Bingo/send-card`, {
     method: "POST",
-    body: JSON.stringify(player),
+    body: JSON.stringify(gamer),
     headers: {
       "Content-type": "application/json",
     },
   })
     .then((res) => res.json())
-    .then((json) => {
+    .then((data) => {
       card = {
-        id_card: json.id_card,
+        id_card: data.id_card,
         B_id: json.b_id,
-        I_id: json.i_id,
-        N_id: json.n_id,
-        G_id: json.g_id,
-        O_id: json.o_id,
-        id_gamer: json.id_gamer,
-        game_number: json.game_number,
+        I_id: data.i_id,
+        N_id: data.n_id,
+        G_id: data.g_id,
+        O_id: data.o_id,
+        id_gamer: data.id_gamer,
+        game_number: data.game_number,
       };
     });
 
@@ -409,9 +408,6 @@ function printBallots(ballots, ballots_string) {
  * *Método donde se ejecutan la mayoría de funcionalidades del programa.
  */
 const main = async () => {
-  bingo = await getBingo();
-
-  await delay(Math.floor(Math.random() * (3500 - 0) + 0));
   let card = await getCard();
 
   await printPlayers();
@@ -441,18 +437,18 @@ const main = async () => {
    * * Se envía como parámetro el tiempo que tardaran en salir las balotas en segundos.
    */
   initRoulette(5);
-  await delay(1000);
 
+  bingo = await getBingo();
   /**
    * *Se verifica constantemente si hay balotas nuevas. En caso de que haya un ganador,
    * *o que todos los jugadores queden descalificados, se termina el ciclo.
    */
   do {
-    await delay(4500);
-    ballots_obtained = await getBallots();
 
+    ballots_obtained = await getBallots();
     printBallots(ballots_obtained, ballots_string);
-  } while (await getGameState(bingo.game_number));
+
+  } while (await getGameState(bingo.id));
 
   /**
    * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los botones.

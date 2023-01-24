@@ -108,8 +108,6 @@ namespace NETCoreAPIMySQL.Data.Respositories
 
             task.Start();
             string result = await task;
-
-            Debug.WriteLine("APPEND: " + result);
             
             return result;
         }

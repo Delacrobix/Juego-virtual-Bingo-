@@ -56,8 +56,8 @@ namespace NETCoreAPIMySQL.Data.service
         {
             var db = dbConnection();
 
-            var sql = @" SELECT id, B_id, I_id, N_id, G_id, O_id, gamer_id, game_id, 
-                         FROM Card ";
+            var sql = @"SELECT id, B_id, I_id, N_id, G_id, O_id, gamer_id, game_id
+                        FROM Card";
 
             return await db.QueryAsync<Card>(sql, new { });
         }
@@ -74,7 +74,7 @@ namespace NETCoreAPIMySQL.Data.service
                               G_id = @G_id,
                               O_id = @O_id,
                               gamer_id = @gamer_id, 
-                              game_id = @gameid
+                              game_id = @game_id
                          WHERE id = @id";
 
             var result = await db.ExecuteAsync(sql, new
@@ -87,7 +87,7 @@ namespace NETCoreAPIMySQL.Data.service
         {
             var db = dbConnection();
 
-            var sql = @" SELECT id, B_id, I_id, N_id, G_id, O_id, gamer_id, game_id, 
+            var sql = @" SELECT id, B_id, I_id, N_id, G_id, O_id, gamer_id, game_id
                          FROM Card 
                          WHERE id = @gamerId";
 

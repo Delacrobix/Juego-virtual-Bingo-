@@ -5,6 +5,7 @@ using NETCoreAPIMySQL.Data.Respositories;
 using NETCoreAPIMySQL.Data.service;
 using NETCoreAPIMySQL.Model;
 using Org.BouncyCastle.Pkcs;
+using System.Diagnostics;
 
 namespace Bingo_Backend.Controllers
 {
@@ -38,16 +39,16 @@ namespace Bingo_Backend.Controllers
             var bingoNew = new Bingo();
 
             var bingoList = await _bingoRepository.GetAllBingos();
-            var lastBingo = bingoList.LastOrDefault();
+            var currentGame = bingoList.LastOrDefault();
 
-            if(lastBingo == null)
+            if(currentGame == null)
             {
                 bingoNew.Game_state = true;
                 await _bingoRepository.InsertBingo(bingoNew);
             } else
             {
                 //Si no hay un juego iniciado, inicie uno nuevo
-                if (!lastBingo.Game_state)
+                if (!currentGame.Game_state)
                 {
                     bingoNew.Game_state = true;
                     await _bingoRepository.InsertBingo(bingoNew);
@@ -61,18 +62,18 @@ namespace Bingo_Backend.Controllers
             return Ok("Bingo has been created successfully");
         }
 
-        [HttpGet("current-game")]
-        public async Task<IActionResult> GetCurrentGamestate()
+        [HttpGet("current-game-state")]
+        public async Task<IActionResult> GetCurrentGameState()
         {
-            var bingo_list = await _bingoRepository.GetAllBingos();
-            var last_bingo = bingo_list.LastOrDefault();
+            var bingoList = await _bingoRepository.GetAllBingos();
+            var currentGame = bingoList.LastOrDefault();
 
-            if(last_bingo == null)
+            if(currentGame == null)
             {
                 return BadRequest("Has not one game started yet.");
             }else
             {
-                if(last_bingo.Game_state)
+                if(currentGame.Game_state)
                 {
                     return Ok(true);
                 } else
@@ -82,7 +83,23 @@ namespace Bingo_Backend.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("current-game")]
+        public async Task<IActionResult> GetCurrentGame()
+        {
+            var bingoList = await _bingoRepository.GetAllBingos();
+            var currentGame = bingoList.LastOrDefault();
+
+            if (currentGame == null)
+            {
+                return BadRequest("Has not one game started yet.");
+            }
+            else
+            {
+                return Ok(currentGame);
+            }
+        }
+
+        [HttpGet("game-state/{id}")]
         public async Task<IActionResult> GetGameStateById(int id)
         {
             var bingo = await _bingoRepository.FindById(id);
@@ -95,9 +112,14 @@ namespace Bingo_Backend.Controllers
             return Ok(bingo.Game_state);
         }
 
-        [HttpPost("send-cards")]
-        public async Task<IActionResult> BuildCards(string mongoId)
+        [HttpPost("send-card")]
+        public async Task<IActionResult> BuildCard(Gamer gamer)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(gamer);
+            }
+            
             //Crea, guarda y obtenga la carta para asignarle un ID de la base de datos a la carta
             //Cuando regresa la carta de la base de datos, ya tiene un ID asignado
             var card = new Card();
@@ -114,27 +136,28 @@ namespace Bingo_Backend.Controllers
             columnsIds[3] = await SaveColumn(cardColumns[3], 'G', card.Id);
             columnsIds[4] = await SaveColumn(cardColumns[4], 'O', card.Id);
 
-            var gamerDatabase = await _gamerRepository.FindByMongoId(mongoId);
+            var gamerDatabase = await _gamerRepository.FindByMongoId(gamer.Mongo_id);
             var gameList = await _bingoRepository.GetAllBingos();
             var currentGame = gameList.LastOrDefault();
 
             if (currentGame == null)
             {
-                return BadRequest();
+                return BadRequest("There has not one game started.");
             }
 
             //Se actualiza el juego con los nuevos datos
             var cardToSave = _cardRepository.GenerateCard(columnsIds, currentGame.Id, gamerDatabase.Id);
-            var cardsIds = (List<int>)(IEnumerable<int>)_bingoRepository.NumStringToArr(currentGame.Cards_id);
+            var cardsIds = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Cards_id);
           
             cardsIds.Add(card.Id);
 
             currentGame.Cards_id = await _bingoRepository.NumListToString(cardsIds);
+            cardToSave.Id = card.Id;
 
             await _bingoRepository.UpdateBingo(currentGame);
-            await _cardRepository.UpdateCard(card);
+            await _cardRepository.UpdateCard(cardToSave);
 
-            return Ok(card);
+            return Ok(cardToSave);
         }
 
         [HttpGet("send-ballot")]
@@ -144,7 +167,7 @@ namespace Bingo_Backend.Controllers
             return Ok("funciona");
         }
 
-        [HttpPost]
+        [HttpPost("save-column")]
         public async Task<int> SaveColumn(int[] column, char letter, int cardId)
         {
             var columnToSave = _columLetterRepository.GenerateColumn(column, letter, cardId);
@@ -256,25 +279,17 @@ namespace Bingo_Backend.Controllers
         [HttpPost("finish-current")]
         public async Task<IActionResult> FinishCurrentGame()
         {
-            var bingo_list = await _bingoRepository.GetAllBingos();
-            var last_bingo = bingo_list.LastOrDefault();
+            var bingoList = await _bingoRepository.GetAllBingos();
+            var currentGame = bingoList.LastOrDefault();
 
-            if(last_bingo == null)
+            if(currentGame == null)
             {
                 return NotFound();
             }
 
-            last_bingo.Game_state = false;
+            currentGame.Game_state = false;
 
-            await _bingoRepository.UpdateBingo(last_bingo);
-
-            return NoContent();
-        }
-
-        [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteBingo(int id)
-        {
-            await _bingoRepository.DeleteBingo(new Bingo { Id = id });
+            await _bingoRepository.UpdateBingo(currentGame);
 
             return NoContent();
         }
