@@ -16,10 +16,10 @@ builder.Services.AddSwaggerGen();
 var mySQLConfiguration = new MySQLConfiguration(builder.Configuration.GetConnectionString("MySQLConnection"));
 builder.Services.AddSingleton(mySQLConfiguration);
 
-builder.Services.AddScoped<IBallotsObteinedRepository, BallotsObteinedRepository>();
+builder.Services.AddScoped<IBallotsObtainedRepository, BallotsObtainedRepository>();
 builder.Services.AddScoped<IBingoRepository, BingoRepository>();
 builder.Services.AddScoped<ICardRepository, CardRepository>();
-builder.Services.AddScoped<IColumLetterRepository, ColumLetterRepository>();
+builder.Services.AddScoped<IColumnLetterRepository, ColumnLetterRepository>();
 builder.Services.AddScoped<IGamerRepository, GamerRepository>();
 
 var app = builder.Build();

@@ -144,8 +144,8 @@ function createTable(users) {
 }
 
 async function finishGame() {
-  await fetch(`${LOCAL}/endGame`, {
-    method: "POST",
+  await fetch(`${LOCAL}/api/finish-current`, {
+    method: "PUT",
     headers: {
       "Content-type": "application/json",
     },
@@ -186,7 +186,7 @@ async function disqualifyPlayer() {
 async function getPlayers() {
   let players;
 
-  await fetch(`${LOCAL}/allGamers`, {})
+  await fetch(`${LOCAL}/api/send-all-players`, {})
     .then((res) => {
       return res.json();
     })
@@ -227,7 +227,6 @@ async function getCard() {
   let gamer = {
     Mongo_id : mongo_id
   };
-  //LALALA
   await fetch(`${LOCAL}/api/Bingo/send-card`, {
     method: "POST",
     body: JSON.stringify(gamer),
@@ -255,17 +254,17 @@ async function getCard() {
 async function setColumn(column_id) {
   let column;
 
-  await fetch(`${LOCAL}/sendColumn/${column_id}`, {})
+  await fetch(`${LOCAL}/send-column/${column_id}`, {})
     .then((res) => res.json())
     .then((json) => {
       column = {
-        id_letter: json.id_letter,
+        id_letter: json.id,
         letter: json.letter,
         n1: json.n1,
         n2: json.n2,
         n3: json.n3,
         n4: json.n4,
-        n5: json.n5,
+        n5: json.n5
       };
     });
 
@@ -294,10 +293,11 @@ async function initRoulette(seconds) {
   });
 }
 
+//PROBAR: aprob
 async function getBallots() {
   let ballots;
 
-  await fetch(`${LOCAL}/allBallots`, {})
+  await fetch(`${LOCAL}/BallotsObtained/send-game-ballots/{id}`, {})
     .then((res) => {
       return res.json();
     })
@@ -311,7 +311,7 @@ async function getBallots() {
 async function getGameState(id) {
   let state;
 
-  await fetch(`${LOCAL}/isInGame/${id}`, {})
+  await fetch(`${LOCAL}/api/bingo/current-game-state`, {})
     .then((res) => {
       return res.json();
     })
@@ -320,20 +320,6 @@ async function getGameState(id) {
     });
 
   return state;
-}
-
-async function getBingo() {
-  let bingo;
-
-  await fetch(`${LOCAL}/getActuallyGame`, {})
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      bingo = data;
-    });
-
-  return bingo;
 }
 
 function isBallot(ballot) {
@@ -437,18 +423,18 @@ const main = async () => {
    * * Se envía como parámetro el tiempo que tardaran en salir las balotas en segundos.
    */
   initRoulette(5);
-
-  bingo = await getBingo();
   /**
    * *Se verifica constantemente si hay balotas nuevas. En caso de que haya un ganador,
    * *o que todos los jugadores queden descalificados, se termina el ciclo.
    */
+  let currentGameState = await getGameState();
+
   do {
 
     ballots_obtained = await getBallots();
     printBallots(ballots_obtained, ballots_string);
 
-  } while (await getGameState(bingo.id));
+  } while (currentGameState);
 
   /**
    * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los botones.

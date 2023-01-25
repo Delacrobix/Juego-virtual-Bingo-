@@ -66,16 +66,16 @@ namespace Bingo_Backend.Controllers
         public async Task<IActionResult> SendPlayersOfCurrentGame()
         {
             var bingoList = await _bingoRepository.GetAllBingos();
-            var last_bingo = bingoList.LastOrDefault();
+            var currentGame = bingoList.LastOrDefault();
 
-            if(last_bingo == null)
+            if(currentGame == null)
             {
                 return BadRequest();
             }
 
-            var gamers = _gamerRepository.GetAllGamersByGameId(last_bingo.Id);
+            var gamers = _gamerRepository.GetAllGamersByGameId(currentGame.Id);
 
-            return Ok(gamers);
+            return Ok(gamers.Result);
         }
     }
 }

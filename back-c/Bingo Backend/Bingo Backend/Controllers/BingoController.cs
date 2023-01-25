@@ -16,13 +16,13 @@ namespace Bingo_Backend.Controllers
         private readonly IBingoRepository _bingoRepository;
         private readonly IGamerRepository _gamerRepository;
         private readonly ICardRepository _cardRepository;
-        private readonly IBallotsObteinedRepository _ballotsObteinedRepository;
-        private readonly IColumLetterRepository _columLetterRepository;
+        private readonly IBallotsObtainedRepository _ballotsObteinedRepository;
+        private readonly IColumnLetterRepository _columLetterRepository;
         private readonly IHubContext<BingoHub> _hubContext;
 
         public BingoController
                (IBingoRepository bingoRepository, IGamerRepository gamerRepository, ICardRepository 
-                cardRepository, IBallotsObteinedRepository ballotsObteinedRepository, IColumLetterRepository 
+                cardRepository, IBallotsObtainedRepository ballotsObteinedRepository, IColumnLetterRepository 
                 columLetterRepository, IHubContext<BingoHub> hubContext)
         {
             _bingoRepository = bingoRepository;
@@ -97,19 +97,6 @@ namespace Bingo_Backend.Controllers
             {
                 return Ok(currentGame);
             }
-        }
-
-        [HttpGet("game-state/{id}")]
-        public async Task<IActionResult> GetGameStateById(int id)
-        {
-            var bingo = await _bingoRepository.FindById(id);
-
-            if(bingo == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(bingo.Game_state);
         }
 
         [HttpPost("send-card")]
@@ -276,7 +263,7 @@ namespace Bingo_Backend.Controllers
             return Ok(isWinner);
         }
 
-        [HttpPost("finish-current")]
+        [HttpPut("finish-current")]
         public async Task<IActionResult> FinishCurrentGame()
         {
             var bingoList = await _bingoRepository.GetAllBingos();
@@ -284,14 +271,14 @@ namespace Bingo_Backend.Controllers
 
             if(currentGame == null)
             {
-                return NotFound();
+                return BadRequest("There has not one game started yet.");
             }
 
             currentGame.Game_state = false;
 
             await _bingoRepository.UpdateBingo(currentGame);
 
-            return NoContent();
+            return Ok("Current game finished.");
         }
     }
 }

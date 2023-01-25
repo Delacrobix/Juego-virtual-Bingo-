@@ -6,7 +6,7 @@ namespace Bingo_Backend.Controllers
 {
     public class BingoHub : Hub
     {
-        private readonly BallotsObteinedRepository _ballotsObteinedRepository;
+        private readonly BallotsObtainedRepository _ballotsObteinedRepository;
         //public async Task SendNewBallot()
         //{
         //    await Clients.All.SendAsync("send-ballot", await _ballotsObteinedRepository.GetOneBallot());

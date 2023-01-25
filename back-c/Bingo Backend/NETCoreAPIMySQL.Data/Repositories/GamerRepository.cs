@@ -59,15 +59,15 @@ namespace NETCoreAPIMySQL.Data.Respositories
             return await db.QueryFirstOrDefaultAsync<Gamer>(sql, new { id = Id });
         }
 
-        public async Task<IEnumerable<Gamer>> GetAllGamersByGameId(int Id)
+        public async Task<IEnumerable<Gamer>> GetAllGamersByGameId(int Game_id)
         {
             var db = dbConnection();
 
             var sql = @" SELECT id, mongo_id, game_id, gamer_ballots
-                         FROM Gamers 
-                         WHERE id = @Id";
+                         FROM Gamers
+                         WHERE game_id = @Game_id";
 
-            return await db.QueryAsync<Gamer>(sql, new { });
+            return await db.QueryAsync<Gamer>(sql, new { game_id = Game_id });
         }
     }
 }
