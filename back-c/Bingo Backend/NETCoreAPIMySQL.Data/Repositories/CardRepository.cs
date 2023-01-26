@@ -83,15 +83,15 @@ namespace NETCoreAPIMySQL.Data.service
             return result > 0;
         }
 
-        public async Task<Card> FindByGamerId(int gamerId)
+        public async Task<Card> FindByGamerId(int Gamer_id)
         {
             var db = dbConnection();
 
             var sql = @" SELECT id, B_id, I_id, N_id, G_id, O_id, gamer_id, game_id
                          FROM Card 
-                         WHERE id = @gamerId";
+                         WHERE gamer_id = @Gamer_id";
 
-            return await db.QueryFirstOrDefaultAsync<Card>(sql, new { id = gamerId });
+            return await db.QueryFirstOrDefaultAsync<Card>(sql, new { gamer_id = Gamer_id });
         }
     }
 }

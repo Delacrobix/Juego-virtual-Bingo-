@@ -19,20 +19,14 @@ namespace Bingo_Backend.Controllers
             _bingoRepository = bingoRepository;
         }   
 
-        [HttpGet("send-game-ballots/{id}")]
-        public async Task<IActionResult> SendAllBallotsByGameId(int id)
+        [HttpGet("send-game-ballots")]
+        public async Task<IActionResult> SendAllBallotsOfCurrentGame()
         {
-            var ballotsObtained = await _ballotsObtainedRepository.FindByGameId(id);
-            //var ballots = await _bingoRepository.NumStringToArr(ballotsObtained.Ballots);
+            var ballotsObtainedList = await _ballotsObtainedRepository.GetAllBallotsObtained();
+            var currentGameBallots = ballotsObtainedList.LastOrDefault();
+            var ballots = await _bingoRepository.NumStringToArr(currentGameBallots.Ballots);
 
-            return Ok(ballotsObtained);
-        }
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var all = _ballotsObtainedRepository.GetAllBallotsObtained();
-
-            return Ok(all);
+            return Ok(ballots);
         }
     }
 }

@@ -83,17 +83,6 @@ namespace NETCoreAPIMySQL.Data.service
             return result > 0;
         }
 
-        public async Task<IEnumerable<BallotsObtained>> FindByGameId(int id)
-        {
-            var db = dbConnection();
-
-            var sql = @"SELECT id, game_id, ballots 
-                         FROM Ballots_obtained
-                         WHERE game_id = @id";
-
-            return await db.QueryAsync<BallotsObtained>(sql, new { game_id = id });
-        }
-
         public async Task<IEnumerable<BallotsObtained>> GetAllBallotsObtained()
         {
             var db = dbConnection();

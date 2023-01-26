@@ -166,10 +166,15 @@ namespace Bingo_Backend.Controllers
             return lastColumn.Id;
         }
 
-        [HttpPost("disqualify")]
-        public async Task<IActionResult> DisqualifyPlayer([FromBody]Gamer gamerFroDisqualify)
+        [HttpPut("disqualify")]
+        public async Task<IActionResult> DisqualifyPlayer([FromBody] string mongoId)
         {
-            var gamerInfo = await _gamerRepository.FindByMongoId(gamerFroDisqualify.Mongo_id);
+            var gamerInfo = await _gamerRepository.FindByMongoId(mongoId);
+
+            if(gamerInfo == null)
+            {
+                return NotFound("MongoId not found.");
+            }
 
             // Se obtiene la lista de jugadores en el juego en curso
             var gameList = await _bingoRepository.GetAllBingos();
@@ -177,10 +182,15 @@ namespace Bingo_Backend.Controllers
 
             if(currentGame == null)
             {
-                return BadRequest();
+                return BadRequest("There has not a game started yet.");
             }
 
-            var playerList = (List<int>)(IEnumerable<int>)_bingoRepository.NumStringToArr(currentGame.Gamers_id);
+            var playerList = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Gamers_id);
+
+            if (!(playerList.Contains(gamerInfo.Id)))
+            {
+                return NotFound("The player has not in game.");
+            }
 
             // Se excluye el ID del jugador de la lista de IDs del juego en curso
             if (playerList != null)
@@ -195,7 +205,7 @@ namespace Bingo_Backend.Controllers
                 }
             } else
             {
-                return NotFound("NO SE ENCONTRO LISTA DE JUGADORES");
+                return NotFound("Player list not found.");
             }
 
             //Se desasocia el jugador del juego
@@ -209,22 +219,36 @@ namespace Bingo_Backend.Controllers
             return Ok(playerList);
         }
 
-        [HttpPost("ballots-gamer")]
-        public async Task<IActionResult> BallotMarkedForPlayer(string mongoId, int ballot)
-        {
+        [HttpPut("ballot-marked/{mongoId}")]
+        public async Task<IActionResult> BallotMarkedForPlayer(string mongoId, [FromBody]int ballot) {
+            if (ballot == 0)
+            {
+                return BadRequest("Ballot can not be Null.");
+            } else if (mongoId == "")
+            {
+                return BadRequest("MongoId can not be empty or null.");
+            }
+
             var gamerDatabase = await _gamerRepository.FindByMongoId(mongoId);
+
+            if (gamerDatabase == null)
+            {
+                return BadRequest("GamerId not found.");
+            }
+
             var gameList = await _bingoRepository.GetAllBingos();
             var currentGame = gameList.LastOrDefault();
 
-            if ((gamerDatabase == null) || (currentGame == null))
+            if (currentGame == null)
             {
-                return BadRequest();
+                return BadRequest("There has not a game started yet.");
             }
 
             //Linea en JAVA que no entiendo su funcion
             //gamerDatabase.Game_id = currentGame.Id;
 
             var ballotsGamer = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(gamerDatabase.Gamer_ballots);
+            
             ballotsGamer.Add(ballot);
 
             gamerDatabase.Gamer_ballots = await _bingoRepository.NumListToString(ballotsGamer);
@@ -233,15 +257,26 @@ namespace Bingo_Backend.Controllers
             return Ok(gamerDatabase);
         }
 
-        [HttpPost("is-winner")]
-        public async Task<IActionResult> IsWinner(string mongoId)
+        [HttpPut("is-winner")]
+        public async Task<IActionResult> IsWinner([FromBody]string mongoId)
         {
+            if (mongoId == "")
+            {
+                return BadRequest("MongoId can not be empty or null.");
+            }
+
             var gamerDatabase = await _gamerRepository.FindByMongoId(mongoId);
+
+            if(gamerDatabase == null)
+            {
+                return NotFound("MongoId not found.");
+            }
+
             List<int> ballotsGamer;
 
-            ballotsGamer = (List<int>)(IEnumerable<int>)_bingoRepository.NumStringToArr(gamerDatabase.Gamer_ballots);
+            ballotsGamer = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(gamerDatabase.Gamer_ballots);
 
-            var cardDatabase = _cardRepository.FindByGamerId(gamerDatabase.Id);
+            var cardDatabase = await _cardRepository.FindByGamerId(gamerDatabase.Id);
             var columnList = await _columLetterRepository.GetAllColumnLetters();
 
             var columnOfCurrentGame = _columLetterRepository.BuildColumnsArrays((List<ColumnLetter>)columnList, cardDatabase.Id);
@@ -279,6 +314,15 @@ namespace Bingo_Backend.Controllers
             await _bingoRepository.UpdateBingo(currentGame);
 
             return Ok("Current game finished.");
+        }
+
+        [HttpGet("get-current-winner")]
+        public async Task<IActionResult> GetCurrentGameWinner()
+        {
+            var bingoList = await _bingoRepository.GetAllBingos();
+            var currentGame = bingoList.LastOrDefault();
+
+            return Ok(currentGame.Winner_id);
         }
     }
 }

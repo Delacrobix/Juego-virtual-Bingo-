@@ -1,7 +1,7 @@
 var ballots_obtained = [];
 var bingo;
 var gamers_list;
-var areWinner = false;
+var isWin = false;
 const mongo_id = getId();
 const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
@@ -43,7 +43,7 @@ bingo_btn.addEventListener("click", async () => {
     document.getElementById("div-winner").innerHTML = "¡Felicidades, GANASTE!";
 
     writeWinner(mongo_id);
-    areWinner = true;
+    isWin = true;
 
     tokens.forEach((btn) => (btn.disabled = true));
     bingo_btn.disable = true;
@@ -103,17 +103,17 @@ function writeWinner(id) {
 }
 
 async function getWinnerId() {
-  let winner;
+  let winnerId;
 
-  await fetch(`${LOCAL}/getWinner`, {})
+  await fetch(`${LOCAL}/api/bingo/get-current-winner`, {})
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      winner = data.winner_id;
+      winnerId = data;
     });
 
-  return winner;
+  return winnerId;
 }
 
 /**
@@ -159,15 +159,11 @@ async function finishGame() {
 }
 
 async function disqualifyPlayer() {
-  let player = {
-    id_mongo: mongo_id,
-  };
-
   let list_players;
 
-  await fetch(`${LOCAL}/disqualify`, {
-    method: "POST",
-    body: JSON.stringify(player),
+  await fetch(`${LOCAL}/api/bingo/disqualify`, {
+    method: "PUT",
+    body: JSON.stringify(mongo_id),
     headers: {
       "Content-type": "application/json",
     },
@@ -198,15 +194,11 @@ async function getPlayers() {
 }
 
 async function isWinner() {
-  let player = {
-    id_mongo: mongo_id,
-  };
-
   let is_winner;
 
-  await fetch(`${LOCAL}/winner`, {
+  await fetch(`${LOCAL}/api/bingo/is-winner`, {
     method: "POST",
-    body: JSON.stringify(player),
+    body: JSON.stringify(mongo_id),
     headers: {
       "Content-type": "application/json",
     },
@@ -216,7 +208,6 @@ async function isWinner() {
     })
     .then((data) => {
       is_winner = data;
-      console.log(data);
     });
 
   return is_winner;
@@ -272,8 +263,8 @@ async function setColumn(column_id) {
 }
 
 async function sendBallotGamer(id, ballot) {
-  await fetch(`${LOCAL}/ballotsGamer/${id}`, {
-    method: "POST",
+  await fetch(`${LOCAL}/api/bingo/ballot-marked/${id}`, {
+    method: "PUT",
     body: JSON.stringify(ballot),
     headers: {
       "Content-type": "application/json",
@@ -293,11 +284,10 @@ async function initRoulette(seconds) {
   });
 }
 
-//PROBAR: aprob
 async function getBallots() {
   let ballots;
 
-  await fetch(`${LOCAL}/BallotsObtained/send-game-ballots/{id}`, {})
+  await fetch(`${LOCAL}/BallotsObtained/send-game-ballots`, {})
     .then((res) => {
       return res.json();
     })
@@ -416,19 +406,18 @@ const main = async () => {
     printColumns(i + 1, column);
   }
 
-  let ballots_string = "";
-  let winner;
-
   /**
    * * Se envía como parámetro el tiempo que tardaran en salir las balotas en segundos.
    */
   initRoulette(5);
+
+  let currentGameState = await getGameState();
+  let ballots_string = "";
+
   /**
    * *Se verifica constantemente si hay balotas nuevas. En caso de que haya un ganador,
    * *o que todos los jugadores queden descalificados, se termina el ciclo.
    */
-  let currentGameState = await getGameState();
-
   do {
 
     ballots_obtained = await getBallots();
@@ -436,10 +425,11 @@ const main = async () => {
 
   } while (currentGameState);
 
+  let winner;
   /**
    * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los botones.
    */
-  if (!areWinner) {
+  if (!isWin) {
     document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
 
     winner = await getWinnerId();
