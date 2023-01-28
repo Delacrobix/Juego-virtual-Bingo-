@@ -33,7 +33,7 @@ function validateData() {
   let password_input = document.getElementById("input-password").value;
 
   if (user_input.length == 0 || password_input.length == 0) {
-    alert("Por favor, llene todos los campos seleccionados");
+    alert("Por favor, llene todos los campos seleccionados.");
   } else {
     let new_user = {
       user: user_input,

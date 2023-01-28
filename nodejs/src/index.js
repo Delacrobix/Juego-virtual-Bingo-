@@ -14,7 +14,6 @@ function executeServer() {
 }
 
 const server = executeServer();
-
 module.exports = server;
 
 require("./sockets/sockets");

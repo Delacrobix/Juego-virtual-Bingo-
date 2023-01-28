@@ -8,7 +8,7 @@ var users = [];
 const io = SocketIO(server);
 
 io.on("connection", async (socket) => {
-  console.log("Connection done", socket.id);
+  console.log("Connection done:", socket.id);
 
   socket.on("client:user", (user) => {
     if (users.indexOf(user.user.user) === -1) {
@@ -18,12 +18,12 @@ io.on("connection", async (socket) => {
 
   socket.emit("server:users", users);
 
-  let is_started = await count_controllers.findDate(socket);
+  //let is_started = await count_controllers.findDate(socket);
 
-  if (is_started) {
-    console.log("countdown is started");
-  } else {
-    await count_controllers.saveFlag();
-    count_controllers.startCountdown(socket);
-  }
+  // if (is_started) {
+  //   console.log("countdown is started");
+  // } else {
+  //   await count_controllers.saveFlag();
+  //   count_controllers.startCountdown(socket);
+  // }
 });

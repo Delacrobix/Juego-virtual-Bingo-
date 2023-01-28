@@ -7,7 +7,7 @@ const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
 
 const JAVA_APP = "https://bingo-module.rj.r.appspot.com";
-const LOCAL = "http://localhost:8080";
+const LOCAL = "https://localhost:7006";
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
 
 /**

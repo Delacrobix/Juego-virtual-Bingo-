@@ -4,6 +4,7 @@ using NETCoreAPIMySQL.Data.Respositories;
 using NETCoreAPIMySQL.Data.service;
 
 var builder = WebApplication.CreateBuilder(args);
+var firstPolicy = "firstPolicy";
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -22,6 +23,17 @@ builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<IColumnLetterRepository, ColumnLetterRepository>();
 builder.Services.AddScoped<IGamerRepository, GamerRepository>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(firstPolicy, 
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:8081")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 app.MapHub<BingoHub>("/wss");
 
@@ -31,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(firstPolicy);
 
 app.UseHttpsRedirection();
 

@@ -1,6 +1,6 @@
 //const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
-const LOCAL = "http://localhost:7230";
+const LOCAL = "https://localhost:7006";
 const socket = io();
 
 /**
@@ -47,46 +47,47 @@ function createTable(users) {
 
 async function gamers(gamer_id) {
   let user = {
-    Mongo_id: gamer_id,
+    Mongo_id: gamer_id
   };
 
+  console.log(`${LOCAL}/api/gamer/save-gamer-in-game`)
   await fetch(`${LOCAL}/api/gamer/save-gamer-in-game`, {
     method: "POST",
     body: JSON.stringify(user),
     headers: {
       "Content-type": "application/json",
     },
-  }).then((res) => res.json());
+  }).then((res) => res.json()).then((data) => {
+    console.log(data);
+  }).catch((err) => {
+    console.error(err);
+  });
 }
 
 async function startGame() {
-  let game;
-
-  await fetch(`${LOCAL}/api/bingo/new-game`, {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
+  console.log(`${LOCAL}/api/Bingo/new-game`)
+  await fetch(`${LOCAL}/api/Bingo/new-game`, {
+    method: "POST"
   })
     .then((res) => res.json())
-    .then((json) => {
-      game = {
-        game_number: json.game_number,
-      };
+    .then((data) => {
+      console.log(data);
+    }).catch((err) => {
+      console.error(err);
     });
-
-  return game;
 }
 
 async function getBingo() {
   let currentGameState;
-
-  await fetch(`${LOCAL}/api/Bingo/current-game`, {})
+  console.log(`${LOCAL}/api/Bingo/current-game-state`)
+  await fetch(`${LOCAL}/api/Bingo/current-game-state`, {})
     .then((res) => {
       return res.json();
     })
     .then((data) => {
       currentGameState = data;
+    }).catch((err) => {
+      console.error(err);
     });
 
   return currentGameState;
@@ -96,25 +97,29 @@ async function countdown() {
   /**
    * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
    */
-  if (await getBingo()) {
+  let isStarted = await getBingo();
+  
+  if (isStarted) {
     alert(
       "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
     );
 
-    window.location.href = "/login";
+    //window.location.href = "/login";
   }
 
   //await delay(Math.floor(Math.random() * (2500 - 0) + 0));
   /**
    * *Crea el juego nuevo.
    */
+  console.log("HAs a game ", isStarted);
   await startGame();
-
+  console.log("HAs a game ", isStarted);
   /**
    * *Envía los ids de los jugadores al backend en spring boot.
    */
+  console.log(getId() + "JAJA")
   await gamers(getId());
-  window.location.href = '/bingo/' + getId();
+  //window.location.href = '/bingo/' + getId();
 }
 
 socket.on("server:count", (data) => {
@@ -126,6 +131,8 @@ socket.on("server:users", (users) => {
   createTable(users);
 });
 
-socket.on('server:start-game', () => {
-  countdown();
-});
+// socket.on('server:start-game', () => {
+//   countdown();
+// });
+
+countdown();
