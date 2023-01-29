@@ -46,48 +46,52 @@ function createTable(users) {
 }
 
 async function gamers(gamer_id) {
-  let user = {
-    Mongo_id: gamer_id
+  let gamer = {
+    Mongo_id: gamer_id,
+    Gamer_ballots: ""
   };
 
-  console.log(`${LOCAL}/api/gamer/save-gamer-in-game`)
   await fetch(`${LOCAL}/api/gamer/save-gamer-in-game`, {
-    method: "POST",
-    body: JSON.stringify(user),
+    method: 'POST',
     headers: {
-      "Content-type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     },
-  }).then((res) => res.json()).then((data) => {
-    console.log(data);
+    body: JSON.stringify(gamer)
+  }).then((res) => res.json())
+    .then((data) => {
+      console.log(data);
   }).catch((err) => {
-    console.error(err);
+    console.error(err)
   });
 }
 
 async function startGame() {
-  console.log(`${LOCAL}/api/Bingo/new-game`)
   await fetch(`${LOCAL}/api/Bingo/new-game`, {
-    method: "POST"
-  })
-    .then((res) => res.json())
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+    }
+  }).then((res) => res.json())
     .then((data) => {
       console.log(data);
-    }).catch((err) => {
-      console.error(err);
-    });
+  }).catch((err) => {
+      console.error(err)
+  });
 }
 
 async function getBingo() {
   let currentGameState;
-  console.log(`${LOCAL}/api/Bingo/current-game-state`)
+
   await fetch(`${LOCAL}/api/Bingo/current-game-state`, {})
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      currentGameState = data;
-    }).catch((err) => {
-      console.error(err);
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err)
     });
 
   return currentGameState;
@@ -104,22 +108,19 @@ async function countdown() {
       "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
     );
 
-    //window.location.href = "/login";
+    window.location.href = "/login";
   }
 
   //await delay(Math.floor(Math.random() * (2500 - 0) + 0));
   /**
    * *Crea el juego nuevo.
    */
-  console.log("HAs a game ", isStarted);
   await startGame();
-  console.log("HAs a game ", isStarted);
   /**
    * *Envía los ids de los jugadores al backend en spring boot.
    */
-  console.log(getId() + "JAJA")
   await gamers(getId());
-  //window.location.href = '/bingo/' + getId();
+  window.location.href = '/bingo/' + getId();
 }
 
 socket.on("server:count", (data) => {

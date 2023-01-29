@@ -2,7 +2,7 @@ var ballots_obtained = [];
 var bingo;
 var gamers_list;
 var isWin = false;
-const mongo_id = getId();
+const mongoId = getId();
 const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
 
@@ -22,7 +22,7 @@ tokens.forEach((e) =>
 
       document.getElementById("div-alert").innerHTML = "¡Bien!";
 
-      sendBallotGamer(mongo_id, parseInt(this.innerHTML, 10));
+      sendBallotGamer(mongoId, parseInt(this.innerHTML, 10));
     } else {
       document.getElementById("div-alert").innerHTML =
         "No puede marcar una casilla que no ha sido arrojada";
@@ -42,7 +42,7 @@ bingo_btn.addEventListener("click", async () => {
   if (is_winner) {
     document.getElementById("div-winner").innerHTML = "¡Felicidades, GANASTE!";
 
-    writeWinner(mongo_id);
+    writeWinner(mongoId);
     isWin = true;
 
     tokens.forEach((btn) => (btn.disabled = true));
@@ -73,7 +73,7 @@ async function printPlayers() {
     let users = [];
 
     for (let i = 0; i < gamers_list.length; i++) {
-      users[i] = await getPlayerName(gamers_list[i].id_mongo);
+      users[i] = await getPlayerName(gamers_list[i].mongo_id);
     }
 
     createTable(users);
@@ -89,6 +89,9 @@ async function getPlayerName(id) {
     })
     .then((data) => {
       user = data;
+      console.log(user);
+    }).catch(err => {
+      console.error(err);
     });
 
   return user;
@@ -96,7 +99,7 @@ async function getPlayerName(id) {
 
 function writeWinner(id) {
   for (let i = 0; i < gamers_list.length; i++) {
-    if (gamers_list[i].id_mongo == id) {
+    if (gamers_list[i].mongoId == id) {
       document.getElementById(`winner-${i + 1}`).innerHTML = "&#128081";
     }
   }
@@ -144,50 +147,62 @@ function createTable(users) {
 }
 
 async function finishGame() {
-  await fetch(`${LOCAL}/api/finish-current`, {
+  await fetch(`${LOCAL}/api/bingo/finish-current`, {
     method: "PUT",
     headers: {
-      "Content-type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     },
   })
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      console.log("Juego terminado", data);
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
 
 async function disqualifyPlayer() {
-  let list_players;
+  let playerList;
 
   await fetch(`${LOCAL}/api/bingo/disqualify`, {
     method: "PUT",
-    body: JSON.stringify(mongo_id),
+    body: JSON.stringify(mongoId),
     headers: {
-      "Content-type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     },
   })
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-      list_players = data;
-      console.log(data);
+      playerList = data;
+      console.log(playerList);
+    })
+    .catch((err) => {
+      console.log(err)
     });
 
-  return list_players;
+  return playerList;
 }
 
 async function getPlayers() {
   let players;
 
-  await fetch(`${LOCAL}/api/send-all-players`, {})
+  await fetch(`${LOCAL}/api/gamer/send-all-players`, {})
     .then((res) => {
       return res.json();
     })
     .then((data) => {
       players = data;
+      console.log(players);
+    })
+    .catch((err) => {
+      console.error(err);
     });
 
   return players;
@@ -195,12 +210,14 @@ async function getPlayers() {
 
 async function isWinner() {
   let is_winner;
+  console.log('is_winner: ' + mongoId)
 
   await fetch(`${LOCAL}/api/bingo/is-winner`, {
-    method: "POST",
-    body: JSON.stringify(mongo_id),
+    method: "PUT",
+    body: JSON.stringify(mongoId),
     headers: {
-      "Content-type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     },
   })
     .then((res) => {
@@ -208,6 +225,10 @@ async function isWinner() {
     })
     .then((data) => {
       is_winner = data;
+      console.log(is_winner);
+    })
+    .catch((err) => {
+      console.error(err);
     });
 
   return is_winner;
@@ -216,27 +237,33 @@ async function isWinner() {
 async function getCard() {
   let card;
   let gamer = {
-    Mongo_id : mongo_id
+    Mongo_id : mongoId
   };
   await fetch(`${LOCAL}/api/Bingo/send-card`, {
     method: "POST",
     body: JSON.stringify(gamer),
     headers: {
-      "Content-type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     },
   })
     .then((res) => res.json())
     .then((data) => {
+      console.log("Card data: ", data);
       card = {
-        id_card: data.id_card,
-        B_id: json.b_id,
-        I_id: data.i_id,
-        N_id: data.n_id,
-        G_id: data.g_id,
-        O_id: data.o_id,
-        id_gamer: data.id_gamer,
-        game_number: data.game_number,
+        id: data.id,
+        b_id: data.b_id,
+        i_id: data.i_id,
+        n_id: data.n_id,
+        g_id: data.g_id,
+        o_id: data.o_id,
+        gamer_id: data.gamer_id,
+        game_id: data.game_id,
       };
+      console.log("Card: ", card);
+    })
+    .catch((err) => {
+      console.error(err);
     });
 
   return card;
@@ -245,18 +272,22 @@ async function getCard() {
 async function setColumn(column_id) {
   let column;
 
-  await fetch(`${LOCAL}/send-column/${column_id}`, {})
+  await fetch(`${LOCAL}/api/columnLetter/send-column/${column_id}`, {})
     .then((res) => res.json())
-    .then((json) => {
+    .then((data) => {
+      console.log("Column: ", data);
       column = {
-        id_letter: json.id,
-        letter: json.letter,
-        n1: json.n1,
-        n2: json.n2,
-        n3: json.n3,
-        n4: json.n4,
-        n5: json.n5
-      };
+        id_letter: data.id,
+        letter: data.letter,
+        n1: data.n1,
+        n2: data.n2,
+        n3: data.n3,
+        n4: data.n4,
+        n5: data.n5
+      }
+    })
+    .catch((err) => {
+      console.error(err);
     });
 
   return column;
@@ -267,10 +298,16 @@ async function sendBallotGamer(id, ballot) {
     method: "PUT",
     body: JSON.stringify(ballot),
     headers: {
-      "Content-type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     },
   }).then((res) => {
     return res.json();
+  }).then((data) => {
+    console.log(data);
+  })
+  .catch((err) =>{
+    console.log(err);
   });
 }
 
@@ -279,7 +316,8 @@ async function initRoulette(seconds) {
     method: "POST",
     body: JSON.stringify(seconds),
     headers: {
-      "Content-type": "application/json",
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
     },
   });
 }
@@ -287,18 +325,20 @@ async function initRoulette(seconds) {
 async function getBallots() {
   let ballots;
 
-  await fetch(`${LOCAL}/BallotsObtained/send-game-ballots`, {})
+  await fetch(`${LOCAL}/api/BallotsObtained/send-game-ballots`, {})
     .then((res) => {
       return res.json();
     })
     .then((data) => {
       ballots = data;
+    }).catch(err => {
+      console.error(err);
     });
 
   return ballots;
 }
 
-async function getGameState(id) {
+async function getGameState() {
   let state;
 
   await fetch(`${LOCAL}/api/bingo/current-game-state`, {})
@@ -307,6 +347,8 @@ async function getGameState(id) {
     })
     .then((data) => {
       state = data;
+    }).catch((err) => {
+      console.error(err);
     });
 
   return state;
@@ -392,15 +434,15 @@ const main = async () => {
     let column;
 
     if (i == 0) {
-      column = await setColumn(card.B_id);
+      column = await setColumn(card.b_id);
     } else if (i == 1) {
-      column = await setColumn(card.I_id);
+      column = await setColumn(card.i_id);
     } else if (i == 2) {
-      column = await setColumn(card.N_id);
+      column = await setColumn(card.n_id);
     } else if (i == 3) {
-      column = await setColumn(card.G_id);
+      column = await setColumn(card.g_id);
     } else if (i == 4) {
-      column = await setColumn(card.O_id);
+      column = await setColumn(card.o_id);
     }
 
     printColumns(i + 1, column);
@@ -409,7 +451,7 @@ const main = async () => {
   /**
    * * Se envía como parámetro el tiempo que tardaran en salir las balotas en segundos.
    */
-  initRoulette(5);
+  //initRoulette(5);
 
   let currentGameState = await getGameState();
   let ballots_string = "";

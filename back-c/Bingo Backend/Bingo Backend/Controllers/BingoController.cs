@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace Bingo_Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/bingo")]
     [ApiController]
     public class BingoController : ControllerBase
     {
@@ -254,7 +254,7 @@ namespace Bingo_Backend.Controllers
             gamerDatabase.Gamer_ballots = await _bingoRepository.NumListToString(ballotsGamer);
             await _gamerRepository.Update(gamerDatabase);
 
-            return Ok(gamerDatabase);
+            return Ok("The ballot has been marked correctly.");
         }
 
         [HttpPut("is-winner")]

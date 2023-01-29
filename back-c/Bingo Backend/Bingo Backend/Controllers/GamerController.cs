@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Bingo_Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/gamer")]
     [ApiController]
     public class GamerController : ControllerBase
     {
@@ -23,7 +23,7 @@ namespace Bingo_Backend.Controllers
          * en la lista de jugadores del juego en curso
          */
         [HttpPost("save-gamer-in-game")]
-        public async Task<IActionResult> AssignGamerToGame(Gamer gamer)
+        public async Task<IActionResult> AssignGamerToGame([FromBody]Gamer gamer)
         {
             if (gamer == null)
             {
@@ -70,7 +70,7 @@ namespace Bingo_Backend.Controllers
 
             if(currentGame == null)
             {
-                return BadRequest();
+                return BadRequest("There has not a game started yet.");
             }
 
             var gamers = _gamerRepository.GetAllGamersByGameId(currentGame.Id);

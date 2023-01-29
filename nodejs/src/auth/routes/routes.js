@@ -63,7 +63,7 @@ router.get("/auth/logout", (req, res) => {
  * *Rutas dedicadas al registro y control de los usuarios.
  */
 router.route("/addUser").post(controllers.addUser);
-router.route("/getUser/:userid").get(controllers.findUserById);
+router.route("/getUser/:userId").get(controllers.findUserById);
 router.route("/user/log").post(controllers.findUserAndPassword);
 
 module.exports = router;

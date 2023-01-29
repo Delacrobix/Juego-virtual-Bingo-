@@ -1,8 +1,8 @@
 const User = require("../models/UserSchema");
 
 exports.findUserById = function (req, res) {
-  let user_id = req.params.userid;
-
+  let user_id = req.params.userId;
+  
   User.findById(user_id).exec(function (err, User) {
     return res.status(200).jsonp({
       user: User.user,

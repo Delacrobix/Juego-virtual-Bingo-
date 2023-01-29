@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace Bingo_Backend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/columnLetter")]
     [ApiController]
     public class ColumnLetterController : ControllerBase
     {
@@ -17,10 +17,9 @@ namespace Bingo_Backend.Controllers
         }
 
         //? No esta siendo usado
-        [HttpGet("/send-column/{id}")]
+        [HttpGet("send-column/{id}")]
         public async Task<IActionResult> SendColumById(int id)
         {
-            Debug.WriteLine("ID: " + id);
             var column = await _columnLetterRepository.FindById(id);
 
             return Ok(column);
