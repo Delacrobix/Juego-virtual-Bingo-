@@ -148,9 +148,9 @@ namespace Bingo_Backend.Controllers
         }
 
         [HttpGet("send-ballot")]
-        public async Task<IActionResult> SendBallot()
+        public async Task<IActionResult> SendBallot([FromBody]string message)
         {
-            await _hubContext.Clients.All.SendAsync("send-ballot", "Enviando");
+            await _hubContext.Clients.All.SendAsync("sendBallot", message);
             return Ok("funciona");
         }
 

@@ -460,26 +460,45 @@ const main = async () => {
    * *Se verifica constantemente si hay balotas nuevas. En caso de que haya un ganador,
    * *o que todos los jugadores queden descalificados, se termina el ciclo.
    */
-  do {
+  let ja = 0;
+  const connection = new signalR.HubConnectionBuilder()
+              .withUrl(`${LOCAL}/bingo-sockets`, {
+                skipNegotiation: true, 
+                transport: signalR.HttpTransportType.WebSockets
+              }).build();
 
-    ballots_obtained = await getBallots();
-    printBallots(ballots_obtained, ballots_string);
+  //do {
 
-  } while (currentGameState);
+    //ballots_obtained = await getBallots();
+  await connection.start()
+    .then(() => {
+      console.log('Connection started');
+    })
+    .catch(err => console.log(err.message));
 
-  let winner;
-  /**
-   * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los botones.
-   */
-  if (!isWin) {
-    document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
+  await connection.on('sendBallot', (message) => {
 
-    winner = await getWinnerId();
-    writeWinner(winner);
+    console.log("MESSAGE: ", message);
 
-    bingo_btn.disable = true;
-    tokens.forEach((btn) => (btn.disabled = true));
-  }
+  });
+
+    //printBallots(ballots_obtained, ballots_string);
+
+  //} while (currentGameState);
+
+  // let winner;
+  // /**
+  //  * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los botones.
+  //  */
+  // if (!isWin) {
+  //   document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
+
+  //   winner = await getWinnerId();
+  //   writeWinner(winner);
+
+  //   bingo_btn.disable = true;
+  //   tokens.forEach((btn) => (btn.disabled = true));
+  // }
 };
 
 main();

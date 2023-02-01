@@ -30,12 +30,13 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:8081")
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowAnyOrigin();
         });
 });
 
 var app = builder.Build();
-app.MapHub<BingoHub>("/wss");
+//app.MapHub<BingoHub>("/wss");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -48,7 +49,11 @@ app.UseCors(firstPolicy);
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
+
+app.MapHub<BingoHub>("bingo-sockets");
 
 app.MapControllers();
 
