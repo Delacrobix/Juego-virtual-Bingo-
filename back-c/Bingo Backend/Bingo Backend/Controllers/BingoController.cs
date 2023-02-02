@@ -148,10 +148,11 @@ namespace Bingo_Backend.Controllers
         }
 
         [HttpGet("send-ballot")]
-        public async Task<IActionResult> SendBallot([FromBody]string message)
+        public async Task<IActionResult> SendBallot()
         {
-            await _hubContext.Clients.All.SendAsync("sendBallot", message);
-            return Ok("funciona");
+            var ballot = await _ballotsObteinedRepository.GetOneBallot();
+            await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
+            return Ok("Communication done.");   
         }
 
         [HttpPost("save-column")]

@@ -114,6 +114,9 @@ async function getWinnerId() {
     })
     .then((data) => {
       winnerId = data;
+    })
+    .catch((err) => {
+      console.error(err);
     });
 
   return winnerId;
@@ -460,7 +463,6 @@ const main = async () => {
    * *Se verifica constantemente si hay balotas nuevas. En caso de que haya un ganador,
    * *o que todos los jugadores queden descalificados, se termina el ciclo.
    */
-  let ja = 0;
   const connection = new signalR.HubConnectionBuilder()
               .withUrl(`${LOCAL}/bingo-sockets`, {
                 skipNegotiation: true, 
@@ -476,13 +478,28 @@ const main = async () => {
     })
     .catch(err => console.log(err.message));
 
-  await connection.on('sendBallot', (message) => {
+  
+  await connection.on('sendBallot', (ballot) => {
 
-    console.log("MESSAGE: ", message);
+    console.log("MESSAGE: ", ballot);
+    ballots_obtained.push(ballot);
+    console.log(ballots_obtained);
 
   });
 
-    //printBallots(ballots_obtained, ballots_string);
+  let flag = true;
+  let i = 0;
+  do{
+    if(i > 75){
+      break;
+    }
+
+    await getBallot();
+    printBallots(ballots_obtained, ballots_string);
+
+    i++;
+    sleep(2000)
+  }while(flag);
 
   //} while (currentGameState);
 
@@ -500,5 +517,35 @@ const main = async () => {
   //   tokens.forEach((btn) => (btn.disabled = true));
   // }
 };
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
+async function getBallot(){
+  let ballot;
+
+  await fetch(`${LOCAL}/api/bingo/send-ballot`, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+    .then((res) => { 
+      return res.json();
+    })
+    .then((data) => { 
+      ballot = data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    return ballot;
+}
+
 
 main();
