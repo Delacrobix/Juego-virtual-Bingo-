@@ -72,10 +72,10 @@ namespace NETCoreAPIMySQL.Data.service
             var db = dbConnection();
 
             var sql = @" UPDATE Ballots_obtained 
-                         SET  id = @id,  
-                              game_id = @game_id, 
-                              ballots = @ballots 
-                         WHERE id = @id";
+                         SET  id = @Id,  
+                              game_id = @Game_id, 
+                              ballots = @Ballots 
+                         WHERE id = @Id";
 
             var result = await db.ExecuteAsync(sql, new
             { ballotsobtained.Id, ballotsobtained.Game_id, ballotsobtained.Ballots });
@@ -83,6 +83,29 @@ namespace NETCoreAPIMySQL.Data.service
             return result > 0;
         }
 
+        public async Task<BallotsObtained> FindByGameId(int Game_id)
+        {
+            var db = dbConnection();
+
+            var sql = @" SELECT id, game_id, ballots
+                         FROM Ballots_obtained
+                         WHERE game_id = @Game_id";
+
+            return await db.QueryFirstOrDefaultAsync<BallotsObtained>(sql, new { game_id = Game_id });
+        }
+
+        public async Task<bool> InsertBallots(BallotsObtained ballotsObtained)
+        {
+            var db = dbConnection();
+
+            var sql = @" INSERT INTO Ballots_obtained (id, game_id, ballots) 
+                         VALUES (@id, @game_id, ballots)";
+
+            var result = await db.ExecuteAsync(sql, new
+                { ballotsObtained.Id, ballotsObtained.Game_id, ballotsObtained.Ballots });
+
+            return result > 0;
+        }
         public async Task<IEnumerable<BallotsObtained>> GetAllBallotsObtained()
         {
             var db = dbConnection();

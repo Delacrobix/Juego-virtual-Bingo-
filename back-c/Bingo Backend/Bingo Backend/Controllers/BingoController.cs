@@ -150,9 +150,47 @@ namespace Bingo_Backend.Controllers
         [HttpGet("send-ballot")]
         public async Task<IActionResult> SendBallot()
         {
-            var ballot = await _ballotsObteinedRepository.GetOneBallot();
-            await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
-            return Ok("Communication done.");   
+            var currentGame = await _bingoRepository.GetCurrentGame();
+            var currentBallotsList = await _ballotsObteinedRepository.FindByGameId(currentGame.Id);
+            
+            if(currentBallotsList == null)
+            {
+                currentBallotsList = new BallotsObtained();
+                currentBallotsList.Game_id = currentGame.Id;
+
+                await _ballotsObteinedRepository.InsertBallots(currentBallotsList);
+            }
+
+            if(currentBallotsList.Ballots == string.Empty)
+            {
+                var ballotsList = new List<int> { };
+
+                do
+                {
+                    var ballot = await _ballotsObteinedRepository.GetOneBallot();
+                    ballotsList.Add(ballot);
+
+                    foreach(int n in ballotsList)
+                    {
+                        Debug.WriteLine(n);
+                        
+                    }
+                    Debug.WriteLine("--------------------------------------");
+
+                    currentBallotsList.Ballots = await _bingoRepository.NumListToString(ballotsList);
+
+                    await _ballotsObteinedRepository.UpdateBallots(currentBallotsList);
+
+                    await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
+                    await Task.Delay(2000);
+                } while (ballotsList.Count() < 75);
+                
+            } else
+            {
+                return Ok("The ballots are sending");
+            }
+            
+            return Ok("Ballot send.");
         }
 
         [HttpPost("save-column")]

@@ -481,25 +481,14 @@ const main = async () => {
   
   await connection.on('sendBallot', (ballot) => {
 
-    console.log("MESSAGE: ", ballot);
+    console.log("Ballot: ", ballot);
     ballots_obtained.push(ballot);
+    
     console.log(ballots_obtained);
-
   });
 
-  let flag = true;
-  let i = 0;
-  do{
-    if(i > 75){
-      break;
-    }
-
-    await getBallot();
-    printBallots(ballots_obtained, ballots_string);
-
-    i++;
-    sleep(2000)
-  }while(flag);
+  await getBallot();
+  printBallots(ballots_obtained, ballots_string);
 
   //} while (currentGameState);
 

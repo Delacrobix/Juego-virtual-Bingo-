@@ -9,6 +9,8 @@ namespace NETCoreAPIMySQL.Data.Respositories
 {
     public interface IBingoRepository
     {
+        public Task<Bingo> GetCurrentGame();
+
         public List<int[]> CreateCardColumns();
 
         public int[] CreateColumn(int cells, int min, int max);

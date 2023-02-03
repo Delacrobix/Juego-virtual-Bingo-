@@ -13,6 +13,10 @@ namespace NETCoreAPIMySQL.Data.service
 
         public Task<bool> UpdateBallots(BallotsObtained ballotsobtained);
 
+        public Task<BallotsObtained> FindByGameId(int Id);
+
         public Task<IEnumerable<BallotsObtained>> GetAllBallotsObtained();
+
+        public Task<bool> InsertBallots(BallotsObtained ballotsObtained);
     }
 }

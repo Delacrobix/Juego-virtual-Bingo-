@@ -26,6 +26,13 @@ namespace NETCoreAPIMySQL.Data.Respositories
             return new MySqlConnection(_connectionString.ConnecionString);
         }
 
+        public async Task<Bingo> GetCurrentGame()
+        {
+            var bingoList = await GetAllBingos();
+            
+            return bingoList.LastOrDefault();
+        }
+
         public List<int[]> CreateCardColumns()
         {
             List<int[]> columns = new List<int[]>();
@@ -100,7 +107,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
 
                 foreach (int i in ballots)
                 {
-                    result = result + new StringBuilder().Append(i).Append(',').ToString();
+                    result += new StringBuilder().Append(i).Append(',').ToString();
                 }
 
                 return result;
