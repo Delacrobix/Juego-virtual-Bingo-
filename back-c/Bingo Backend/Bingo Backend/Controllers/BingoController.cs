@@ -37,9 +37,7 @@ namespace Bingo_Backend.Controllers
         public async Task<IActionResult> CreateNewGame()
         {
             var bingoNew = new Bingo();
-
-            var bingoList = await _bingoRepository.GetAllBingos();
-            var currentGame = bingoList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
 
             if(currentGame == null)
             {
@@ -65,8 +63,7 @@ namespace Bingo_Backend.Controllers
         [HttpGet("current-game-state")]
         public async Task<IActionResult> GetCurrentGameState()
         {
-            var bingoList = await _bingoRepository.GetAllBingos();
-            var currentGame = bingoList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
 
             if(currentGame == null)
             {
@@ -86,8 +83,7 @@ namespace Bingo_Backend.Controllers
         [HttpGet("current-game")]
         public async Task<IActionResult> GetCurrentGame()
         {
-            var bingoList = await _bingoRepository.GetAllBingos();
-            var currentGame = bingoList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
 
             if (currentGame == null)
             {
@@ -151,35 +147,44 @@ namespace Bingo_Backend.Controllers
         public async Task<IActionResult> SendBallot()
         {
             var currentGame = await _bingoRepository.GetCurrentGame();
-            var currentBallotsList = await _ballotsObteinedRepository.FindByGameId(currentGame.Id);
+            var currentBallots = await _ballotsObteinedRepository.FindByGameId(currentGame.Id);
             
-            if(currentBallotsList == null)
+            if(currentBallots == null)
             {
-                currentBallotsList = new BallotsObtained();
-                currentBallotsList.Game_id = currentGame.Id;
+                currentBallots = new BallotsObtained
+                {
+                    Game_id = currentGame.Id
+                };
 
-                await _ballotsObteinedRepository.InsertBallots(currentBallotsList);
+                await _ballotsObteinedRepository.InsertBallots(currentBallots);
+                currentBallots = await _ballotsObteinedRepository.GetLastBallots();
             }
 
-            if(currentBallotsList.Ballots == string.Empty)
+            if(currentBallots.Ballots == string.Empty)
             {
                 var ballotsList = new List<int> { };
 
                 do
                 {
-                    var ballot = await _ballotsObteinedRepository.GetOneBallot();
+                    currentGame = await _bingoRepository.GetCurrentGame();
+
+                    if (!currentGame.Game_state)
+                    {
+                        return Ok("The game has been finished.");
+                    }
+
+                    var ballot = await _ballotsObteinedRepository.GetOneBallot(ballotsList);
+
+                    if(ballot == 0)
+                    {
+                        return Ok("All ballots have been send.");
+                    }
+
                     ballotsList.Add(ballot);
 
-                    foreach(int n in ballotsList)
-                    {
-                        Debug.WriteLine(n);
-                        
-                    }
-                    Debug.WriteLine("--------------------------------------");
+                    currentBallots.Ballots = await _bingoRepository.NumListToString(ballotsList);
 
-                    currentBallotsList.Ballots = await _bingoRepository.NumListToString(ballotsList);
-
-                    await _ballotsObteinedRepository.UpdateBallots(currentBallotsList);
+                    await _ballotsObteinedRepository.UpdateBallots(currentBallots);
 
                     await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
                     await Task.Delay(2000);
@@ -216,8 +221,7 @@ namespace Bingo_Backend.Controllers
             }
 
             // Se obtiene la lista de jugadores en el juego en curso
-            var gameList = await _bingoRepository.GetAllBingos();
-            var currentGame = gameList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
 
             if(currentGame == null)
             {
@@ -253,6 +257,12 @@ namespace Bingo_Backend.Controllers
 
             //Guarda el juego con la lista de jugadores actualizada
             currentGame.Gamers_id = await _bingoRepository.NumListToString(playerList);
+
+            if (playerList.Count() == 0)
+            {
+                currentGame.Game_state = false;
+            }
+
             await _bingoRepository.UpdateBingo(currentGame);
 
             return Ok(playerList);
@@ -268,19 +278,18 @@ namespace Bingo_Backend.Controllers
                 return BadRequest("MongoId can not be empty or null.");
             }
 
-            var gamerDatabase = await _gamerRepository.FindByMongoId(mongoId);
-
-            if (gamerDatabase == null)
-            {
-                return BadRequest("GamerId not found.");
-            }
-
-            var gameList = await _bingoRepository.GetAllBingos();
-            var currentGame = gameList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
 
             if (currentGame == null)
             {
                 return BadRequest("There has not a game started yet.");
+            }
+
+            var gamerDatabase = await _gamerRepository.FindByMongoAndGameId(mongoId, currentGame.Id);
+
+            if (gamerDatabase == null)
+            {
+                return BadRequest("GamerId not found.");
             }
 
             //Linea en JAVA que no entiendo su funcion
@@ -340,10 +349,9 @@ namespace Bingo_Backend.Controllers
         [HttpPut("finish-current")]
         public async Task<IActionResult> FinishCurrentGame()
         {
-            var bingoList = await _bingoRepository.GetAllBingos();
-            var currentGame = bingoList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
 
-            if(currentGame == null)
+            if((currentGame == null) || (!currentGame.Game_state))
             {
                 return BadRequest("There has not one game started yet.");
             }

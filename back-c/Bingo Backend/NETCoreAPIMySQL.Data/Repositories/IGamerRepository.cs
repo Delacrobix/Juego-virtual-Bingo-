@@ -16,6 +16,8 @@ namespace NETCoreAPIMySQL.Data.Respositories
 
         public Task<Gamer> FindByMongoId(string Id);
 
+        public Task<Gamer> FindByMongoAndGameId(string Id, int gameId);
+
         Task<IEnumerable<Gamer>> GetAllGamersByGameId(int Id);
     }
 }

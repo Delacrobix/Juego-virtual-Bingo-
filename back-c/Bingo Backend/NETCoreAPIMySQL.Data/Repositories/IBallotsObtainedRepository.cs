@@ -9,7 +9,7 @@ namespace NETCoreAPIMySQL.Data.service
 {
     public interface IBallotsObtainedRepository
     {
-        public Task<int> GetOneBallot();
+        public Task<int> GetOneBallot(List<int> ballotList);
 
         public Task<bool> UpdateBallots(BallotsObtained ballotsobtained);
 
@@ -18,5 +18,7 @@ namespace NETCoreAPIMySQL.Data.service
         public Task<IEnumerable<BallotsObtained>> GetAllBallotsObtained();
 
         public Task<bool> InsertBallots(BallotsObtained ballotsObtained);
+
+        public Task<BallotsObtained> GetLastBallots();
     }
 }

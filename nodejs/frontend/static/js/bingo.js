@@ -47,8 +47,8 @@ bingo_btn.addEventListener("click", async () => {
 
     tokens.forEach((btn) => (btn.disabled = true));
     bingo_btn.disable = true;
-  } else {
-    disqualifyPlayer();
+  }else {
+    await disqualifyPlayer();
     printPlayers();
     alert("Usted ha sido descalificado por notificar falsamente una victoria");
     window.location.href = "/login";
@@ -213,7 +213,6 @@ async function getPlayers() {
 
 async function isWinner() {
   let is_winner;
-  console.log('is_winner: ' + mongoId)
 
   await fetch(`${LOCAL}/api/bingo/is-winner`, {
     method: "PUT",
@@ -297,6 +296,7 @@ async function setColumn(column_id) {
 }
 
 async function sendBallotGamer(id, ballot) {
+  console.log("BALLOT: ", ballot)
   await fetch(`${LOCAL}/api/bingo/ballot-marked/${id}`, {
     method: "PUT",
     body: JSON.stringify(ballot),
@@ -311,17 +311,6 @@ async function sendBallotGamer(id, ballot) {
   })
   .catch((err) =>{
     console.log(err);
-  });
-}
-
-async function initRoulette(seconds) {
-  await fetch(`${LOCAL}/trigger`, {
-    method: "POST",
-    body: JSON.stringify(seconds),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
   });
 }
 
@@ -480,15 +469,12 @@ const main = async () => {
 
   
   await connection.on('sendBallot', (ballot) => {
-
-    console.log("Ballot: ", ballot);
     ballots_obtained.push(ballot);
     
-    console.log(ballots_obtained);
+    printBallots(ballots_obtained, ballots_string);
   });
 
   await getBallot();
-  printBallots(ballots_obtained, ballots_string);
 
   //} while (currentGameState);
 

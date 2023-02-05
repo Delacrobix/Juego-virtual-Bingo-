@@ -26,45 +26,41 @@ namespace NETCoreAPIMySQL.Data.service
             return new MySqlConnection(_connectionString.ConnecionString);
         }
 
-        public async Task<int> GetOneBallot()
+        public async Task<int> GetOneBallot(List<int> ballotList)
         {
-            List<int> ballots = new List<int>();
+            var result = 0;
 
-            if (ballots.Count < 75)
+            if (ballotList.Count < 75)
             {
-                var ballotsList = await GetAllBallotsObtained();
-                var LastBallots = ballotsList.LastOrDefault();
-
-                bool exist;
-                int random;
-
-                do
+                var task = new Task<int>(() =>
                 {
-                    exist = false;
-                    Random r = new Random();
-                    random = r.Next(1, 76);
+                    bool exist;
+                    int random;
 
-                    foreach (int ball in ballots)
+                    do
                     {
-                        if (random == ball)
-                        {
-                            exist = true;
-                            break;
-                        }
-                    }
-                } while (exist);
-                
-                ballots.Add(random);
-                var stringBallots = await _bingoRepository.NumListToString(ballots);
-                    
-                LastBallots.Ballots = stringBallots;
-                await UpdateBallots(LastBallots);
+                        exist = false;
+                        Random r = new Random();
+                        random = r.Next(1, 76);
 
-                return random;
-            } else
-            {
-                return 0;
+                        foreach (int ball in ballotList)
+                        {
+                            if (random == ball)
+                            {
+                                exist = true;
+                                break;
+                            }
+                        }
+                    } while (exist);
+
+                    return random;
+                });
+
+                task.Start();
+                result = await task;
             }
+
+            return result;
         }
 
         public async Task<bool> UpdateBallots(BallotsObtained ballotsobtained)
@@ -72,7 +68,7 @@ namespace NETCoreAPIMySQL.Data.service
             var db = dbConnection();
 
             var sql = @" UPDATE Ballots_obtained 
-                         SET  id = @Id,  
+                         SET  id = @Id,
                               game_id = @Game_id, 
                               ballots = @Ballots 
                          WHERE id = @Id";
@@ -114,6 +110,12 @@ namespace NETCoreAPIMySQL.Data.service
                         FROM Ballots_obtained ";
 
             return await db.QueryAsync<BallotsObtained>(sql, new { });
+        }
+
+        public async Task<BallotsObtained> GetLastBallots()
+        {
+          var ballotList = await GetAllBallotsObtained();
+            return ballotList.LastOrDefault();
         }
     }
 }
