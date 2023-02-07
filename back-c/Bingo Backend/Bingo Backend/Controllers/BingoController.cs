@@ -102,7 +102,22 @@ namespace Bingo_Backend.Controllers
             {
                 return BadRequest(gamer);
             }
+
+            var currentGame = await _bingoRepository.GetCurrentGame();
+            var gamerDatabase = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
+
+            if (currentGame == null)
+            {
+                return BadRequest("There has not one game started.");
+            }
+
+              var haveCards = await _cardRepository.FindByGamerAndGameId(gamerDatabase.Id, currentGame.Id);
             
+            if (haveCards != null)
+            {
+                return Ok(haveCards);
+            }
+
             //Crea, guarda y obtenga la carta para asignarle un ID de la base de datos a la carta
             //Cuando regresa la carta de la base de datos, ya tiene un ID asignado
             var card = new Card();
@@ -118,15 +133,6 @@ namespace Bingo_Backend.Controllers
             columnsIds[2] = await SaveColumn(cardColumns[2], 'N', card.Id);
             columnsIds[3] = await SaveColumn(cardColumns[3], 'G', card.Id);
             columnsIds[4] = await SaveColumn(cardColumns[4], 'O', card.Id);
-
-            var gamerDatabase = await _gamerRepository.FindByMongoId(gamer.Mongo_id);
-            var gameList = await _bingoRepository.GetAllBingos();
-            var currentGame = gameList.LastOrDefault();
-
-            if (currentGame == null)
-            {
-                return BadRequest("There has not one game started.");
-            }
 
             //Se actualiza el juego con los nuevos datos
             var cardToSave = _cardRepository.GenerateCard(columnsIds, currentGame.Id, gamerDatabase.Id);
@@ -187,7 +193,7 @@ namespace Bingo_Backend.Controllers
                     await _ballotsObteinedRepository.UpdateBallots(currentBallots);
 
                     await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
-                    await Task.Delay(2000);
+                    await Task.Delay(500);
                 } while (ballotsList.Count() < 75);
                 
             } else
@@ -313,7 +319,8 @@ namespace Bingo_Backend.Controllers
                 return BadRequest("MongoId can not be empty or null.");
             }
 
-            var gamerDatabase = await _gamerRepository.FindByMongoId(mongoId);
+            var currentGame = await _bingoRepository.GetCurrentGame();
+            var gamerDatabase = await _gamerRepository.FindByMongoAndGameId(mongoId, currentGame.Id);
 
             if(gamerDatabase == null)
             {
@@ -334,9 +341,6 @@ namespace Bingo_Backend.Controllers
 
             if (isWinner)
             {
-                var gameList = await _bingoRepository.GetAllBingos();
-                var currentGame = gameList.LastOrDefault();
-
                 currentGame.Game_state = false;
                 currentGame.Winner_id = mongoId;
 
@@ -371,5 +375,6 @@ namespace Bingo_Backend.Controllers
 
             return Ok(currentGame.Winner_id);
         }
+
     }
 }

@@ -38,8 +38,7 @@ namespace Bingo_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var bingoList = await _bingoRepository.GetAllBingos();
-            var currentGame = bingoList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
 
             if (currentGame == null)
             {
@@ -48,7 +47,7 @@ namespace Bingo_Backend.Controllers
             {
                 gamer.Game_id = currentGame.Id;
                 await _gamerRepository.InsertGamer(gamer);
-                gamer = await _gamerRepository.FindByMongoId(gamer.Mongo_id);
+                gamer = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
 
                 var gamersIds = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Gamers_id);
          

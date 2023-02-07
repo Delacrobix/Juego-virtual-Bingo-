@@ -4,7 +4,17 @@
 
 - Poner un titulo en el modulo de registro que de mas feedback al usuario de donde esta. (front end)
 
+- Organizar mejor las balotas
+
+- Mostrar los juegos de los otros en la partida 
+
 - Dar feedback al usuario mediante mensajes que no sean alerts
+
+- al ganador, ponerle un botón que le permita volver al inicio.
+
+- Permitir a los jugadores estar en el lobby indefinidamente, colocando un botón de "buscar un juego" para iniciar la búsqueda.
+
+- Poner en el Lobby un botón de iniciar solo un juego
 
 - Realizar el envío de cartas a un jugador que se haya desconectado, vuelva a ingresar y el juego aun este activo esto debe retornar las tablas del jugador con las fichas marcadas por el. Se debe buscar su ID en el juego, en caso de que haya sido descalificado, no podrá volver
 
@@ -24,3 +34,4 @@
 
 BUGS:
  - No funciona la autenticación por google
+ - Cuando se recarga la pagina el jugador se vuelve a inscribir al mismo juego generando nuevas cartas. Si el juego esta terminado crea un nuevo juego.

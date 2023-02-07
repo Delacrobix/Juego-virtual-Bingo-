@@ -227,7 +227,6 @@ async function isWinner() {
     })
     .then((data) => {
       is_winner = data;
-      console.log(is_winner);
     })
     .catch((err) => {
       console.error(err);
@@ -262,7 +261,6 @@ async function getCard() {
         gamer_id: data.gamer_id,
         game_id: data.game_id,
       };
-      console.log("Card: ", card);
     })
     .catch((err) => {
       console.error(err);
@@ -277,7 +275,6 @@ async function setColumn(column_id) {
   await fetch(`${LOCAL}/api/columnLetter/send-column/${column_id}`, {})
     .then((res) => res.json())
     .then((data) => {
-      console.log("Column: ", data);
       column = {
         id_letter: data.id,
         letter: data.letter,
@@ -306,10 +303,7 @@ async function sendBallotGamer(id, ballot) {
     },
   }).then((res) => {
     return res.json();
-  }).then((data) => {
-    console.log(data);
-  })
-  .catch((err) =>{
+  }).catch((err) =>{
     console.log(err);
   });
 }
@@ -344,6 +338,28 @@ async function getGameState() {
     });
 
   return state;
+}
+
+async function getBallot(){
+  let ballot;
+
+  await fetch(`${LOCAL}/api/bingo/send-ballot`, {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+    .then((res) => { 
+      return res.json();
+    })
+    .then((data) => { 
+      ballot = data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+    return ballot;
 }
 
 function isBallot(ballot) {
@@ -440,12 +456,6 @@ const main = async () => {
     printColumns(i + 1, column);
   }
 
-  /**
-   * * Se envía como parámetro el tiempo que tardaran en salir las balotas en segundos.
-   */
-  //initRoulette(5);
-
-  let currentGameState = await getGameState();
   let ballots_string = "";
 
   /**
@@ -458,16 +468,13 @@ const main = async () => {
                 transport: signalR.HttpTransportType.WebSockets
               }).build();
 
-  //do {
-
-    //ballots_obtained = await getBallots();
   await connection.start()
     .then(() => {
       console.log('Connection started');
     })
     .catch(err => console.log(err.message));
 
-  
+  ballots_obtained = await getBallots();
   await connection.on('sendBallot', (ballot) => {
     ballots_obtained.push(ballot);
     
@@ -476,22 +483,19 @@ const main = async () => {
 
   await getBallot();
 
-  //} while (currentGameState);
-
-  // let winner;
-  // /**
   //  * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los botones.
   //  */
-  // if (!isWin) {
-  //   document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
+  if (isWin) {
+    document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
 
-  //   winner = await getWinnerId();
-  //   writeWinner(winner);
+    let winner = await getWinnerId();
+    writeWinner(winner);
 
-  //   bingo_btn.disable = true;
-  //   tokens.forEach((btn) => (btn.disabled = true));
-  // }
+    bingo_btn.disable = true;
+    tokens.forEach((btn) => (btn.disabled = true));
+  }
 };
+
 function sleep(milliseconds) {
   const date = Date.now();
   let currentDate = null;
@@ -499,28 +503,5 @@ function sleep(milliseconds) {
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
 }
-
-async function getBallot(){
-  let ballot;
-
-  await fetch(`${LOCAL}/api/bingo/send-ballot`, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-  })
-    .then((res) => { 
-      return res.json();
-    })
-    .then((data) => { 
-      ballot = data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-    return ballot;
-}
-
 
 main();

@@ -18,5 +18,7 @@ namespace NETCoreAPIMySQL.Data.service
         public Task<IEnumerable<Card>> GetAllCards();
 
         public Task<Card> FindByGamerId(int Id);
+
+        public Task<Card> FindByGamerAndGameId(int gamerId, int gameId);
     }
 }

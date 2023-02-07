@@ -1,8 +1,10 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using NETCoreAPIMySQL.Model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -92,6 +94,21 @@ namespace NETCoreAPIMySQL.Data.service
                          WHERE gamer_id = @Gamer_id";
 
             return await db.QueryFirstOrDefaultAsync<Card>(sql, new { gamer_id = Gamer_id });
+        }
+
+        public async Task<Card> FindByGamerAndGameId(int gamerId, int gameId)
+        {
+            var db = dbConnection();
+
+            var sql = @" SELECT id, B_id, I_id, N_id, G_id, O_id, gamer_id, game_id
+                         FROM Card
+                         WHERE gamer_id = @gamerId
+                         AND game_id = @gameId 
+                         ORDER BY game_id ASC";
+
+            var result = await db.QuerySingleOrDefaultAsync<Card>(sql, new {gamerId, gameId});
+
+            return result;
         }
     }
 }
