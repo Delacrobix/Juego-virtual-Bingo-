@@ -475,6 +475,8 @@ const main = async () => {
     .catch(err => console.log(err.message));
 
   ballots_obtained = await getBallots();
+  printBallots(ballots_obtained, ballots_string);
+  
   await connection.on('sendBallot', (ballot) => {
     ballots_obtained.push(ballot);
     

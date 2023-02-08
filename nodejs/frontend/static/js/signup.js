@@ -5,8 +5,6 @@ submit.addEventListener ('click', () => {
 })
 
 async function sendData(user){
-    let new_user;
-
     await fetch('/addUser', {
         method: 'POST',
         body: JSON.stringify(user),
@@ -15,15 +13,11 @@ async function sendData(user){
         }
     }).then(res => res.json())
       .then(data => {
-        new_user = data;
+        alert(data);
+      })
+      .catch(err => {
+        console.error(err)
       });
-
-    if(new_user.flag){
-        alert(new_user.message);
-    } else {
-        alert("Usuario registrado exitosamente.");
-        window.location.href = '/login';
-    }
 }
 
 function validateData(){

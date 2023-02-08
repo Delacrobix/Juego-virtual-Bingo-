@@ -73,7 +73,7 @@ exports.addUser = async function (req, res) {
   }
 
   if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(email))){
-    return res.status(200).jsonp("The email address :" + email + " is invalid.");
+    return res.status(200).jsonp("The email address: " + email + " is invalid.");
   }
 
   let _email = await User.findOne({
@@ -95,13 +95,14 @@ exports.addUser = async function (req, res) {
   } else {
     let new_user = new User({
       user: user,
-      password: password,
       email: email,
+      password: password
     });
 
     new_user.password = await new_user.encryptPassword(password);
 
     new_user.save(new_user);
-    res.send(new_user);
+
+    res.send("User has been registered.");
   }
 };

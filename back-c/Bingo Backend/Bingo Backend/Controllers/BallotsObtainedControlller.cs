@@ -22,8 +22,14 @@ namespace Bingo_Backend.Controllers
         [HttpGet("send-game-ballots")]
         public async Task<IActionResult> SendAllBallotsOfCurrentGame()
         {
-            var ballotsObtainedList = await _ballotsObtainedRepository.GetAllBallotsObtained();
-            var currentGameBallots = ballotsObtainedList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
+            var currentGameBallots = await _ballotsObtainedRepository.FindByGameId(currentGame.Id);
+
+            if(currentGameBallots == null)
+            {
+                return Ok(new List<int> { });
+            }
+
             var ballots = await _bingoRepository.NumStringToArr(currentGameBallots.Ballots);
 
             return Ok(ballots);
