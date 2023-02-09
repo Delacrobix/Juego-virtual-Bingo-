@@ -80,15 +80,15 @@ async function startGame() {
   });
 }
 
-async function getBingo() {
+async function getBingoState() {
   let currentGameState;
 
-  await fetch(`${LOCAL}/api/Bingo/current-game-state`, {})
+  await fetch(`${LOCAL}/api/bingo/current-game-state`, {})
     .then((res) => {
       return res.json();
     })
     .then((data) => {
-        console.log(data);
+      currentGameState = data;
     })
     .catch((err) => {
         console.log(err)
@@ -101,7 +101,7 @@ async function countdown() {
   /**
    * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
    */
-  let isStarted = await getBingo();
+  let isStarted = await getBingoState();
   
   if (isStarted) {
     alert(
@@ -111,7 +111,6 @@ async function countdown() {
     window.location.href = "/login";
   }
 
-  //await delay(Math.floor(Math.random() * (2500 - 0) + 0));
   /**
    * *Crea el juego nuevo.
    */
@@ -132,8 +131,8 @@ socket.on("server:users", (users) => {
   createTable(users);
 });
 
-// socket.on('server:start-game', () => {
-//   countdown();
-// });
+socket.on('server:start-game', () => {
+  countdown();
+});
 
 countdown();

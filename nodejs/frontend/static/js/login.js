@@ -20,7 +20,7 @@ async function sendUser(new_user) {
       user_info = data;
     })
     .catch((err) => {
-      console.log(err)
+      console.log(err);
     });
 
   if (user_info.flag) {
@@ -31,7 +31,7 @@ async function sendUser(new_user) {
   }
 }
 
-function validateData() {
+async function validateData() {
   let user_input = document.getElementById("input-user").value;
   let password_input = document.getElementById("input-password").value;
 
@@ -43,6 +43,6 @@ function validateData() {
       password: password_input,
     };
 
-    sendUser(new_user);
+    await sendUser(new_user);
   }
 }

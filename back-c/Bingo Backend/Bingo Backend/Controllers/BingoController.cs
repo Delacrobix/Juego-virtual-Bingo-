@@ -193,15 +193,24 @@ namespace Bingo_Backend.Controllers
                     await _ballotsObteinedRepository.UpdateBallots(currentBallots);
 
                     await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
-                    await Task.Delay(500);
-                } while (ballotsList.Count() < 75);
-                
+                    await Task.Delay(750);
+                } while (ballotsList.Count < 75);
+
+                return Ok("All ballots have been send.");
             } else
             {
-                return Ok("The ballots are sending");
+                currentBallots = await _ballotsObteinedRepository.GetLastBallots();
+                var ballotsList = (List<int>)await _bingoRepository.NumStringToArr(currentBallots.Ballots);
+
+                if (ballotsList.Count == 75)
+                {
+                    return Ok("All ballots have been send.");
+                }
+                else
+                {
+                    return Ok("The ballots are sending");
+                }
             }
-            
-            return Ok("Ballot send.");
         }
 
         [HttpPost("save-column")]
@@ -370,11 +379,9 @@ namespace Bingo_Backend.Controllers
         [HttpGet("get-current-winner")]
         public async Task<IActionResult> GetCurrentGameWinner()
         {
-            var bingoList = await _bingoRepository.GetAllBingos();
-            var currentGame = bingoList.LastOrDefault();
+            var currentGame = await _bingoRepository.GetCurrentGame();
 
             return Ok(currentGame.Winner_id);
         }
-
     }
 }

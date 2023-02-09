@@ -2,9 +2,11 @@ const submit = document.getElementById('submit-btn');
 
 submit.addEventListener ('click', () => {
     validateData();
-})
+});
 
 async function sendData(user){
+    let flag = false;
+
     await fetch('/addUser', {
         method: 'POST',
         body: JSON.stringify(user),
@@ -13,14 +15,17 @@ async function sendData(user){
         }
     }).then(res => res.json())
       .then(data => {
-        alert(data);
+        alert(data.message || data);
+        flag = data.flag;
       })
       .catch(err => {
-        console.error(err)
+        console.error(err);
       });
+
+    return flag;
 }
 
-function validateData(){
+async function validateData(){
     let user_input = document.getElementById('input-user').value;
     let password_input = document.getElementById('input-password').value;
     let email_input = document.getElementById('input-email').value;
@@ -34,6 +39,10 @@ function validateData(){
             password: password_input
         }
     
-        sendData(new_user);
+        let flag = await sendData(new_user);
+
+        if(flag){
+            window.location.href = '/login';
+        }
     }
 }

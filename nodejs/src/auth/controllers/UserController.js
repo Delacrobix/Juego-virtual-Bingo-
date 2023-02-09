@@ -1,9 +1,9 @@
 const User = require("../models/UserSchema");
 
-exports.findUserById = function (req, res) {
+exports.findUserById = async function (req, res) {
   let user_id = req.params.userId;
   
-  User.findById(user_id).exec(function (err, User) {
+  await User.findById(user_id).exec(function (err, User) {
     return res.status(200).jsonp({
       user: User.user,
     });
@@ -18,11 +18,11 @@ exports.findUserAndPassword = async function (req, res) {
   let { user, password } = req.body;
 
   if(password.length == 0){
-    return res.status(200).jsonp("Empty password");
+    return res.status(422).jsonp("Empty password");
   }
 
   if(user.length == 0){
-    return res.status(200).jsonp("Empty username");
+    return res.status(422).jsonp("Empty username");
   }
 
   let us = await User.findOne({
@@ -36,7 +36,7 @@ exports.findUserAndPassword = async function (req, res) {
   }
 
   if (!us) {
-    return res.status(200).jsonp({
+    return res.status(400).jsonp({
       message: "Username or email not found.",
       flag: true,
     });
@@ -49,7 +49,7 @@ exports.findUserAndPassword = async function (req, res) {
         id: us._id,
       });
     } else {
-      return res.status(200).jsonp({
+      return res.status(422).jsonp({
         message: "Incorrect password.",
         flag: true,
       });
@@ -67,13 +67,15 @@ exports.addUser = async function (req, res) {
 
   // *Validación de campos vacíos
   if (user.length == 0 || email.length == 0 || password.length == 0) {
-    return res.status(200).jsonp({
+    return res.status(422).jsonp({
       message: "Must be fill in all required fields.",
     });
   }
 
-  if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(email))){
-    return res.status(200).jsonp("The email address: " + email + " is invalid.");
+  emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+  if (!emailRegex.test(email)){
+    return res.status(422).jsonp("The email address: " + email + " is invalid.");
   }
 
   let _email = await User.findOne({
@@ -85,13 +87,9 @@ exports.addUser = async function (req, res) {
   });
 
   if (_email) {
-    return res.status(200).jsonp({
-      message: "The email address is already registered.",
-    });
+    return res.status(422).jsonp("The email address is already registered.");
   } else if (_user) {
-    return res.status(200).jsonp({
-      message: "The user is already registered.",
-    });
+    return res.status(422).jsonp("The user is already registered.");
   } else {
     let new_user = new User({
       user: user,
@@ -103,6 +101,9 @@ exports.addUser = async function (req, res) {
 
     new_user.save(new_user);
 
-    res.send("User has been registered.");
+    return res.status(200).jsonp({
+      message: "User has been registered.",
+      flag: true
+    });
   }
 };

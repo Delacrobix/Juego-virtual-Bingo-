@@ -115,7 +115,7 @@ namespace NETCoreAPIMySQL.Data.service
         public async Task<BallotsObtained> GetLastBallots()
         {
           var ballotList = await GetAllBallotsObtained();
-            return ballotList.LastOrDefault();
+          return ballotList.LastOrDefault();
         }
     }
 }

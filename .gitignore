@@ -2,37 +2,4 @@
 nodejs/node_modules
 nodejs/.env
 
-### Java Files ###
-java/HELP.md
-java/target/
-java/!.mvn/wrapper/maven-wrapper.jar
-java/!**/src/main/**/target/
-java/!**/src/test/**/target/
-
-# STS 
-java/.apt_generated
-java/.classpath
-java/.factorypath
-java/.project
-java/.settings
-java/.springBeans
-java/.sts4-cache
-
-# IntelliJ IDEA
-java/.idea
-java/*.iws
-java/*.iml
-java/*.ipr
-
-# NetBeans
-java/nbproject/private/
-java/nbbuild/
-java/dist/
-java/nbdist/
-java/.nb-gradle/
-java/build/
-java/!**/src/main/**/build/
-java/!**/src/test/**/build/
-
-# VS Code
-java/.vscode/
+/java

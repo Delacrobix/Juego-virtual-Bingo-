@@ -114,6 +114,7 @@ async function getWinnerId() {
     })
     .then((data) => {
       winnerId = data;
+      console.log("Winner: " + winnerId);
     })
     .catch((err) => {
       console.error(err);
@@ -354,6 +355,7 @@ async function getBallot(){
     })
     .then((data) => { 
       ballot = data;
+      console.log(data);
     })
     .catch((err) => {
       console.log(err);
@@ -497,13 +499,5 @@ const main = async () => {
     tokens.forEach((btn) => (btn.disabled = true));
   }
 };
-
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
 
 main();
