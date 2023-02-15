@@ -2,6 +2,7 @@
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
 const LOCAL = "https://localhost:7006";
 const socket = io();
+var userName = "";
 
 /**
  * *Obtiene el id del jugador que esta en la url.
@@ -24,12 +25,13 @@ function deleteChilds(element) {
 function createTable(users) {
   let t_body = document.getElementById("t-bodyPlayers");
 
+  console.log("USERS: " + users)
   deleteChilds(t_body);
 
   let tr;
   let td;
 
-  for (let i = 0; i < users.length; i++) {
+  for (let i = 1; i < users.length; i++) {
     tr = document.createElement("tr");
     t_body.appendChild(tr);
 
@@ -64,6 +66,20 @@ async function gamers(gamer_id) {
   }).catch((err) => {
     console.error(err)
   });
+}
+
+async function getUserName(){
+  let userName;
+
+  await fetch(`/get-userName/${getId()}`, {})
+    .then((res) => res.json())
+    .then((data) => { 
+      userName = data;
+      console.log(userName);
+    })
+    .catch((err) => { console.error(err) });
+
+  return userName;
 }
 
 async function startGame() {
@@ -102,7 +118,10 @@ async function countdown() {
    * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
    */
   let isStarted = await getBingoState();
+  userName = await getUserName()
   
+  socket.emit('client:user', userName.user);
+
   if (isStarted) {
     alert(
       "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
@@ -111,28 +130,28 @@ async function countdown() {
     window.location.href = "/login";
   }
 
+  // socket.on('server:start-game', () => {
+  //   countdown();
+  // });
+
   /**
    * *Crea el juego nuevo.
    */
-  await startGame();
+  //await startGame();
   /**
    * *Envía los ids de los jugadores al backend en spring boot.
    */
   await gamers(getId());
-  window.location.href = '/bingo/' + getId();
+  //window.location.href = '/bingo/' + getId();
 }
 
-socket.on("server:count", (data) => {
-  document.getElementById("countdown-min").innerHTML = data.min + " : ";
-  document.getElementById("countdown-sec").innerHTML = data.seg;
-});
+// socket.on("server:count", (data) => {
+//   document.getElementById("countdown-min").innerHTML = data.min + " : ";
+//   document.getElementById("countdown-sec").innerHTML = data.seg;
+// });
 
 socket.on("server:users", (users) => {
   createTable(users);
-});
-
-socket.on('server:start-game', () => {
-  countdown();
 });
 
 countdown();

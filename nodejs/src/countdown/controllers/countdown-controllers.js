@@ -1,6 +1,6 @@
 const DateSchema = require("../models/date");
 
-getDeadline = () => {
+getDeadLine = () => {
   const date = new DateSchema();
 
   return date.calculateDeadline(10);
@@ -18,7 +18,7 @@ getRemainTime = (remain) => {
 };
 
 exports.startCountdown = async (socket) => {
-  const deadline = getDeadline();
+  const deadline = getDeadLine();
 
   const timer_update = setInterval(async () => {
     let now = new Date();

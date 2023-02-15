@@ -57,6 +57,25 @@ exports.findUserAndPassword = async function (req, res) {
   }
 };
 
+exports.getUserNameByMongoId = async function(req, res) {
+  let mongoId = req.params.mongoId;
+
+
+  if(mongoId.length == 0) {
+    return res.status(422).jsonp("Empty MongoId");
+  } 
+
+  const result = await User.findById(mongoId);
+
+  if(result){
+    return res.status(200).jsonp({
+      user: result.user
+    });
+  } else {
+    return res.status(400).jsonp("MongoId not found");
+  }
+}
+
 /**
  * * Crea un usuario en base a los datos enviados del formulario de registro.
  * @returns En caso de que el usuario exista, un mensaje de error. Si no existe el usuario,

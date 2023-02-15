@@ -65,5 +65,6 @@ router.get("/auth/logout", (req, res) => {
 router.route("/addUser").post(controllers.addUser);
 router.route("/getUser/:userId").get(controllers.findUserById);
 router.route("/user/log").post(controllers.findUserAndPassword);
+router.route("/get-userName/:mongoId").get(controllers.getUserNameByMongoId);
 
 module.exports = router;
