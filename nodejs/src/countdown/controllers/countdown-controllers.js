@@ -17,30 +17,20 @@ getRemainTime = (remain) => {
   };
 };
 
-exports.startCountdown = async (socket) => {
-  const deadline = getDeadLine();
+exports.startCountdown = async (io) => {
+  let timeout = 15000;
 
-  const timer_update = setInterval(async () => {
-    let now = new Date();
-
-    let remain = ((deadline - now + 1000) / 1000) % 60;
-    let t = getRemainTime(remain);
-
-    console.log(remain);
-
-    socket.broadcast.emit('server:count', {
-      seg: t.seg,
-      min: t.min,
-    });
-
-    if (t.remain < 1) {
-      await deleteFlag();
-
-      socket.emit('server:start-game', {});
-
-      clearInterval(timer_update);
-    }
+  let timerId = setInterval(() => { 
+    console.log('Time: ', timeout);
+    io.to('room:lobby').emit("server:time", timeout);
+    timeout = timeout - 1000;
   }, 1000);
+
+  setTimeout(async () => { 
+    clearInterval(timerId); 
+    await deleteFlag();
+    io.to('room:lobby').emit("server:time", false);
+  }, timeout + 1000);
 };
 
 exports.findDate = async () => {
@@ -70,9 +60,9 @@ exports.saveFlag = async () => {
 deleteFlag = async () => {
   await DateSchema.deleteMany({ flag: { $gte: 0 } })
     .then(function () {
-      console.log('Data deleted'); // Success
+      console.log('Date deleted.'); 
     })
     .catch(function (error) {
-      console.log(error); // Failure
+      console.log(error); 
     });
 };

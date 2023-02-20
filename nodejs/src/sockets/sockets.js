@@ -3,51 +3,42 @@ const countControllers = require("../countdown/controllers/countdown-controllers
 const SocketIO = require("socket.io");
 const io = SocketIO(server);
 
-var users = new Array(); 
+var users = [];
 
 //* Web Sockets
 io.on("connection", (socket) => {
   console.log("New connection: " + socket.id);
 
-  socket.on("client:user", (userName) => {
-    console.log("User save: " + userName);
-    
-    users.push(userName);
-    users.forEach(user => console.log("USER: " + JSON.stringify(user)));
-    console.log("USERS: " + users)
-    console.log("USERS COUNT: " + users.length)
+  socket.join('room:lobby');
+  socket.join('room:users');
 
-    socket.emit("server:users", users);
+  socket.on("client:user", (userName) => {
+
+    users.push({
+      userName: userName,
+      socketId: socket.id
+    });
+
+    io.to('room:users').emit("server:users", users);
   });
 
-  socket.on("disconnect", (user) => {
+  socket.on("disconnect", () => {
     console.log("User disconnected: " + socket.id);
-    console.log("User delete: " + user);
 
-    let position = users.indexOf(user);
+    let us = users.find(user => user.socketId == socket.id);
+    let pos = users.indexOf(us);
 
-    //_users.slice(position, 1);
-    socket.emit("server:users", users);
+    users.splice(pos, 1);
+
+    io.to('room:users').emit("server:users", users);
+  });
+
+  socket.on("server:lobby-connection", async () => {
+    if(await countControllers.findDate()){
+        console.log("Count is started.");
+    } else {
+        await countControllers.saveFlag();
+        countControllers.startCountdown(io);
+    }
   });
 });
-
-// io.on("connection", async (socket) => {
-//   console.log("Connection done: ", socket.id);
-
-//   socket.on("client:user", (user) => {
-//     if (users.indexOf(user.user.user) === -1) {
-//       users.push(user.user.user);
-//     }
-//   });
-
-//   socket.emit("server:users", users);
-
-//   let is_started = await count_controllers.findDate(socket);
-
-//   if (is_started) {
-//     console.log("countdown is started");
-//   } else {
-//     await count_controllers.saveFlag();
-//     count_controllers.startCountdown(socket);
-//   }
-// });

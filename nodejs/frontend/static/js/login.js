@@ -1,5 +1,4 @@
 const submit = document.getElementById("submit-btn");
-const socket = io();
 
 submit.addEventListener("click", () => {
   validateData();
@@ -26,7 +25,6 @@ async function sendUser(new_user) {
   if (user_info.flag) {
     alert(user_info.message);
   } else {
-    socket.emit("client:user", { user: user_info });
     window.location.href = "/" + user_info.id;
   }
 }

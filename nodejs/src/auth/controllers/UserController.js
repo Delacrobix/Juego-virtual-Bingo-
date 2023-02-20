@@ -60,7 +60,6 @@ exports.findUserAndPassword = async function (req, res) {
 exports.getUserNameByMongoId = async function(req, res) {
   let mongoId = req.params.mongoId;
 
-
   if(mongoId.length == 0) {
     return res.status(422).jsonp("Empty MongoId");
   } 

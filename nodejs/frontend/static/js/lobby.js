@@ -14,6 +14,28 @@ function getId() {
   return pathname;
 }
 
+const agregarCeroSiEsNecesario = valor => {
+	if (valor < 10) {
+		return "0" + valor;
+	} else {
+		return "" + valor;
+	}
+}
+
+function millisecondsToSecondsAndMinutes(milliseconds) {
+	let minutos = parseInt(milliseconds / 1000 / 60);
+	milliseconds -= minutos * 60 * 1000;
+	let segundos = (milliseconds / 1000);
+
+  segundos = agregarCeroSiEsNecesario(segundos.toFixed(1));
+  minutos = agregarCeroSiEsNecesario(minutos);
+
+	return {
+    min: minutos,
+    sec: segundos
+  };
+};
+
 function deleteChilds(element) {
   let childs = element.childNodes;
 
@@ -25,13 +47,12 @@ function deleteChilds(element) {
 function createTable(users) {
   let t_body = document.getElementById("t-bodyPlayers");
 
-  console.log("USERS: " + users)
   deleteChilds(t_body);
 
   let tr;
   let td;
 
-  for (let i = 1; i < users.length; i++) {
+  for (let i = 0; i < users.length; i++) {
     tr = document.createElement("tr");
     t_body.appendChild(tr);
 
@@ -42,7 +63,7 @@ function createTable(users) {
 
     td = document.createElement("td");
     td.id = "player-" + (i + 1);
-    td.innerHTML = users[i];
+    td.innerHTML = users[i].userName;
     tr.appendChild(td);
   }
 }
@@ -113,15 +134,18 @@ async function getBingoState() {
   return currentGameState;
 }
 
-async function countdown() {
+(async () => {
+  userName = await getUserName();
+  
+  socket.emit('client:user', userName.user);
+})()
+
+async function mainProcess() {
   /**
    * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
    */
   let isStarted = await getBingoState();
-  userName = await getUserName()
   
-  socket.emit('client:user', userName.user);
-
   if (isStarted) {
     alert(
       "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
@@ -130,28 +154,33 @@ async function countdown() {
     window.location.href = "/login";
   }
 
-  // socket.on('server:start-game', () => {
-  //   countdown();
-  // });
-
   /**
    * *Crea el juego nuevo.
    */
-  //await startGame();
+  await startGame();
+
   /**
    * *Envía los ids de los jugadores al backend en spring boot.
    */
   await gamers(getId());
-  //window.location.href = '/bingo/' + getId();
+  
+  window.location.href = '/bingo/' + getId();
 }
-
-// socket.on("server:count", (data) => {
-//   document.getElementById("countdown-min").innerHTML = data.min + " : ";
-//   document.getElementById("countdown-sec").innerHTML = data.seg;
-// });
 
 socket.on("server:users", (users) => {
   createTable(users);
 });
 
-countdown();
+socket.on("server:time", (data) => {
+
+  if(typeof data === 'boolean'){
+    mainProcess();
+  }
+
+  let time = millisecondsToSecondsAndMinutes(data);
+
+  document.getElementById("countdown-min").innerHTML = time.min + " : ";
+  document.getElementById("countdown-sec").innerHTML = time.sec;
+});  
+
+socket.emit("server:lobby-connection");
