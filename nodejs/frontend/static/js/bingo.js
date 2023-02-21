@@ -113,7 +113,7 @@ async function getWinnerId() {
       return res.json();
     })
     .then((data) => {
-      winnerId = data;
+      winnerId = data.winner_id;
       console.log("Winner: " + winnerId);
     })
     .catch((err) => {
@@ -486,18 +486,28 @@ const main = async () => {
   });
 
   await getBallot();
+};
 
+(async () => {
   //  * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los botones.
   //  */
-  if (isWin) {
-    document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
 
+  let id = setInterval(async () => {
     let winner = await getWinnerId();
-    writeWinner(winner);
 
-    bingo_btn.disable = true;
-    tokens.forEach((btn) => (btn.disabled = true));
-  }
-};
+      if(winner != ""){
+        document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
+
+        console.log("ENTRO")
+  
+        writeWinner(winner);
+    
+        bingo_btn.disable = true;
+        tokens.forEach((btn) => (btn.disabled = true));
+
+        clearInterval(id);
+      }
+  }, 1000);
+})();
 
 main();

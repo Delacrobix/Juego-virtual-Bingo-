@@ -14,28 +14,6 @@ function getId() {
   return pathname;
 }
 
-const agregarCeroSiEsNecesario = valor => {
-	if (valor < 10) {
-		return "0" + valor;
-	} else {
-		return "" + valor;
-	}
-}
-
-function millisecondsToSecondsAndMinutes(milliseconds) {
-	let minutos = parseInt(milliseconds / 1000 / 60);
-	milliseconds -= minutos * 60 * 1000;
-	let segundos = (milliseconds / 1000);
-
-  segundos = agregarCeroSiEsNecesario(segundos.toFixed(1));
-  minutos = agregarCeroSiEsNecesario(minutos);
-
-	return {
-    min: minutos,
-    sec: segundos
-  };
-};
-
 function deleteChilds(element) {
   let childs = element.childNodes;
 
@@ -138,7 +116,7 @@ async function getBingoState() {
   userName = await getUserName();
   
   socket.emit('client:user', userName.user);
-})()
+})();
 
 async function mainProcess() {
   /**
@@ -177,10 +155,8 @@ socket.on("server:time", (data) => {
     mainProcess();
   }
 
-  let time = millisecondsToSecondsAndMinutes(data);
-
-  document.getElementById("countdown-min").innerHTML = time.min + " : ";
-  document.getElementById("countdown-sec").innerHTML = time.sec;
+  document.getElementById("countdown-min").innerHTML = data.min + " : ";
+  document.getElementById("countdown-sec").innerHTML = data.sec;
 });  
 
 socket.emit("server:lobby-connection");

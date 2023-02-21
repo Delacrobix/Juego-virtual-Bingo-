@@ -193,7 +193,7 @@ namespace Bingo_Backend.Controllers
                     await _ballotsObteinedRepository.UpdateBallots(currentBallots);
 
                     await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
-                    await Task.Delay(750);
+                    await Task.Delay(450);
                 } while (ballotsList.Count < 75);
 
                 return Ok("All ballots have been send.");
@@ -381,7 +381,7 @@ namespace Bingo_Backend.Controllers
         {
             var currentGame = await _bingoRepository.GetCurrentGame();
 
-            return Ok(currentGame.Winner_id);
+            return Ok(currentGame);
         }
     }
 }

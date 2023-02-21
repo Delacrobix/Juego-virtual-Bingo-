@@ -17,19 +17,43 @@ getRemainTime = (remain) => {
   };
 };
 
+const addCero = valor => {
+	if (valor < 10) {
+		return "0" + valor;
+	} else {
+		return "" + valor;
+	}
+}
+
+function millisecondsToSecondsAndMinutes(milliseconds) {
+	let minutes = parseInt(milliseconds / 1000 / 60);
+	milliseconds -= minutes * 60 * 1000;
+	let seconds = (milliseconds / 1000);
+
+  seconds = addCero(seconds.toFixed(1));
+  minutes = addCero(minutes);
+
+	return {
+    min: minutes,
+    sec: seconds
+  };
+};
+
 exports.startCountdown = async (io) => {
   let timeout = 15000;
 
   let timerId = setInterval(() => { 
-    console.log('Time: ', timeout);
-    io.to('room:lobby').emit("server:time", timeout);
+    io.to('room:lobby').emit("server:time", millisecondsToSecondsAndMinutes(timeout));
     timeout = timeout - 1000;
+
   }, 1000);
 
   setTimeout(async () => { 
     clearInterval(timerId); 
     await deleteFlag();
+
     io.to('room:lobby').emit("server:time", false);
+
   }, timeout + 1000);
 };
 

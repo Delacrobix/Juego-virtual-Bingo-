@@ -5,7 +5,6 @@ const io = SocketIO(server);
 
 var users = [];
 
-//* Web Sockets
 io.on("connection", (socket) => {
   console.log("New connection: " + socket.id);
 

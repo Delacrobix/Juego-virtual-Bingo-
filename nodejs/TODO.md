@@ -37,5 +37,5 @@
 BUGS:
  - No funciona la autenticación por google
  - Cuando se recarga la pagina el jugador se vuelve a inscribir al mismo juego generando nuevas cartas. Si el juego esta terminado crea un nuevo juego.
- - si el juego termina, por cualquier razon, desactivar las cartas de todos los jugadores.
- - No se notifica que ya hay un ganador de la partida. Podria hacerse con websockets via NodeJS.
+ - si el juego termina, por cualquier razón, desactivar las cartas de todos los jugadores.
+ - No se notifica que ya hay un ganador de la partida. Podría hacerse con websockets via NodeJS.
