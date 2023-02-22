@@ -1,8 +1,11 @@
 var ballots_obtained = [];
+var gamers_list = [];
 var bingo;
-var gamers_list;
 var isWin = false;
+var intervalId;
 const mongoId = getId();
+const socket = io();
+console.log(socket)
 const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
 
@@ -44,6 +47,9 @@ bingo_btn.addEventListener("click", async () => {
 
     writeWinner(mongoId);
     isWin = true;
+
+    socket.emit("client:winner", mongoId);
+    clearInterval(intervalId);
 
     tokens.forEach((btn) => (btn.disabled = true));
     bingo_btn.disable = true;
@@ -99,7 +105,7 @@ async function getPlayerName(id) {
 
 function writeWinner(id) {
   for (let i = 0; i < gamers_list.length; i++) {
-    if (gamers_list[i].mongoId == id) {
+    if (gamers_list[i].mongo_id == id) {
       document.getElementById(`winner-${i + 1}`).innerHTML = "&#128081";
     }
   }
@@ -114,7 +120,6 @@ async function getWinnerId() {
     })
     .then((data) => {
       winnerId = data.winner_id;
-      console.log("Winner: " + winnerId);
     })
     .catch((err) => {
       console.error(err);
@@ -489,24 +494,23 @@ const main = async () => {
 };
 
 (async () => {
-  //  * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los botones.
-  //  */
-
-  let id = setInterval(async () => {
-    let winner = await getWinnerId();
-
+  intervalId = setInterval(async () => {
+    
+    socket.on("server:winner", (winner) => {
+      //  * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los   botones.
+      //  */
       if(winner != ""){
+
         document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
 
-        console.log("ENTRO")
-  
         writeWinner(winner);
-    
         bingo_btn.disable = true;
         tokens.forEach((btn) => (btn.disabled = true));
 
-        clearInterval(id);
+        clearInterval(intervalId);
       }
+    });
+
   }, 1000);
 })();
 

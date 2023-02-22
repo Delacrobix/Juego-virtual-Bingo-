@@ -3,6 +3,7 @@ const countControllers = require("../countdown/controllers/countdown-controllers
 const SocketIO = require("socket.io");
 const io = SocketIO(server);
 
+
 var users = [];
 
 io.on("connection", (socket) => {
@@ -10,6 +11,7 @@ io.on("connection", (socket) => {
 
   socket.join('room:lobby');
   socket.join('room:users');
+  socket.join('room:winner');
 
   socket.on("client:user", (userName) => {
 
@@ -39,5 +41,9 @@ io.on("connection", (socket) => {
         await countControllers.saveFlag();
         countControllers.startCountdown(io);
     }
+  });
+
+  socket.on("client:winner", (winner) => {
+    socket.to('room:winner').emit("server:winner", winner);
   });
 });
