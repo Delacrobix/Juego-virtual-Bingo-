@@ -59,6 +59,18 @@ namespace NETCoreAPIMySQL.Data.Respositories
             return await db.QueryFirstOrDefaultAsync<Gamer>(sql, new { id = Id });
         }
 
+        public async Task<Gamer> FindLastByMongoId(string Id)
+        {
+            var db = dbConnection();
+
+            var sql = @" SELECT id, mongo_id, game_id, gamer_ballots 
+                         FROM Gamers 
+                         WHERE mongo_id = @Id
+                         ORDER BY game_id DESC";
+
+            return await db.QueryFirstOrDefaultAsync<Gamer>(sql, new { id = Id });
+        }
+
         public async Task<Gamer> FindByMongoAndGameId(string Id, int gameId)
         {
             var db = dbConnection();

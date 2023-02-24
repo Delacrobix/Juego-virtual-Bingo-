@@ -2,6 +2,7 @@
 using NETCoreAPIMySQL.Data.Respositories;
 using NETCoreAPIMySQL.Model;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Bingo_Backend.Controllers
 {
@@ -11,6 +12,7 @@ namespace Bingo_Backend.Controllers
     {
         private readonly IBingoRepository _bingoRepository;
         private readonly IGamerRepository _gamerRepository;
+        Mutex mutex = new();
 
         public GamerController(IBingoRepository bingoRepository, IGamerRepository gamerRepository)
         {
@@ -25,6 +27,7 @@ namespace Bingo_Backend.Controllers
         [HttpPost("save-gamer-in-game")]
         public async Task<IActionResult> AssignGamerToGame([FromBody]Gamer gamer)
         {
+
             if (gamer == null)
             {
                 return BadRequest("The gamer object can not be NULL.");
@@ -38,26 +41,35 @@ namespace Bingo_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentGame = await _bingoRepository.GetCurrentGame();
-
-            if (currentGame == null)
+            if (mutex.WaitOne())
             {
-                return BadRequest("There has not a game started yet.");
-            } else
-            {
-                gamer.Game_id = currentGame.Id;
-                await _gamerRepository.InsertGamer(gamer);
-                gamer = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
+                //var currentGame = await _bingoRepository.GetCurrentGame();
+                var bingoList = await _bingoRepository.GetAllBingos();
+                var currentGame = bingoList.LastOrDefault();
 
-                var gamersIds = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Gamers_id);
-         
-                gamersIds.Add(gamer.Id);
+                mutex.ReleaseMutex();
 
-                currentGame.Gamers_id = await _bingoRepository.NumListToString(gamersIds);
-                
-                await _bingoRepository.UpdateBingo(currentGame);
+
+                if (currentGame == null)
+                {
+                    return BadRequest("There has not a game started yet.");
+                }
+                else
+                {
+                    gamer.Game_id = currentGame.Id;
+                    await _gamerRepository.InsertGamer(gamer);
+                    gamer = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
+
+                    var gamersIds = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Gamers_id);
+
+                    gamersIds.Add(gamer.Id);
+
+                    currentGame.Gamers_id = await _bingoRepository.NumListToString(gamersIds);
+
+                    await _bingoRepository.UpdateBingo(currentGame);
+                }
             }
-
+            
             return Ok("Game assign to gamer.");
         }
 

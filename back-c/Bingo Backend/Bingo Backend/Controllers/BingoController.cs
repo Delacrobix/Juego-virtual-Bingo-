@@ -56,7 +56,8 @@ namespace Bingo_Backend.Controllers
                 }
             }
 
-            //return Created("BINGO CREATED SUCCESSFULLY", bingo_new);
+            _bingoRepository.DeleteTrashGames();
+
             return Ok("Bingo has been created successfully");
         }
 
@@ -228,7 +229,7 @@ namespace Bingo_Backend.Controllers
         [HttpPut("disqualify")]
         public async Task<IActionResult> DisqualifyPlayer([FromBody] string mongoId)
         {
-            var gamerInfo = await _gamerRepository.FindByMongoId(mongoId);
+            var gamerInfo = await _gamerRepository.FindLastByMongoId(mongoId);
 
             if(gamerInfo == null)
             {

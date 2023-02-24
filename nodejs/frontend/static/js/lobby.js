@@ -131,10 +131,7 @@ async function mainProcess() {
 
     window.location.href = "/login";
   }
-
-  /**
-   * *Crea el juego nuevo.
-   */
+  
   await startGame();
 
   /**
@@ -157,6 +154,6 @@ socket.on("server:time", (data) => {
 
   document.getElementById("countdown-min").innerHTML = data.min + " : ";
   document.getElementById("countdown-sec").innerHTML = data.sec;
-});  
+});
 
 socket.emit("server:lobby-connection");
