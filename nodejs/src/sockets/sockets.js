@@ -3,7 +3,6 @@ const countControllers = require("../countdown/controllers/countdown-controllers
 const SocketIO = require("socket.io");
 const io = SocketIO(server);
 
-
 var users = [];
 
 io.on("connection", (socket) => {

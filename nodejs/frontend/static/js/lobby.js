@@ -2,7 +2,6 @@
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
 const LOCAL = "https://localhost:7006";
 const socket = io();
-var userName = "";
 
 /**
  * *Obtiene el id del jugador que esta en la url.
@@ -113,7 +112,7 @@ async function getBingoState() {
 }
 
 (async () => {
-  userName = await getUserName();
+  var userName = await getUserName();
   
   socket.emit('client:user', userName.user);
 })();

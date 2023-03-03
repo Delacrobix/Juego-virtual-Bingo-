@@ -5,6 +5,7 @@ using NETCoreAPIMySQL.Data.Respositories;
 using NETCoreAPIMySQL.Data.service;
 using NETCoreAPIMySQL.Model;
 using Org.BouncyCastle.Pkcs;
+using System.Threading;
 using System.Diagnostics;
 
 namespace Bingo_Backend.Controllers
@@ -36,6 +37,10 @@ namespace Bingo_Backend.Controllers
         [HttpPost("new-game")]  
         public async Task<IActionResult> CreateNewGame()
         {
+            Mutex mutex = new(false, "mutex:newGame");
+
+            mutex.WaitOne(TimeSpan.FromSeconds(1));
+
             var bingoNew = new Bingo();
             var currentGame = await _bingoRepository.GetCurrentGame();
 
@@ -57,6 +62,7 @@ namespace Bingo_Backend.Controllers
             }
 
             _bingoRepository.DeleteTrashGames();
+            mutex.ReleaseMutex();
 
             return Ok("Bingo has been created successfully");
         }

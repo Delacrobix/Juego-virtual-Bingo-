@@ -5,13 +5,18 @@ var isWin = false;
 var intervalId;
 const mongoId = getId();
 const socket = io();
-console.log(socket)
 const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
 
 const JAVA_APP = "https://bingo-module.rj.r.appspot.com";
 const LOCAL = "https://localhost:7006";
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
+
+(async () => {
+  var userName = await getUserName();
+console.log("USERNAME: " + userName);
+  socket.emit('client:user', userName.user);
+})();
 
 /**
  * *Evento que identifica si el usuario presiona un botón en la tabla de bingo.
@@ -76,32 +81,49 @@ async function printPlayers() {
 
     window.location.href = "/login";
   } else {
-    let users = [];
+    // let users = [];
 
-    for (let i = 0; i < gamers_list.length; i++) {
-      users[i] = await getPlayerName(gamers_list[i].mongo_id);
-    }
+    // for (let i = 0; i < gamers_list.length; i++) {
+    //   users[i] = await getPlayerName(gamers_list[i].mongo_id);
+    // }
 
-    createTable(users);
+    socket.on("server:users", (users) => {
+      console.log("USEAR: ", users)
+      createTable(users);
+    });
   }
 }
 
-async function getPlayerName(id) {
-  let user;
+async function getUserName(){
+  let userName;
 
-  await fetch(`/getUser/${id}`, {})
-    .then((res) => {
-      return res.json();
+  await fetch(`/get-userName/${getId()}`, {})
+    .then((res) => res.json())
+    .then((data) => { 
+      userName = data;
+      console.log(userName);
     })
-    .then((data) => {
-      user = data;
-      console.log(user);
-    }).catch(err => {
-      console.error(err);
-    });
+    .catch((err) => { console.error(err) });
 
-  return user;
+  return userName;
 }
+
+// async function getPlayerName(id) {
+//   let user;
+
+//   await fetch(`/getUser/${id}`, {})
+//     .then((res) => {
+//       return res.json();
+//     })
+//     .then((data) => {
+//       user = data;
+//       console.log(user);
+//     }).catch(err => {
+//       console.error(err);
+//     });
+
+//   return user;
+// }
 
 function writeWinner(id) {
   for (let i = 0; i < gamers_list.length; i++) {

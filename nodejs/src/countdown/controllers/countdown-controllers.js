@@ -37,7 +37,7 @@ function millisecondsToSecondsAndMinutes(milliseconds) {
     min: minutes,
     sec: seconds
   };
-};
+}
 
 exports.startCountdown = async (io) => {
   let timeout = 5000;
