@@ -1,12 +1,11 @@
 body{
-    background: -webkit-linear-gradient(to right, #eaafc8, #654ea3);
-    background: linear-gradient(to right, #eaafc8, #654ea3);
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 #principal-div{
+    background-color: rgb(21, 20, 24);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,7 +13,8 @@ body{
 
 #input-form{
     margin-top: 15%;
-    background-color: rgb(253, 253, 253);
+    margin-bottom: 46%;
+    background-color: rgb(231, 229, 229);
     border-radius: 25px;
     width: 500px;
     padding: 50px 85px;
@@ -22,5 +22,5 @@ body{
 
 h3{
     padding: 0px 0px 15px 0px;
-    font-weight: 500;
+    font-weight: 600;
 }

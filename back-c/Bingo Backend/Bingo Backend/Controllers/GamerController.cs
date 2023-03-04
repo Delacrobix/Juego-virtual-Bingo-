@@ -12,9 +12,10 @@ namespace Bingo_Backend.Controllers
     {
         private readonly IBingoRepository _bingoRepository;
         private readonly IGamerRepository _gamerRepository;
-        
+        static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
-        public GamerController(IBingoRepository bingoRepository, IGamerRepository gamerRepository)
+
+    public GamerController(IBingoRepository bingoRepository, IGamerRepository gamerRepository)
         {
             _bingoRepository = bingoRepository;
             _gamerRepository = gamerRepository;
@@ -27,14 +28,11 @@ namespace Bingo_Backend.Controllers
         [HttpPost("save-gamer-in-game")]
         public async Task<IActionResult> AssignGamerToGame([FromBody]Gamer gamer)
         {
-            Mutex mutex = new(false, "mutex:saveGamer");
-
-            mutex.WaitOne(TimeSpan.FromSeconds(1));
-
             if (gamer == null)
             {
                 return BadRequest("The gamer object can not be NULL.");
-            } else if(string.IsNullOrEmpty(gamer.Mongo_id))
+            }
+            else if (string.IsNullOrEmpty(gamer.Mongo_id))
             {
                 return BadRequest("The mongoId can not be empty or NULL.");
             }
@@ -44,14 +42,12 @@ namespace Bingo_Backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentGame = await _bingoRepository.GetCurrentGame();
+            await semaphore.WaitAsync();
 
-            if (currentGame == null)
+            try
             {
-                return BadRequest("There has not a game started yet.");
-            }
-            else
-            {
+                var currentGame = await _bingoRepository.GetCurrentGame();
+
                 gamer.Game_id = currentGame.Id;
                 await _gamerRepository.InsertGamer(gamer);
                 gamer = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
@@ -63,9 +59,10 @@ namespace Bingo_Backend.Controllers
                 currentGame.Gamers_id = await _bingoRepository.NumListToString(gamersIds);
 
                 await _bingoRepository.UpdateBingo(currentGame);
+            } finally
+            {
+                semaphore.Release();
             }
-
-            mutex.ReleaseMutex();
 
             return Ok("Game assign to gamer.");
         }

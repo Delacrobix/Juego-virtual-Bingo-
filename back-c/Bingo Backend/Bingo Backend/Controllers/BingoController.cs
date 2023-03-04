@@ -20,6 +20,7 @@ namespace Bingo_Backend.Controllers
         private readonly IBallotsObtainedRepository _ballotsObteinedRepository;
         private readonly IColumnLetterRepository _columLetterRepository;
         private readonly IHubContext<BingoHub> _hubContext;
+        static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         public BingoController
                (IBingoRepository bingoRepository, IGamerRepository gamerRepository, ICardRepository 
@@ -34,35 +35,44 @@ namespace Bingo_Backend.Controllers
             _hubContext = hubContext;
         }
 
+        [HttpGet("")]
+        public async Task<IActionResult> TestMethod()
+        {
+            return Ok("It works!");
+        }
+
         [HttpPost("new-game")]  
         public async Task<IActionResult> CreateNewGame()
         {
-            Mutex mutex = new(false, "mutex:newGame");
+            await semaphore.WaitAsync();
 
-            mutex.WaitOne(TimeSpan.FromSeconds(1));
-
-            var bingoNew = new Bingo();
-            var currentGame = await _bingoRepository.GetCurrentGame();
-
-            if(currentGame == null)
+            try
             {
-                bingoNew.Game_state = true;
-                await _bingoRepository.InsertBingo(bingoNew);
-            } else
-            {
-                //Si no hay un juego iniciado, inicie uno nuevo
-                if (!currentGame.Game_state)
+                var bingoNew = new Bingo();
+                var currentGame = await _bingoRepository.GetCurrentGame();
+
+                if(currentGame == null)
                 {
                     bingoNew.Game_state = true;
                     await _bingoRepository.InsertBingo(bingoNew);
                 } else
                 {
-                    return BadRequest("There is already one game started.");
+                    //Si no hay un juego iniciado, inicie uno nuevo
+                    if (!currentGame.Game_state)
+                    {
+                        bingoNew.Game_state = true;
+                        await _bingoRepository.InsertBingo(bingoNew);
+                    } else
+                    {
+                        return BadRequest("There is already one game started.");
+                    }
                 }
-            }
 
-            _bingoRepository.DeleteTrashGames();
-            mutex.ReleaseMutex();
+            }
+            finally
+            {
+                semaphore.Release();
+            }
 
             return Ok("Bingo has been created successfully");
         }
@@ -110,48 +120,58 @@ namespace Bingo_Backend.Controllers
                 return BadRequest(gamer);
             }
 
-            var currentGame = await _bingoRepository.GetCurrentGame();
-            var gamerDatabase = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
+            await semaphore.WaitAsync();
+            var cardToSave = new Card();
 
-            if (currentGame == null)
+            try
             {
-                return BadRequest("There has not one game started.");
-            }
+                var currentGame = await _bingoRepository.GetCurrentGame();
+                var gamerDatabase = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
 
-              var haveCards = await _cardRepository.FindByGamerAndGameId(gamerDatabase.Id, currentGame.Id);
+                if (currentGame == null)
+                {
+                    return BadRequest("There has not one game started.");
+                }
+
+                var haveCards = await _cardRepository.FindByGamerAndGameId(gamerDatabase.Id, currentGame.Id);
             
-            if (haveCards != null)
-            {
-                return Ok(haveCards);
-            }
+                if (haveCards != null)
+                {
+                    return Ok(haveCards);
+                }
 
-            //Crea, guarda y obtenga la carta para asignarle un ID de la base de datos a la carta
-            //Cuando regresa la carta de la base de datos, ya tiene un ID asignado
-            var card = new Card();
-            await _cardRepository.InsertCard(card);
-            var cardList = await _cardRepository.GetAllCards();
-            card = cardList.LastOrDefault();
+                //Crea, guarda y obtenga la carta para asignarle un ID de la base de datos a la carta
+                //Cuando regresa la carta de la base de datos, ya tiene un ID asignado
+                var card = new Card();
+                await _cardRepository.InsertCard(card);
+                var cardList = await _cardRepository.GetAllCards();
+                card = cardList.LastOrDefault();
 
-            int[] columnsIds = new int[5];
-            var cardColumns = _bingoRepository.CreateCardColumns();
+                int[] columnsIds = new int[5];
+                var cardColumns = _bingoRepository.CreateCardColumns();
 
-            columnsIds[0] = await SaveColumn(cardColumns[0], 'B', card.Id);
-            columnsIds[1] = await SaveColumn(cardColumns[1], 'I', card.Id);
-            columnsIds[2] = await SaveColumn(cardColumns[2], 'N', card.Id);
-            columnsIds[3] = await SaveColumn(cardColumns[3], 'G', card.Id);
-            columnsIds[4] = await SaveColumn(cardColumns[4], 'O', card.Id);
+                columnsIds[0] = await SaveColumn(cardColumns[0], 'B', card.Id);
+                columnsIds[1] = await SaveColumn(cardColumns[1], 'I', card.Id);
+                columnsIds[2] = await SaveColumn(cardColumns[2], 'N', card.Id);
+                columnsIds[3] = await SaveColumn(cardColumns[3], 'G', card.Id);
+                columnsIds[4] = await SaveColumn(cardColumns[4], 'O', card.Id);
 
-            //Se actualiza el juego con los nuevos datos
-            var cardToSave = _cardRepository.GenerateCard(columnsIds, currentGame.Id, gamerDatabase.Id);
-            var cardsIds = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Cards_id);
+                //Se actualiza el juego con los nuevos datos
+                cardToSave = _cardRepository.GenerateCard(columnsIds, currentGame.Id, gamerDatabase.Id);
+                var cardsIds = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Cards_id);
           
-            cardsIds.Add(card.Id);
+                cardsIds.Add(card.Id);
 
-            currentGame.Cards_id = await _bingoRepository.NumListToString(cardsIds);
-            cardToSave.Id = card.Id;
+                currentGame.Cards_id = await _bingoRepository.NumListToString(cardsIds);
+                cardToSave.Id = card.Id;
 
-            await _bingoRepository.UpdateBingo(currentGame);
-            await _cardRepository.UpdateCard(cardToSave);
+                await _bingoRepository.UpdateBingo(currentGame);
+                await _cardRepository.UpdateCard(cardToSave);
+            }
+            finally
+            {
+                semaphore.Release();
+            }
 
             return Ok(cardToSave);
         }

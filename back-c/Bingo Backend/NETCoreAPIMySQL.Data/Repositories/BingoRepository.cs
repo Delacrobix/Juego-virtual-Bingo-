@@ -33,25 +33,6 @@ namespace NETCoreAPIMySQL.Data.Respositories
             return bingoList.LastOrDefault();
         }
 
-        public async void DeleteTrashGames()
-        {
-            var bingoList = (List<Bingo>)await GetAllBingos();
-
-            for (int i = 0; i < bingoList.Count; i++)
-            {
-                var aux = bingoList[i];
-
-                if (aux.Game_state == true)
-                {
-                    if ((i + 1) != bingoList.Count)
-                    {
-                        aux.Game_state = false;
-                        await UpdateBingo(aux);
-                    }
-                }
-            }
-        }
-
         public List<int[]> CreateCardColumns()
         {
             List<int[]> columns = new List<int[]>();

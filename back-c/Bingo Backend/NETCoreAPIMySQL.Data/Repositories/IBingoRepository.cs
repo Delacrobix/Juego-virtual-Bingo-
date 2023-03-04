@@ -11,8 +11,6 @@ namespace NETCoreAPIMySQL.Data.Respositories
     {
         public Task<Bingo> GetCurrentGame();
 
-        public void DeleteTrashGames();
-
         public List<int[]> CreateCardColumns();
 
         public int[] CreateColumn(int cells, int min, int max);

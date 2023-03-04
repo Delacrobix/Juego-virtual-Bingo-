@@ -1,6 +1,7 @@
 //const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
-const LOCAL = "https://localhost:7006";
+//const LOCAL = "https://localhost:7006";
+const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
 const socket = io();
 
 /**

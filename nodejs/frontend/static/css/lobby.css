@@ -1,25 +1,29 @@
 body{
-    background: -webkit-linear-gradient(to left, #3f2b96, #a8c0ff);
-    background: linear-gradient(to left, #3f2b96, #a8c0ff); 
+    background-color: rgb(29, 28, 28);
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 #principal-div{
+    background-color: rgb(29, 28, 28);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .secondary-div{
+    background-color: rgb(29, 28, 28);
+    color:#ffffff;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .text-div{
+    background-color: rgb(29, 28, 28);
     display: flex;
+    color:#ffffff;
     justify-content: left;
     align-items: left;
     max-width: 750px;
@@ -28,33 +32,40 @@ body{
 h1{
     padding: 3%;
     font-size: 50px;
+    color:#ffffff;
 }
 
 h2{
     padding-bottom: 25px;
     padding-top: 35px;
+    color:#ffffff;
 }
 
 #countdown-min{
     font-size: 50px;
+    color:#ffffff;
 }
 
 #countdown-sec{
     font-size: 50px;
+    color:#ffffff;
 }
 
 #count{
     font-size: 25px;
     font-style: italic;
     background-color: #a8c0ff;
+    color:#ffffff;
     padding: 13px;
     border-radius: 50%;
 }
 
 #message{
     font-size: 35px;
+    color:#ffffff;
 }
 
 .rules{
     font-size: 25px;
+    color:#ffffff;
 }

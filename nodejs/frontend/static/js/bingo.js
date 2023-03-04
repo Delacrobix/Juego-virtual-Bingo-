@@ -7,14 +7,16 @@ const mongoId = getId();
 const socket = io();
 const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
+const exitBtn = document.getElementById("left-game-btn");
 
 const JAVA_APP = "https://bingo-module.rj.r.appspot.com";
-const LOCAL = "https://localhost:7006";
+//const LOCAL = "https://localhost:7006";
+const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
 //const LOCAL = 'https://bingo-module.rj.r.appspot.com';
 
 (async () => {
   var userName = await getUserName();
-console.log("USERNAME: " + userName);
+  console.log("USERNAME: " + userName);
   socket.emit('client:user', userName.user);
 })();
 
@@ -38,6 +40,12 @@ tokens.forEach((e) =>
   })
 );
 
+exitBtn.addEventListener("click", async () => {
+  await disqualifyPlayer();
+
+  window.location.href = "/login";
+});
+
 /**
  * *Cuando se presiona el botón 'Bingo' Comprueba si el jugador que lo presiono
  * *es realmente el ganador del juego, en casi afirmativo lo notifica al backend
@@ -60,8 +68,9 @@ bingo_btn.addEventListener("click", async () => {
     bingo_btn.disable = true;
   }else {
     await disqualifyPlayer();
-    printPlayers();
+
     alert("Usted ha sido descalificado por notificar falsamente una victoria");
+
     window.location.href = "/login";
   }
 });
@@ -81,11 +90,6 @@ async function printPlayers() {
 
     window.location.href = "/login";
   } else {
-    // let users = [];
-
-    // for (let i = 0; i < gamers_list.length; i++) {
-    //   users[i] = await getPlayerName(gamers_list[i].mongo_id);
-    // }
 
     socket.on("server:users", (users) => {
       console.log("USEAR: ", users)
@@ -108,23 +112,6 @@ async function getUserName(){
   return userName;
 }
 
-// async function getPlayerName(id) {
-//   let user;
-
-//   await fetch(`/getUser/${id}`, {})
-//     .then((res) => {
-//       return res.json();
-//     })
-//     .then((data) => {
-//       user = data;
-//       console.log(user);
-//     }).catch(err => {
-//       console.error(err);
-//     });
-
-//   return user;
-// }
-
 function writeWinner(id) {
   for (let i = 0; i < gamers_list.length; i++) {
     if (gamers_list[i].mongo_id == id) {
@@ -133,21 +120,12 @@ function writeWinner(id) {
   }
 }
 
-async function getWinnerId() {
-  let winnerId;
+function deleteChilds(element) {
+  let childs = element.childNodes;
 
-  await fetch(`${LOCAL}/api/bingo/get-current-winner`, {})
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      winnerId = data.winner_id;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-
-  return winnerId;
+  for (let i = childs.length - 1; i > -1; i--) {
+    childs[i].remove();
+  }
 }
 
 /**
@@ -155,6 +133,9 @@ async function getWinnerId() {
  */
 function createTable(users) {
   let t_body = document.getElementById("t-bodyPlayers");
+
+  deleteChilds(t_body);
+
   let tr;
   let td;
 
@@ -168,7 +149,7 @@ function createTable(users) {
 
     td = document.createElement("td");
     td.id = "player-" + (i + 1);
-    td.innerHTML = users[i].user;
+    td.innerHTML = users[i].userName;
     tr.appendChild(td);
 
     td = document.createElement("td");
@@ -350,22 +331,6 @@ async function getBallots() {
     });
 
   return ballots;
-}
-
-async function getGameState() {
-  let state;
-
-  await fetch(`${LOCAL}/api/bingo/current-game-state`, {})
-    .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      state = data;
-    }).catch((err) => {
-      console.error(err);
-    });
-
-  return state;
 }
 
 async function getBallot(){
