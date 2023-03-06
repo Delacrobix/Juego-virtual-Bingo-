@@ -9,10 +9,8 @@ const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
 const exitBtn = document.getElementById("left-game-btn");
 
-const JAVA_APP = "https://bingo-module.rj.r.appspot.com";
-//const LOCAL = "https://localhost:7006";
-const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
-//const LOCAL = 'https://bingo-module.rj.r.appspot.com';
+const LOCAL = "https://localhost:7006";
+//const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
 
 (async () => {
   var userName = await getUserName();
@@ -424,10 +422,32 @@ function printBallots(ballots, ballots_string) {
   return ballots_string;
 }
 
+function createBallotsTable(){
+  let domItems = document.querySelectorAll(".ballots-th");
+  let aux = 0, td;
+
+  console.log(domItems)
+
+  domItems.forEach((e) => {
+    for(let i = aux; i < (aux + 15); i++){
+      td = document.createElement("td");
+      td.innerHTML = i + 1;
+      e.appendChild(td);
+      
+      console.log(".")
+    }
+    aux += 15;
+  });
+}
+
+createBallotsTable();
+
 /**
  * *Método donde se ejecutan la mayoría de funcionalidades del programa.
  */
 const main = async () => {
+
+  
   let card = await getCard();
 
   await printPlayers();

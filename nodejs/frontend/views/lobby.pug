@@ -9,41 +9,35 @@ html(lang='en')
         script(src='https://cdn.socket.io/4.5.3/socket.io.min.js' integrity='sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi' crossorigin='anonymous')
         title Lobby
     body 
-        a(href='/auth/logout') Cerrar sesion
-        div.secondary-div
-            div#div-gamers(class='table-responsive')
-                table#table-gamers(class='table')
-                    thead
-                        tr
-                            th(scope='col') N°
-                            th(scope='col') JUGADOR
-                    tbody#t-bodyPlayers
-        div#principal-div
-            h1 Sala de espera
-        div.secondary-div
-            p#message El juego inicia en:
-        div.secondary-div
-            div#countdown-min
-            div#countdown-sec
-
-        div.secondary-div
-            h2 Reglas: 
-
-        div.secondary-div
-            div.text-div
-                p.rules 1: Cada jugador tendrá una carta tradicional de bingo con el centro sin enumerar.
-        div.secondary-div
-            div.text-div
-                p.rules 2: Las maneras de ganar son: Llenar una fila, llenar una columna o llenar las 4 esquinas.
-        div.secondary-div
-            div.text-div
-                p.rules 3: En pantalla se imprimen las balotas que se obtienen de la ruleta, usted debe marcarlas.
-        div.secondary-div
-            div.text-div
-                p.rules 4: Solo le sera posible marcar las balotas que hayan salido de la ruleta.
-        div.secondary-div
-            div.text-div
-                p.rules 5: El botón 'Bingo' solo debe ser presionado en caso de que haya ganado, si lo presiona sin cumplir las condiciones de victoria, sera descalificado del juego.
-
+        //- a(href='/auth/logout') Cerrar sesion
+        div.color-body
+            div.secondary-div
+                div#div-gamers(class='table-responsive')
+                    table#table-gamers(class='table')
+                        thead
+                            tr
+                                th(scope='col') N°
+                                th(scope='col') JUGADOR
+                        tbody#t-bodyPlayers
+            div#principal-div
+                h1 Sala de espera
+            div.secondary-div
+                p#message El juego inicia en:
+            div.secondary-div
+                div#countdown-min
+                div#countdown-sec
+            
+            div#principal-div
+                div.paper-div
+                    div.header-paper
+                        h2 Reglas  
+                    div.body-paper 
+                        div.rules
+                            p.rule1 1 - Cada jugador tendrá una carta tradicional de bingo con el centro sin enumerar.
+                            p.rule2 2 - Las maneras de ganar son: Llenar una fila, llenar una columna o llenar las 4 esquinas.
+                            p.rule3 3 - En pantalla se imprimen las balotas que se obtienen de la ruleta, usted debe marcarlas.
+                            p.rule4 4 - Solo le sera posible marcar las balotas que hayan salido de la ruleta.
+                            p.rule5 5 - El botón 'Bingo' solo debe ser presionado en caso de que haya ganado, si lo presiona sin cumplir las condiciones de victoria, sera descalificado del juego.
+       
         script(type='text/javascript' src='/js/lobby.js')
         script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')

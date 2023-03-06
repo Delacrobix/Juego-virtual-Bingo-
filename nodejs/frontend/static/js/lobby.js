@@ -1,7 +1,5 @@
-//const JAVA_APP = 'https://bingo-module.rj.r.appspot.com';
-//const LOCAL = 'https://bingo-module.rj.r.appspot.com';
-//const LOCAL = "https://localhost:7006";
-const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
+const LOCAL = "https://localhost:7006";
+//const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
 const socket = io();
 
 /**
@@ -42,6 +40,7 @@ function createTable(users) {
     td = document.createElement("td");
     td.id = "player-" + (i + 1);
     td.innerHTML = users[i].userName;
+    tr.style.color = '#FFFFFF';
     tr.appendChild(td);
   }
 }

@@ -1,20 +1,24 @@
 body{
-    background: -webkit-linear-gradient(to left, #3f2b96, #a8c0ff);
-    background: linear-gradient(to left, #3f2b96, #a8c0ff); 
+    background-color: rgb(21, 20, 24);
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 #principal-div{
+    
+    background-color: rgb(21, 20, 24);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #input-form{
+    
+    background-color: rgb(21, 20, 24);
     margin-top: 15%;
-    background-color: rgb(253, 253, 253);
+    margin-bottom: 46%;
+    background-color: rgb(231, 229, 229);
     border-radius: 25px;
     width: 500px;
     padding: 50px 85px;
