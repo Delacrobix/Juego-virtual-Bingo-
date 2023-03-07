@@ -14,7 +14,6 @@ const LOCAL = "https://localhost:7006";
 
 (async () => {
   var userName = await getUserName();
-  console.log("USERNAME: " + userName);
   socket.emit('client:user', userName.user);
 })();
 
@@ -90,7 +89,6 @@ async function printPlayers() {
   } else {
 
     socket.on("server:users", (users) => {
-      console.log("USEAR: ", users)
       createTable(users);
     });
   }
@@ -401,52 +399,9 @@ function printColumns(column_number, column_content) {
 }
 
 /**
- * *Imprime las balotas salidas de la ruleta en pantalla.
- */
-function printBallots(ballots, ballots_string) {
-  for (let i = 0; i < ballots.length; i++) {
-    if (ballots[i] < 16) {
-      ballots_string += "B" + ballots[i] + " | ";
-    } else if (ballots[i] < 31 && ballots[i] > 15) {
-      ballots_string += "I" + ballots[i] + " | ";
-    } else if (ballots[i] < 46 && ballots[i] > 30) {
-      ballots_string += "N" + ballots[i] + " | ";
-    } else if (ballots[i] < 61 && ballots[i] > 45) {
-      ballots_string += "G" + ballots[i] + " | ";
-    } else {
-      ballots_string += "O" + ballots[i] + " | ";
-    }
-  }
-  document.getElementById("ballots-list").innerHTML = ballots_string;
-
-  return ballots_string;
-}
-
-function createBallotsTable(){
-  let domItems = document.querySelectorAll(".ballots-th");
-  let aux = 0, td;
-
-  console.log(domItems)
-
-  domItems.forEach((e) => {
-    for(let i = aux; i < (aux + 15); i++){
-      td = document.createElement("td");
-      td.innerHTML = i + 1;
-      e.appendChild(td);
-      
-      console.log(".")
-    }
-    aux += 15;
-  });
-}
-
-createBallotsTable();
-
-/**
  * *Método donde se ejecutan la mayoría de funcionalidades del programa.
  */
 const main = async () => {
-
   
   let card = await getCard();
 
@@ -470,8 +425,6 @@ const main = async () => {
     printColumns(i + 1, column);
   }
 
-  let ballots_string = "";
-
   /**
    * *Se verifica constantemente si hay balotas nuevas. En caso de que haya un ganador,
    * *o que todos los jugadores queden descalificados, se termina el ciclo.
@@ -489,12 +442,13 @@ const main = async () => {
     .catch(err => console.log(err.message));
 
   ballots_obtained = await getBallots();
-  printBallots(ballots_obtained, ballots_string);
+
+  markingBallots();
   
   await connection.on('sendBallot', (ballot) => {
     ballots_obtained.push(ballot);
-    
-    printBallots(ballots_obtained, ballots_string);
+
+    markingBallots();
   });
 
   await getBallot();
@@ -520,5 +474,17 @@ const main = async () => {
 
   }, 1000);
 })();
+
+function markingBallots(){
+  let domElements = document.querySelectorAll('.cell-number');
+
+  domElements.forEach((e) => {
+    ballots_obtained.forEach((ball) => {
+      if(e.innerHTML == ball){
+        e.style.backgroundColor = 'red';
+      }
+    });
+  });
+}
 
 main();

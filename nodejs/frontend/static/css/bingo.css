@@ -32,11 +32,12 @@ body {
   margin-left: 250px;
   border-radius: 25px;
   background-color: #e7e7e9;
-  margin-bottom: 50px;
+  margin-bottom: 15px;
   margin-left: 125px;
 }
 
 .secondary-div {
+  background: rgb(29, 28, 28, 1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,12 +47,41 @@ body {
   width: 600px;
 }
 
-/* *Ballotas salientes*/
 .ballots-div {
   align-items: center;
   justify-content: center;
+  display: flex;
   margin-left: 50px;
   margin-right: 50px;
+}
+
+#ballots{
+  background-color: beige;
+  color: black;
+  border-radius: 8px;
+}
+
+.cell-number{
+  padding: 7px;
+  font-size: 20px;
+  border: outset #555555 2px;
+  text-align: center;
+}
+
+#first-th-ballots {
+  border-top-left-radius: 10px;
+}
+
+#last-th-ballots {
+  border-bottom-left-radius: 10px;
+}
+
+.ballots-th{
+  color:#5d5d5f;
+  background-color: #eff77f;
+  padding: 10px;
+  text-shadow: 1px 1px 1px rgb(199, 199, 199);
+  border: inset #555555 2px;
 }
 
 #ballots-list {
@@ -77,7 +107,7 @@ body {
 
 .token-bingo {
   display: block;
-  margin: 9px;
+  margin: 7px;
   height: 50px;
   width: 50px;
   border-radius: 50%;

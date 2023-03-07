@@ -28,7 +28,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(firstPolicy, 
         policy =>
         {
-            policy.WithOrigins("http://localhost:8081")
+            policy.WithOrigins("http://localhost:8081", "https://auth-module.up.railway.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowAnyOrigin();
