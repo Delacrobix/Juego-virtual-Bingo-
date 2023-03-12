@@ -36,7 +36,6 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-//app.MapHub<BingoHub>("/wss");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

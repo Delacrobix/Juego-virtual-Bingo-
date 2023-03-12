@@ -20,6 +20,8 @@
 
 - Controlar el caso en que salgan todas las balotas 
 
+- Configurar mongo ID para pasarlo por express sessions y redireccionar las vistas desde el backend
+
 BUGS:
  - No funciona la autenticación por google
  - Cuando se recarga la pagina el jugador se vuelve a inscribir al mismo juego generando nuevas cartas. Si el juego esta terminado crea un nuevo juego.

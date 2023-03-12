@@ -9,8 +9,8 @@ const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
 const exitBtn = document.getElementById("left-game-btn");
 
-const LOCAL = "https://localhost:7006";
-//const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
+//const LOCAL = "https://localhost:7006";
+const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
 
 (async () => {
   var userName = await getUserName();

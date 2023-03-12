@@ -6,13 +6,18 @@ const methodOverride = require("method-override");
 const session = require("express-session");
 const path = require("path");
 const authRoutes = require("./auth/routes/routes");
-//const passport = require("passport");
+const passport = require("passport");
 
 const app = express();
+require('./config/passport');
 
-app.use(session({ secret: "sec" }));
-//app.use(passport.initialize());
-//app.use(passport.session());
+app.use(session({ 
+  secret: "sec",
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 require("./database/mongodb-connection");
 
