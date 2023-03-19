@@ -59,10 +59,9 @@ async function gamers(gamer_id) {
     },
     body: JSON.stringify(gamer)
   }).then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-  }).catch((err) => {
-    console.error(err)
+    .then((data) => {})
+    .catch((err) => {
+      console.error(err)
   });
 }
 
@@ -73,9 +72,10 @@ async function getUserName(){
     .then((res) => res.json())
     .then((data) => { 
       userName = data;
-      console.log(userName);
     })
-    .catch((err) => { console.error(err) });
+    .catch((err) => { 
+      console.error(err) 
+    });
 
   return userName;
 }
@@ -87,10 +87,9 @@ async function startGame() {
       'Accept': 'application/json',
     }
   }).then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-  }).catch((err) => {
-      console.error(err)
+    .then((data) => {})
+    .catch((err) => {
+      console.error(err);
   });
 }
 

@@ -101,9 +101,10 @@ async function getUserName(){
     .then((res) => res.json())
     .then((data) => { 
       userName = data;
-      console.log(userName);
     })
-    .catch((err) => { console.error(err) });
+    .catch((err) => { 
+      console.error(err) 
+    });
 
   return userName;
 }
@@ -165,11 +166,9 @@ async function finishGame() {
     .then((res) => {
       return res.json();
     })
-    .then((data) => {
-      console.log(data);
-    })
+    .then((data) => {})
     .catch((err) => {
-      console.log(err);
+      console.error(err);
     });
 }
 
@@ -189,10 +188,9 @@ async function disqualifyPlayer() {
     })
     .then((data) => {
       playerList = data;
-      console.log(playerList);
     })
     .catch((err) => {
-      console.log(err)
+      console.error(err)
     });
 
   return playerList;
@@ -207,7 +205,6 @@ async function getPlayers() {
     })
     .then((data) => {
       players = data;
-      console.log(players);
     })
     .catch((err) => {
       console.error(err);
@@ -255,7 +252,6 @@ async function getCard() {
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log("Card data: ", data);
       card = {
         id: data.id,
         b_id: data.b_id,
@@ -298,7 +294,6 @@ async function setColumn(column_id) {
 }
 
 async function sendBallotGamer(id, ballot) {
-  console.log("BALLOT: ", ballot)
   await fetch(`${LOCAL}/api/bingo/ballot-marked/${id}`, {
     method: "PUT",
     body: JSON.stringify(ballot),
@@ -309,7 +304,7 @@ async function sendBallotGamer(id, ballot) {
   }).then((res) => {
     return res.json();
   }).catch((err) =>{
-    console.log(err);
+    console.error(err);
   });
 }
 
@@ -343,10 +338,9 @@ async function getBallot(){
     })
     .then((data) => { 
       ballot = data;
-      console.log(data);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
     });
 
     return ballot;
@@ -437,9 +431,11 @@ const main = async () => {
 
   await connection.start()
     .then(() => {
-      console.log('Connection started');
+      console.log('Connection with SignalR started');
     })
-    .catch(err => console.log(err.message));
+    .catch(err => {
+      console.error(err.message);
+    });
 
   ballots_obtained = await getBallots();
 

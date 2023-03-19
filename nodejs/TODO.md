@@ -22,6 +22,10 @@
 
 - Configurar mongo ID para pasarlo por express sessions y redireccionar las vistas desde el backend
 
+- Solucionar problema con websockets en el modulo del juego (no aparecen los usuarios en juego)
+
+- Añadir un historial con las 3 ultimas balotas salidas
+
 BUGS:
  - No funciona la autenticación por google
  - Cuando se recarga la pagina el jugador se vuelve a inscribir al mismo juego generando nuevas cartas. Si el juego esta terminado crea un nuevo juego.

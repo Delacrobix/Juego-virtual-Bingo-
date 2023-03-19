@@ -1,24 +1,22 @@
 -- Active: 1658609909514@@127.0.0.1@3306
-CREATE DATABASE BingoGame;
-USE BingoGame;
-USE bkvl7rgdvhkpygbbuzo9;
-
+USE heroku_142cd4cfc7a1937;
 SHOW TABLES;
 
-SELECT * FROM bingo;
-SELECT * FROM card;
-SELECT * FROM ballots_obtained;
-SELECT * FROM countdown;
-SELECT * FROM colum_letter;
-SELECT * FROM gamers;
+SELECT * FROM Bingo;
+SELECT * FROM Card;
+SELECT * FROM Ballots_obtained;
+SELECT * FROM Countdown;
+SELECT * FROM Colum_letter;
+SELECT * FROM Gamers;
 
 DROP TABLE Bingo;
 DROP TABLE Gamers;
-DROP TABLE column_letter;
-DROP TABLE card;
+DROP TABLE Column_letter;
+DROP TABLE Card;
 DROP TABLE Ballots_obtained;
+DROP TABLE countdown;
 
-CREATE TABLE bingo(
+CREATE TABLE Bingo(
     id int AUTO_INCREMENT,
     cards_id varchar(255), 
     gamers_id varchar(255), 
@@ -26,17 +24,14 @@ CREATE TABLE bingo(
     winner_id varchar(100), 
     PRIMARY KEY (id)
 );
-
-
-CREATE TABLE gamers(
+CREATE TABLE Gamers(
     id int AUTO_INCREMENT,
     mongo_id varchar(100),
     game_id int,
     gamer_ballots varchar(255),
     PRIMARY KEY (id)
 );
-
-CREATE TABLE column_letter(
+CREATE TABLE Column_letter(
     id int AUTO_INCREMENT,
     card_id int,
     letter varchar(1),
@@ -47,8 +42,7 @@ CREATE TABLE column_letter(
     n5 int,
     PRIMARY KEY (id)
 );
-
-CREATE TABLE card(
+CREATE TABLE Card(
     id int AUTO_INCREMENT,
     B_id int,
     I_id int,
@@ -59,8 +53,7 @@ CREATE TABLE card(
     game_id int,
     PRIMARY KEY (id)
 );
-
-CREATE TABLE ballots_obtained(
+CREATE TABLE Ballots_obtained(
     id int AUTO_INCREMENT,
     game_id int,
     ballots varchar(255),
