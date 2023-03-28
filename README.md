@@ -20,5 +20,5 @@ Este proyecto fue construido para mi portafolio personal como desarrollador. El 
 
 ### :nail_care: <strong>AUTOR</strong>
 
-- Portafolio - <a href="https://jeffrm.ga">jeffrm.ga</a>
+- Portafolio - <a href="https://www.jeffrm.com.co">jeffrm.com.co</a>
 - LinkedIn - <a href="https://www.linkedin.com/in/jeffrey-rerin/">Jeffrey Rerín</a>
