@@ -40,7 +40,7 @@ function createTable(users) {
     td = document.createElement("td");
     td.id = "player-" + (i + 1);
     td.innerHTML = users[i].userName;
-    tr.style.color = '#FFFFFF';
+    tr.style.color = "#FFFFFF";
     tr.appendChild(td);
   }
 }
@@ -48,33 +48,34 @@ function createTable(users) {
 async function gamers(gamer_id) {
   let gamer = {
     Mongo_id: gamer_id,
-    Gamer_ballots: ""
+    Gamer_ballots: "",
   };
 
   await fetch(`${LOCAL}/api/gamer/save-gamer-in-game`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      Accept: "application/json",
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(gamer)
-  }).then((res) => res.json())
+    body: JSON.stringify(gamer),
+  })
+    .then((res) => res.json())
     .then((data) => {})
     .catch((err) => {
-      console.error(err)
-  });
+      console.error(err);
+    });
 }
 
-async function getUserName(){
+async function getUserName() {
   let userName;
 
   await fetch(`/get-userName/${getId()}`, {})
     .then((res) => res.json())
-    .then((data) => { 
+    .then((data) => {
       userName = data;
     })
-    .catch((err) => { 
-      console.error(err) 
+    .catch((err) => {
+      console.error(err);
     });
 
   return userName;
@@ -84,13 +85,14 @@ async function startGame() {
   await fetch(`${LOCAL}/api/Bingo/new-game`, {
     method: "POST",
     headers: {
-      'Accept': 'application/json',
-    }
-  }).then((res) => res.json())
+      Accept: "application/json",
+    },
+  })
+    .then((res) => res.json())
     .then((data) => {})
     .catch((err) => {
       console.error(err);
-  });
+    });
 }
 
 async function getBingoState() {
@@ -104,7 +106,7 @@ async function getBingoState() {
       currentGameState = data;
     })
     .catch((err) => {
-        console.log(err)
+      console.log(err);
     });
 
   return currentGameState;
@@ -112,8 +114,8 @@ async function getBingoState() {
 
 (async () => {
   var userName = await getUserName();
-  
-  socket.emit('client:user', userName.user);
+
+  socket.emit("client:user", userName.user);
 })();
 
 async function mainProcess() {
@@ -121,7 +123,7 @@ async function mainProcess() {
    * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
    */
   let isStarted = await getBingoState();
-  
+
   if (isStarted) {
     alert(
       "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
@@ -129,15 +131,15 @@ async function mainProcess() {
 
     window.location.href = "/login";
   }
-  
+
   await startGame();
 
   /**
    * *Envía los ids de los jugadores al backend en spring boot.
    */
   await gamers(getId());
-  
-  window.location.href = '/bingo/' + getId();
+
+  window.location.href = "/bingo/" + getId();
 }
 
 socket.on("server:users", (users) => {
@@ -145,13 +147,24 @@ socket.on("server:users", (users) => {
 });
 
 socket.on("server:time", (data) => {
-
-  if(typeof data === 'boolean'){
+  if (typeof data === "boolean") {
     mainProcess();
   }
 
-  document.getElementById("countdown-min").innerHTML = data.min + " : ";
-  document.getElementById("countdown-sec").innerHTML = data.sec;
+  var seg = Math.trunc(data.sec);
+  var min = data.min;
+
+  if (seg < 9) {
+    seg = " 0" + seg;
+  }
+
+  if (isNaN(seg)) {
+    seg = "00";
+    min = "00";
+  }
+
+  document.getElementById("countdown-min").innerHTML = min + ":";
+  document.getElementById("countdown-sec").innerHTML = seg;
 });
 
 socket.emit("server:lobby-connection");

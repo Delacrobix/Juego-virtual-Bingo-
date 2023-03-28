@@ -1,10 +1,10 @@
 const DateSchema = require("../models/date");
 
-getDeadLine = () => {
-  const date = new DateSchema();
+// getDeadLine = () => {
+//   const date = new DateSchema();
 
-  return date.calculateDeadline(10);
-};
+//   return date.calculateDeadline(10);
+// };
 
 getRemainTime = (remain) => {
   let remain_seconds = ("0" + Math.floor(remain % 60)).slice(-2);
@@ -17,43 +17,44 @@ getRemainTime = (remain) => {
   };
 };
 
-const addCero = valor => {
-	if (valor < 10) {
-		return "0" + valor;
-	} else {
-		return "" + valor;
-	}
-}
+const addCero = (valor) => {
+  if (valor < 10) {
+    return "0" + valor;
+  } else {
+    return "" + valor;
+  }
+};
 
 function millisecondsToSecondsAndMinutes(milliseconds) {
-	let minutes = parseInt(milliseconds / 1000 / 60);
-	milliseconds -= minutes * 60 * 1000;
-	let seconds = (milliseconds / 1000);
+  let minutes = parseInt(milliseconds / 1000 / 60);
+  milliseconds -= minutes * 60 * 1000;
+  let seconds = milliseconds / 1000;
 
   seconds = addCero(seconds.toFixed(1));
   minutes = addCero(minutes);
 
-	return {
+  return {
     min: minutes,
-    sec: seconds
+    sec: seconds,
   };
 }
 
 exports.startCountdown = async (io) => {
   let timeout = 5000;
 
-  let timerId = setInterval(() => { 
-    io.to('room:lobby').emit("server:time", millisecondsToSecondsAndMinutes(timeout));
+  let timerId = setInterval(() => {
+    io.to("room:lobby").emit(
+      "server:time",
+      millisecondsToSecondsAndMinutes(timeout)
+    );
     timeout = timeout - 1000;
-
   }, 1000);
 
-  setTimeout(async () => { 
-    clearInterval(timerId); 
+  setTimeout(async () => {
+    clearInterval(timerId);
     await deleteFlag();
 
-    io.to('room:lobby').emit("server:time", false);
-
+    io.to("room:lobby").emit("server:time", false);
   }, timeout + 1000);
 };
 
@@ -84,9 +85,9 @@ exports.saveFlag = async () => {
 deleteFlag = async () => {
   await DateSchema.deleteMany({ flag: { $gte: 0 } })
     .then(function () {
-      console.log('Date deleted.'); 
+      console.log("Date deleted.");
     })
     .catch(function (error) {
-      console.log(error); 
+      console.log(error);
     });
 };

@@ -9,7 +9,7 @@ const authRoutes = require("./auth/routes/routes");
 const passport = require("passport");
 
 const app = express();
-require('./config/passport');
+require('./config/google-passport');
 
 app.use(session({ 
   secret: "sec",

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controllers = require("../controllers/UserController");
 const passport = require("passport");
-require("../controllers/google-passport");
+require("../../config/google-passport");
 
 function isLoggedIn(req, res, next) {
   req.user ? res.sendStatus(401) : next();
