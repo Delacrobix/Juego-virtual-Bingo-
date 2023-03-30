@@ -264,6 +264,11 @@ namespace NETCoreAPIMySQL.Data.Respositories
                 for(int i = 0; i < 5; i++)
                 {
                     bingoRow[i] = columns[i][j];
+
+                    if (bingoRow[i] == 0)
+                    {
+                        horizontalArr[2] = 1;
+                    }
                 }
 
                 foreach (int ball in ballots)
@@ -280,7 +285,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
                     } else if (Object.Equals(ball, bingoRow[4]))
                     {
                         horizontalArr[4] = 1;
-                    } else if ((Object.Equals(ball, bingoRow[2])) || (Object.Equals(0, bingoRow[2])))
+                    } else if ((Object.Equals(ball, bingoRow[2])))
                     {
                         horizontalArr[2] = 1;
                     }
@@ -303,6 +308,11 @@ namespace NETCoreAPIMySQL.Data.Respositories
             {
                 Array.Fill(verticalArr, 0);
 
+                if (columns[i][2] == 0)
+                {
+                    verticalArr[2] = 1;
+                }
+
                 foreach (int ball in ballots)
                 {
                     if (Object.Equals(ball, columns[i][0]))
@@ -317,7 +327,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
                     } else if (Object.Equals(ball, columns[i][4]))
                     {
                         verticalArr[4] = 1;
-                    } else if ((Object.Equals(ball, columns[i][2])) || (Object.Equals(0, columns[i][2])))
+                    } else if ((Object.Equals(ball, columns[i][2])))
                     {
                         verticalArr[2] = 1;
                     }

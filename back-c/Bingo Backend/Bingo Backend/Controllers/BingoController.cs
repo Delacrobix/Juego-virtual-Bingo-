@@ -220,7 +220,7 @@ namespace Bingo_Backend.Controllers
                     await _ballotsObteinedRepository.UpdateBallots(currentBallots);
 
                     await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
-                    await Task.Delay(2000);
+                    await Task.Delay(100);
                 } while (ballotsList.Count < 75);
 
                 return Ok("All ballots have been send.");
@@ -268,6 +268,11 @@ namespace Bingo_Backend.Controllers
             if(currentGame == null)
             {
                 return BadRequest("There has not a game started yet.");
+            }
+
+            if(currentGame.Game_state == false)
+            {
+                return BadRequest("The game have been finished with a winner");
             }
 
             var playerList = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(currentGame.Gamers_id);
