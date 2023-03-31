@@ -21,3 +21,5 @@ BUGS:
  - Cuando se recarga la pagina el jugador se vuelve a inscribir al mismo juego generando nuevas cartas. Si el juego esta terminado crea un nuevo juego.
  - si el juego termina, por cualquier razón, desactivar las cartas de todos los jugadores.
  - Aveces cuando se notifica la victoria el sistema no la reconoce, creo que es por que la base de datos tarda en registrar los cambios
+ - Cuando se descalifica un jugador, hay problemas cuando se asigna la "corona" al ganador
+ - Cuando se recarga la pagina del bingo, descalifica al jugador

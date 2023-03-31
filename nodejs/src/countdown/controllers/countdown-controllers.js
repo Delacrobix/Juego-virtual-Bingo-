@@ -40,7 +40,7 @@ function millisecondsToSecondsAndMinutes(milliseconds) {
 }
 
 exports.startCountdown = async (io) => {
-  let timeout = 5000;
+  let timeout = 10000;
 
   let timerId = setInterval(() => {
     io.to("room:lobby").emit(

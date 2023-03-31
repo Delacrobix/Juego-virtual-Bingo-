@@ -48,11 +48,12 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: -10px;
 }
 
 div h1{
-    padding: 3%;
-    font-size: 65px;
+    padding: 1%;
+    font-size: 60px;
 }
 
 h2{
@@ -66,21 +67,25 @@ table thead tr th {
 
 #countdown-min{
     font-size: 50px;
+    visibility: hidden;
 }
 
 #countdown-sec{
     font-size: 50px;
+    visibility: hidden;
 }
 
 #count{
     font-size: 25px;
     font-style: italic;
-    padding: 13px;
+    padding: 10px;
     border-radius: 50%;
 }
 
 #message{
     font-size: 35px;
+    padding-top: 40px;
+    visibility: hidden;
 }
 
 .rules{
@@ -104,3 +109,25 @@ table thead tr th {
 .rule5{
     padding-top: 11px;
 }
+
+.searchLobby-container{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.searchLobby-container a{
+    padding: 15px;
+    text-decoration: none;
+    color:#F1ede9;
+    background-color: rgb(45, 53, 124);
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.searchLobby-container a:hover{
+    background-color: rgb(128, 131, 177);
+    color:#1a1716;
+    transition: background ease-in .3s;
+}
+    

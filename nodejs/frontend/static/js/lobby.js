@@ -1,6 +1,11 @@
-//const LOCAL = "https://localhost:7006";
-const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
 const socket = io();
+const searchGameButton = document.getElementById("searchGame-btn");
+
+const environment = {
+  local: "https://localhost:7006",
+  prod: "https://bingobackend20230304180241.azurewebsites.net",
+};
+const LOCAL = environment.prod;
 
 /**
  * *Obtiene el id del jugador que esta en la url.
@@ -45,6 +50,79 @@ function createTable(users) {
   }
 }
 
+async function mainProcess() {
+  /**
+   * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
+   */
+  let isStarted = await getBingoState();
+
+  if (isStarted) {
+    alert(
+      "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
+    );
+
+    window.location.href = "/login";
+  }
+
+  await startGame();
+
+  /**
+   * *Envía los ids de los jugadores al backend en spring boot.
+   */
+  await gamers(getId());
+
+  window.location.href = "/bingo/" + getId();
+}
+
+/*
+ * ==================== SOCKETS =========================
+ */
+searchGameButton.addEventListener("click", () => {
+  socket.emit("server:lobby-connection");
+
+  searchGameButton.style.display = 'none';
+
+  document.getElementById('countdown-min').style.visibility = "visible";
+  document.getElementById('countdown-sec').style.visibility = "visible";
+  document.getElementById('message').style.visibility = "visible";
+  document.getElementById('searchComment').innerHTML = "<h3 style='text-align: center;'>Buscando...</h3>" + "<br></br>Si no se encuentra jugadores al terminar el conteo, se le asignara una partida en single player.";
+
+});
+
+socket.on("server:users", (users) => {
+  createTable(users);
+});
+
+(async () => {
+  const userName = await getUserName();
+
+  socket.emit("client:user", userName.user);
+})();
+
+socket.on("server:time", (data) => {
+  if (typeof data === "boolean") {
+    mainProcess();
+  }
+
+  var seg = Math.trunc(data.sec);
+  var min = data.min;
+
+  if (seg <= 9) {
+    seg = " 0" + seg;
+  }
+
+  if (isNaN(seg)) {
+    seg = "00";
+    min = "00";
+  }
+
+  document.getElementById("countdown-min").innerHTML = min + ":";
+  document.getElementById("countdown-sec").innerHTML = seg;
+});
+
+/*
+ * ==================== SOLICITUDES API =========================
+ */
 async function gamers(gamer_id) {
   let gamer = {
     Mongo_id: gamer_id,
@@ -111,60 +189,3 @@ async function getBingoState() {
 
   return currentGameState;
 }
-
-(async () => {
-  var userName = await getUserName();
-
-  socket.emit("client:user", userName.user);
-})();
-
-async function mainProcess() {
-  /**
-   * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
-   */
-  let isStarted = await getBingoState();
-
-  if (isStarted) {
-    alert(
-      "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
-    );
-
-    window.location.href = "/login";
-  }
-
-  await startGame();
-
-  /**
-   * *Envía los ids de los jugadores al backend en spring boot.
-   */
-  await gamers(getId());
-
-  window.location.href = "/bingo/" + getId();
-}
-
-socket.on("server:users", (users) => {
-  createTable(users);
-});
-
-socket.on("server:time", (data) => {
-  if (typeof data === "boolean") {
-    mainProcess();
-  }
-
-  var seg = Math.trunc(data.sec);
-  var min = data.min;
-
-  if (seg < 9) {
-    seg = " 0" + seg;
-  }
-
-  if (isNaN(seg)) {
-    seg = "00";
-    min = "00";
-  }
-
-  document.getElementById("countdown-min").innerHTML = min + ":";
-  document.getElementById("countdown-sec").innerHTML = seg;
-});
-
-socket.emit("server:lobby-connection");

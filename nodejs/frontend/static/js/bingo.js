@@ -9,8 +9,11 @@ const tokens = document.querySelectorAll(".token");
 const bingo_btn = document.getElementById("bingo-btn");
 const exitBtn = document.getElementById("left-game-btn");
 
-//const LOCAL = "https://localhost:7006";
-const LOCAL = "https://bingobackend20230304180241.azurewebsites.net";
+const environment = {
+  local: "https://localhost:7006",
+  prod: "https://bingobackend20230304180241.azurewebsites.net"
+}
+const LOCAL = environment.prod;
 
 /**
  * *Evento que identifica si el usuario presiona un botón en la tabla de bingo.

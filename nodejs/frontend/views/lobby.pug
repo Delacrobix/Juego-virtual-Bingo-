@@ -11,6 +11,8 @@ html(lang='en')
     body 
         //- a(href='/auth/logout') Cerrar sesion
         div.color-body
+            div#principal-div
+                h1 Sala de espera
             div.secondary-div
                 div#div-gamers(class='table-responsive')
                     table#table-gamers(class='table')
@@ -19,8 +21,9 @@ html(lang='en')
                                 th(scope='col') N°
                                 th(scope='col') JUGADOR
                         tbody#t-bodyPlayers
-            div#principal-div
-                h1 Sala de espera
+            div.searchLobby-container
+                a#searchGame-btn Buscar jugadores
+                div#searchComment
             div.secondary-div
                 p#message El juego inicia en:
             div.secondary-div

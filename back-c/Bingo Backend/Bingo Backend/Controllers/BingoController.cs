@@ -220,7 +220,7 @@ namespace Bingo_Backend.Controllers
                     await _ballotsObteinedRepository.UpdateBallots(currentBallots);
 
                     await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
-                    await Task.Delay(100);
+                    await Task.Delay(3500);
                 } while (ballotsList.Count < 75);
 
                 return Ok("All ballots have been send.");

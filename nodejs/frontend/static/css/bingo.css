@@ -1,11 +1,13 @@
 body {
+  background-color: rgb(29, 28, 28, 1);
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 .body-color{
-  background: rgb(29, 28, 28, 1);
+  background-color: rgb(29, 28, 28, 1);
+  height: 100vh;
   color: #ffffff;
 }
 
@@ -24,6 +26,7 @@ body {
 }
 
 #div-gamers {
+  margin-top: 25px;
   width: 600px;
 }
 
