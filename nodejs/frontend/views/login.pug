@@ -11,18 +11,22 @@ html(lang='en')
     body 
         div#principal-div
             div#input-form
-                h3 Ingresar
-                div.mb-3
-                    label.form-label(for='input-user') Usuario
-                    input#input-user.form-control(type='text' aria-describedby='emailHelp')
-                div.mb-3
-                    label.form-label(for='input-password') Contraseña
-                    input#input-password.form-control(type='password')
-                p ¿No estas registrado? 
-                    a(href='signup') registrarse
-                    //- label='Iniciar sesion con '
-                    //- a(href='auth/google') Google
-                a.btn.btn-primary(type='button' id='submit-btn') Login
+                form(role='form' method='POST' action='/login')
+                    h3 Ingresar
+                    div.mb-3
+                        label.form-label(for='input-user') Usuario
+                        input#input-user.form-control(type='text' aria-describedby='emailHelp' name='username' required)
+                    div.mb-3
+                        label.form-label(for='input-password') Contraseña
+                        input#input-password.form-control(type='password' name='password' autocomplete='current-password' required)
+                    p ¿No estas registrado? 
+                        a(href='signup') registrarse
+                        //- label='Iniciar sesion con '
+                        //- a(href='auth/google') Google
+                    div#error-message  
+                        if message 
+                            p #{message}
+                    button.btn.btn-primary(type='submit' id='submit-btn') Login
 
         script(type='text/javascript' src='/js/login.js')
         script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')

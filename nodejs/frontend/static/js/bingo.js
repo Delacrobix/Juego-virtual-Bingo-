@@ -13,7 +13,7 @@ const environment = {
   local: "https://localhost:7006",
   prod: "https://bingobackend20230304180241.azurewebsites.net"
 }
-const LOCAL = environment.prod;
+const LOCAL = environment.local;
 
 /**
  * *Evento que identifica si el usuario presiona un botón en la tabla de bingo.

@@ -24,3 +24,14 @@ h3{
     padding: 0px 0px 15px 0px;
     font-weight: 600;
 }
+
+#error-message{
+    background-color: rgb(250, 183, 183);
+    border-radius: 5px;
+    color: rgb(243, 36, 36);
+}
+
+#error-message p{
+    padding-left: 3px;
+}
+ 

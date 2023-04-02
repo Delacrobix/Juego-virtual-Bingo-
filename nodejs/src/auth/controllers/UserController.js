@@ -1,99 +1,116 @@
 const User = require("../models/UserSchema");
 
-exports.findUserById = async function (req, res) {
-  let user_id = req.params.userId;
-  
-  await User.findById(user_id).exec(function (err, User) {
-    return res.status(200).jsonp({
-      user: User.user,
-    });
-  });
+exports.findUserById = async function (id) {
+  try {
+    let user = await User.findById(id);
+
+    return user;
+  } catch (err) {
+    console.error("ERROR: ", err);
+  }
+
+  // await User.findById(id).exec(function (err, User) {
+  //   console.log("ID: " + JSON.stringify(User));
+  //   return ({
+  //     user: User.user,
+  //     id: User.id
+  //   });
+
+  // });
 };
 
 /**
  * *Se encarga de validar la existencia en la base de datos de los datos ingresados en el login.
  * @returns Mensajes de error en caso de que el sistema no encuentre el usuario o contraseña.
  */
-exports.findUserAndPassword = async function (req, res) {
-  let { user, password } = req.body;
+exports.findUserAndPassword = async function (username, password) {
 
-  if(password.length == 0){
-    return res.status(422).jsonp("Empty password");
+  if (password.length == 0) {
+    return {
+      message: "Empty password.",
+      wasFound: false,
+    };
   }
 
-  if(user.length == 0){
-    return res.status(422).jsonp("Empty username");
+  if (username.length == 0) {
+    return {
+      message: "Empty username.",
+      wasFound: false,
+    };
   }
 
   let us = await User.findOne({
-    user: user,
+    user: username,
   });
 
   if (!us) {
     us = await User.findOne({
-      email: user,
+      email: username,
     });
   }
 
   if (!us) {
-    return res.status(400).jsonp({
+    return {
       message: "Username or email not found.",
-      flag: true,
-    });
+      wasFound: false,
+    };
   } else {
     let match = await us.comparePassword(password);
 
     if (match) {
-      return res.status(200).jsonp({
-        user: user,
+      return {
+        user: username,
         id: us._id,
-      });
+      };
     } else {
-      return res.status(422).jsonp({
+      return {
         message: "Incorrect password.",
-        flag: true,
-      });
+        wasFound: false,
+      };
     }
   }
 };
 
-exports.getUserNameByMongoId = async function(req, res) {
+exports.getUserNameByMongoId = async function (req, res) {
   let mongoId = req.params.mongoId;
 
-  if(mongoId.length == 0) {
+  if (mongoId.length == 0) {
     return res.status(422).jsonp("Empty MongoId");
-  } 
+  }
 
   const result = await User.findById(mongoId);
 
-  if(result){
+  if (result) {
     return res.status(200).jsonp({
-      user: result.user
+      user: result.user,
     });
   } else {
     return res.status(400).jsonp("MongoId not found");
   }
-}
+};
 
 /**
  * * Crea un usuario en base a los datos enviados del formulario de registro.
  * @returns En caso de que el usuario exista, un mensaje de error. Si no existe el usuario,
  * añade el registro a la base de datos.
  */
-exports.addUser = async function (req, res) {
-  let { user, email, password } = req.body;
-
+exports.addUser = async function (user, email, password) {
   // *Validación de campos vacíos
   if (user.length == 0 || email.length == 0 || password.length == 0) {
-    return res.status(422).jsonp({
+    return {
       message: "Must be fill in all required fields.",
-    });
+      correct: false,
+    };
   }
 
-  emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  emailRegex =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
-  if (!emailRegex.test(email)){
-    return res.status(422).jsonp("The email address: " + email + " is invalid.");
+  if (!emailRegex.test(email)) {
+    return {
+      message: "The email address: " + email + " is not valid.",
+      correct: false,
+    };
   }
 
   let _email = await User.findOne({
@@ -105,23 +122,30 @@ exports.addUser = async function (req, res) {
   });
 
   if (_email) {
-    return res.status(422).jsonp("The email address is already registered.");
+    return {
+      message: "The email address is already registered.",
+      correct: false,
+    };
   } else if (_user) {
-    return res.status(422).jsonp("The user is already registered.");
+    return { 
+      message: "The user is already registered.", 
+      correct: false 
+    };
   } else {
     let new_user = new User({
       user: user,
       email: email,
-      password: password
+      password: password,
     });
 
     new_user.password = await new_user.encryptPassword(password);
 
-    new_user.save(new_user);
+    let userSaved = await new_user.save(new_user);
 
-    return res.status(200).jsonp({
+    return {
       message: "User has been registered.",
-      flag: true
-    });
+      id: userSaved.id,
+      correct: true
+    }
   }
 };

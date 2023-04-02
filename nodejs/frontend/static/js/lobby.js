@@ -5,18 +5,39 @@ const environment = {
   local: "https://localhost:7006",
   prod: "https://bingobackend20230304180241.azurewebsites.net",
 };
-const LOCAL = environment.prod;
+const LOCAL = environment.local;
 
-/**
- * *Obtiene el id del jugador que esta en la url.
- */
 function getId() {
   let pathname = window.location.pathname;
-  pathname = pathname.slice(1);
+  pathname = pathname.slice(7);
 
   return pathname;
 }
 
+async function mainProcess() {
+  /**
+   * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
+   */
+  let isStarted = await getBingoState();
+
+  if (isStarted) {
+    alert(
+      "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
+    );
+
+    window.location.href = "/login";
+  }
+
+  await startGame();
+
+  await gamers(getId());
+
+  location.assign(`/bingo/${getId()}`);
+}
+
+/*
+ * ================= CONTROLADORES DE LAS VISTAS ======================
+ */
 function deleteChilds(element) {
   let childs = element.childNodes;
 
@@ -50,43 +71,20 @@ function createTable(users) {
   }
 }
 
-async function mainProcess() {
-  /**
-   * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
-   */
-  let isStarted = await getBingoState();
-
-  if (isStarted) {
-    alert(
-      "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
-    );
-
-    window.location.href = "/login";
-  }
-
-  await startGame();
-
-  /**
-   * *Envía los ids de los jugadores al backend en spring boot.
-   */
-  await gamers(getId());
-
-  window.location.href = "/bingo/" + getId();
-}
-
 /*
  * ==================== SOCKETS =========================
  */
 searchGameButton.addEventListener("click", () => {
   socket.emit("server:lobby-connection");
 
-  searchGameButton.style.display = 'none';
+  searchGameButton.style.display = "none";
 
-  document.getElementById('countdown-min').style.visibility = "visible";
-  document.getElementById('countdown-sec').style.visibility = "visible";
-  document.getElementById('message').style.visibility = "visible";
-  document.getElementById('searchComment').innerHTML = "<h3 style='text-align: center;'>Buscando...</h3>" + "<br></br>Si no se encuentra jugadores al terminar el conteo, se le asignara una partida en single player.";
-
+  document.getElementById("countdown-min").style.visibility = "visible";
+  document.getElementById("countdown-sec").style.visibility = "visible";
+  document.getElementById("message").style.visibility = "visible";
+  document.getElementById("searchComment").innerHTML =
+    "<h3 style='text-align: center;'>Buscando...</h3>" +
+    "<br></br>Si no se encuentra jugadores al terminar el conteo, se le asignara una partida en single player.";
 });
 
 socket.on("server:users", (users) => {
@@ -123,9 +121,10 @@ socket.on("server:time", (data) => {
 /*
  * ==================== SOLICITUDES API =========================
  */
-async function gamers(gamer_id) {
+
+async function gamers(gamerId) {
   let gamer = {
-    Mongo_id: gamer_id,
+    Mongo_id: gamerId,
     Gamer_ballots: "",
   };
 
