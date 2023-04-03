@@ -81,6 +81,7 @@ namespace NETCoreAPIMySQL.Data.Respositories
                          ORDER BY game_id DESC";
 
             return await db.QueryFirstOrDefaultAsync<Gamer>(sql, new { id = Id });
+            //return await db.QuerySingleOrDefaultAsync<Gamer>(sql, new { id = Id });
         }
 
         public async Task<IEnumerable<Gamer>> GetAllGamersByGameId(int Game_id)

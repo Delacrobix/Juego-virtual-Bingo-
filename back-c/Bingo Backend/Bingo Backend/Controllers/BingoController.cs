@@ -77,6 +77,32 @@ namespace Bingo_Backend.Controllers
             return Ok("Bingo has been created successfully");
         }
 
+        [HttpGet("is-in-current-game/{mongoId}")]
+        public async Task<IActionResult> isInCurrentGame(String mongoId)
+        {
+            var currentGame = await _bingoRepository.GetCurrentGame();
+
+            if(currentGame == null)
+            {
+                return Ok(false);
+            }
+
+            if(currentGame.Game_state == false)
+            {
+                return Ok(false);
+            }
+
+            var gamer = await _gamerRepository.FindByMongoAndGameId(mongoId, currentGame.Id);
+
+            if(gamer == null)
+            {
+                return Ok(false);
+            } else
+            {
+                return Ok(true);
+            }
+        }
+
         [HttpGet("current-game-state")]
         public async Task<IActionResult> GetCurrentGameState()
         {
@@ -220,7 +246,7 @@ namespace Bingo_Backend.Controllers
                     await _ballotsObteinedRepository.UpdateBallots(currentBallots);
 
                     await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
-                    await Task.Delay(3500);
+                    await Task.Delay(200);
                 } while (ballotsList.Count < 75);
 
                 return Ok("All ballots have been send.");

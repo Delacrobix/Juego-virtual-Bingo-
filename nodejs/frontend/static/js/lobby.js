@@ -5,7 +5,7 @@ const environment = {
   local: "https://localhost:7006",
   prod: "https://bingobackend20230304180241.azurewebsites.net",
 };
-const LOCAL = environment.local;
+const SERVER = environment.local;
 
 function getId() {
   let pathname = window.location.pathname;
@@ -15,28 +15,38 @@ function getId() {
 }
 
 async function mainProcess() {
-  /**
-   * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
+  /*
+   * Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
    */
   let isStarted = await getBingoState();
+  let isGamerInGame = await getGamerInGame(getId());
 
-  if (isStarted) {
-    alert(
-      "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
-    );
+  console.log("1: ", isGamerInGame, !isGamerInGame, " ID: ", getId());
 
-    window.location.href = "/login";
+  if (isStarted && !isGamerInGame) {
+    window.alert("Ya hay un juego iniciado, por favor, regrese mas tarde");
+
+    // location.assign(`/lobby/${getId()}`);
+    window.location.href = `/lobby/${getId()}`;
+    console.log("2: ", isGamerInGame);
+  } else{
+    if (!isGamerInGame) {
+      await startGame();
+      await gamers(getId());
+      console.log("3: ", isGamerInGame);
+    }
+
+    // location.assign(`/bingo/${getId()}`);
+    window.location.href = `/lobby/${getId()}`;
   }
-
-  await startGame();
-
-  await gamers(getId());
-
-  location.assign(`/bingo/${getId()}`);
 }
 
 /*
- * ================= CONTROLADORES DE LAS VISTAS ======================
+* Chicas por favor, lleven las canciones claras, repasenlas hoy y mañana para sacar eso lo antes posible, no tendremos mucho tiempo y tampoco queremos hacer sentir a Santiago que el ensayo no esta rindiendo.
+ */
+
+/*
+ * ================ CONTROLADORES DE LAS VISTAS ===================
  */
 function deleteChilds(element) {
   let childs = element.childNodes;
@@ -122,13 +132,24 @@ socket.on("server:time", (data) => {
  * ==================== SOLICITUDES API =========================
  */
 
+async function getGamerInGame() {
+  let response;
+
+  await fetch(`${SERVER}/api/bingo/is-in-current-game/${getId()}`, {})
+    .then((res) => res.json())
+    .then((data) => (response = data))
+    .catch((err) => console.error(err));
+
+  return response;
+}
+
 async function gamers(gamerId) {
   let gamer = {
     Mongo_id: gamerId,
     Gamer_ballots: "",
   };
 
-  await fetch(`${LOCAL}/api/gamer/save-gamer-in-game`, {
+  await fetch(`${SERVER}/api/gamer/save-gamer-in-game`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -159,7 +180,7 @@ async function getUserName() {
 }
 
 async function startGame() {
-  await fetch(`${LOCAL}/api/Bingo/new-game`, {
+  await fetch(`${SERVER}/api/Bingo/new-game`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -175,7 +196,7 @@ async function startGame() {
 async function getBingoState() {
   let currentGameState;
 
-  await fetch(`${LOCAL}/api/bingo/current-game-state`, {})
+  await fetch(`${SERVER}/api/bingo/current-game-state`, {})
     .then((res) => {
       return res.json();
     })

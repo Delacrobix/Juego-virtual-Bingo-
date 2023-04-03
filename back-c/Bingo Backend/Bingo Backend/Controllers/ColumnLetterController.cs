@@ -16,7 +16,6 @@ namespace Bingo_Backend.Controllers
             _columnLetterRepository = columnLetterRepository;
         }
 
-        //? No esta siendo usado
         [HttpGet("send-column/{id}")]
         public async Task<IActionResult> SendColumById(int id)
         {

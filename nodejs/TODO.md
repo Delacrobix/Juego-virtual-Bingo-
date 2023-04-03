@@ -23,4 +23,4 @@ BUGS:
  - Aveces cuando se notifica la victoria el sistema no la reconoce, creo que es por que la base de datos tarda en registrar los cambios
  - Cuando se descalifica un jugador, hay problemas cuando se asigna la "corona" al ganador
  - Cuando se recarga la pagina del bingo, descalifica al jugador
- - validar datos en tiempo real login y signup
+ - Cuando hay un jugador en el juego y otro usuario entra al Lobby, los jugadores en el lobby se muestran en el juego y viceversa
