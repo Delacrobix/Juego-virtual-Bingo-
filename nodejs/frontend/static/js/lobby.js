@@ -30,6 +30,7 @@ async function mainProcess() {
     window.location.href = `/lobby/${getId()}`;
     console.log("2: ", isGamerInGame);
   } else{
+
     if (!isGamerInGame) {
       await startGame();
       await gamers(getId());
@@ -37,13 +38,9 @@ async function mainProcess() {
     }
 
     // location.assign(`/bingo/${getId()}`);
-    window.location.href = `/lobby/${getId()}`;
+    window.location.href = `/bingo/${getId()}`;
   }
 }
-
-/*
-* Chicas por favor, lleven las canciones claras, repasenlas hoy y mañana para sacar eso lo antes posible, no tendremos mucho tiempo y tampoco queremos hacer sentir a Santiago que el ensayo no esta rindiendo.
- */
 
 /*
  * ================ CONTROLADORES DE LAS VISTAS ===================
