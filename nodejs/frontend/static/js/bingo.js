@@ -11,7 +11,7 @@ const exitBtn = document.getElementById("left-game-btn");
 
 const environment = {
   local: "https://localhost:7006",
-  prod: "https://www.bingo.somee.com"
+  prod: "http://delacrobix-001-site1.etempurl.com"
 }
 const LOCAL = environment.prod;
 
@@ -430,13 +430,11 @@ const main = async () => {
    * *o que todos los jugadores queden descalificados, se termina el ciclo.
    */
   const connection = new signalR.HubConnectionBuilder()
-    .withUrl(`${LOCAL}/bingo-sockets`)
+    .withUrl(`${LOCAL}/bingo-sockets`, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets,
+      })
     .build();
-    // .withUrl(`${LOCAL}/bingo-sockets`, {
-    //   skipNegotiation: true,
-    //   transport: signalR.HttpTransportType.WebSockets,
-    // })
-    // .build();
 
   await connection
     .start()

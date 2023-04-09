@@ -52,7 +52,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapHub<BingoHub>("bingo-sockets");
+app.MapHub<BingoHub>("/bingo-sockets");
 
 app.MapControllers();
 

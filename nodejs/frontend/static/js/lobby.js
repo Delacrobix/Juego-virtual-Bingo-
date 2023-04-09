@@ -3,7 +3,7 @@ const searchGameButton = document.getElementById("searchGame-btn");
 
 const environment = {
   local: "https://localhost:7006",
-  prod: "https://www.bingo.somee.com",
+  prod: "http://delacrobix-001-site1.etempurl.com",
 };
 const LOCAL = environment.prod;
 
