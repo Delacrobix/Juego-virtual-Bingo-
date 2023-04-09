@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAB0gjOnJZRki/L3Hjid+HOgAAAAACAAAAAAAQZgAAAAEAACAAAACRVdwvGV5hqUIzQEcqDRFZUEZL/xa0CDfaPWuCPblaQAAAAAAOgAAAAAIAACAAAABoon/BF4jzYJlTWeo8Ykpvg85w1r6Z3ZLraGBvdcLPUTAAAAAEobQZrhbEJBM0n5JdYyPFrDze7xRG0GGN0r+aBXHCKcMAf00Skb8nYskxUgEyAZdAAAAA7ELIm40R65sa8sR9Nn/90dLM0lcNREStSHJbCivPTB2StxHwfAMSZBJ3wp1SFyOFvUExpjbpQgP1bEvTq7hO2Q==</EncryptedPassword>
+    <_PublishTargetUrl>ftp://155.254.244.40/www.Bingo.somee.com</_PublishTargetUrl>
+    <History>True|2023-04-09T16:58:29.8184155Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="appsettings.Development.json">
+      <publishTime>01/07/2023 11:22:01</publishTime>
+    </File>
+    <File Include="appsettings.json">
+      <publishTime>03/31/2023 17:28:42</publishTime>
+    </File>
+    <File Include="Bingo Backend.deps.json">
+      <publishTime>04/09/2023 11:57:13</publishTime>
+    </File>
+    <File Include="Bingo Backend.dll">
+      <publishTime>04/09/2023 11:57:12</publishTime>
+    </File>
+    <File Include="Bingo Backend.exe">
+      <publishTime>04/09/2023 11:57:12</publishTime>
+    </File>
+    <File Include="Bingo Backend.pdb">
+      <publishTime>04/09/2023 11:57:12</publishTime>
+    </File>
+    <File Include="Bingo Backend.runtimeconfig.json">
+      <publishTime>03/04/2023 17:48:20</publishTime>
+    </File>
+    <File Include="BouncyCastle.Crypto.dll">
+      <publishTime>10/19/2021 06:53:34</publishTime>
+    </File>
+    <File Include="Dapper.dll">
+      <publishTime>11/03/2021 09:07:40</publishTime>
+    </File>
+    <File Include="Google.Protobuf.dll">
+      <publishTime>01/28/2022 03:49:18</publishTime>
+    </File>
+    <File Include="K4os.Compression.LZ4.dll">
+      <publishTime>09/11/2020 20:11:58</publishTime>
+    </File>
+    <File Include="K4os.Compression.LZ4.Streams.dll">
+      <publishTime>09/11/2020 20:11:58</publishTime>
+    </File>
+    <File Include="K4os.Hash.xxHash.dll">
+      <publishTime>07/03/2019 15:39:02</publishTime>
+    </File>
+    <File Include="lib/microsoft/signalr/package.json">
+      <publishTime>01/18/2023 16:57:37</publishTime>
+    </File>
+    <File Include="libman.json">
+      <publishTime>01/18/2023 16:57:14</publishTime>
+    </File>
+    <File Include="Microsoft.OpenApi.dll">
+      <publishTime>08/29/2020 15:14:12</publishTime>
+    </File>
+    <File Include="Microsoft.Win32.SystemEvents.dll">
+      <publishTime>11/15/2019 03:36:56</publishTime>
+    </File>
+    <File Include="MySql.Data.dll">
+      <publishTime>09/09/2022 09:08:02</publishTime>
+    </File>
+    <File Include="NETCoreAPIMySQL.Data.dll">
+      <publishTime>04/09/2023 11:57:11</publishTime>
+    </File>
+    <File Include="NETCoreAPIMySQL.Data.pdb">
+      <publishTime>04/09/2023 11:57:11</publishTime>
+    </File>
+    <File Include="NETCoreAPIMySQL.Model.dll">
+      <publishTime>03/04/2023 17:48:14</publishTime>
+    </File>
+    <File Include="NETCoreAPIMySQL.Model.pdb">
+      <publishTime>03/04/2023 17:48:14</publishTime>
+    </File>
+    <File Include="runtimes/unix/lib/netcoreapp3.0/System.Drawing.Common.dll">
+      <publishTime>11/15/2019 03:56:36</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.0/Microsoft.Win32.SystemEvents.dll">
+      <publishTime>11/15/2019 03:54:18</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.0/System.Drawing.Common.dll">
+      <publishTime>11/15/2019 03:54:20</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netcoreapp3.0/System.Windows.Extensions.dll">
+      <publishTime>11/15/2019 03:54:30</publishTime>
+    </File>
+    <File Include="runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>07/19/2017 05:01:34</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.Swagger.dll">
+      <publishTime>10/16/2021 07:54:10</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerGen.dll">
+      <publishTime>10/16/2021 07:54:36</publishTime>
+    </File>
+    <File Include="Swashbuckle.AspNetCore.SwaggerUI.dll">
+      <publishTime>10/16/2021 07:54:30</publishTime>
+    </File>
+    <File Include="System.Configuration.ConfigurationManager.dll">
+      <publishTime>11/20/2017 13:09:04</publishTime>
+    </File>
+    <File Include="System.Drawing.Common.dll">
+      <publishTime>09/18/2018 14:38:14</publishTime>
+    </File>
+    <File Include="System.Security.Cryptography.ProtectedData.dll">
+      <publishTime>07/19/2017 05:01:34</publishTime>
+    </File>
+    <File Include="System.Security.Permissions.dll">
+      <publishTime>11/15/2019 03:56:44</publishTime>
+    </File>
+    <File Include="System.Windows.Extensions.dll">
+      <publishTime>11/15/2019 03:56:52</publishTime>
+    </File>
+    <File Include="web.config">
+      <publishTime>04/09/2023 11:57:18</publishTime>
+    </File>
+    <File Include="ZstdNet.dll">
+      <publishTime>09/09/2022 09:03:36</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

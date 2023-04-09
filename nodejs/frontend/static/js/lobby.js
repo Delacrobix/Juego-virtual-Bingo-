@@ -3,7 +3,7 @@ const searchGameButton = document.getElementById("searchGame-btn");
 
 const environment = {
   local: "https://localhost:7006",
-  prod: "https://bingobackend20230304180241.azurewebsites.net",
+  prod: "https://www.bingo.somee.com",
 };
 const SERVER = environment.local;
 
