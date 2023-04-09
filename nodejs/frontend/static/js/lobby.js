@@ -3,7 +3,7 @@ const searchGameButton = document.getElementById("searchGame-btn");
 
 const environment = {
   local: "https://localhost:7006",
-  prod: "http://delacrobix-001-site1.etempurl.com",
+  prod: "https://jeffrm.ga",
 };
 const LOCAL = environment.prod;
 
