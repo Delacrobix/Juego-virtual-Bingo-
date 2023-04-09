@@ -430,11 +430,13 @@ const main = async () => {
    * *o que todos los jugadores queden descalificados, se termina el ciclo.
    */
   const connection = new signalR.HubConnectionBuilder()
-    .withUrl(`${LOCAL}/bingo-sockets`, {
-      skipNegotiation: true,
-      transport: signalR.HttpTransportType.WebSockets,
-    })
+    .withUrl(`${LOCAL}/bingo-sockets`)
     .build();
+    // .withUrl(`${LOCAL}/bingo-sockets`, {
+    //   skipNegotiation: true,
+    //   transport: signalR.HttpTransportType.WebSockets,
+    // })
+    // .build();
 
   await connection
     .start()
