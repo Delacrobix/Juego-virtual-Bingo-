@@ -46,19 +46,3 @@ passport.use(
     }
   )
 );
-
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: GOOGLE_CLIENT_ID,
-//       clientSecret: GOOGLE_CLIENT_SECRET,
-//       callbackURL: 'http://localhost:8081/google/callbackURL',
-//       passReqToCallback: true,
-//     },
-//     function (request, accessToken, refreshToken, profile, done) {
-//       User.findOrCreate({ googleId: profile.id }, function (err, user) {
-//         return done(err, user);
-//       });
-//     }
-//   )
-// );

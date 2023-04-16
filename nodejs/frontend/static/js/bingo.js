@@ -11,8 +11,8 @@ const exitBtn = document.getElementById("left-game-btn");
 
 const environment = {
   local: "https://localhost:7006",
-  prod: "https://www.bingo.somee.com"
-}
+  prod: "https://jeffrm.ga",
+};
 const SERVER = environment.local;
 
 /**
@@ -34,15 +34,6 @@ tokens.forEach((e) =>
   })
 );
 
-// addEventListener("beforeunload", async (e) => {
-//   e.preventDefault();
-//   e.returnValue = "";
-//   await disqualifyPlayer();
-// // });
-// window.onunload =  async () => {
-//   await disqualifyPlayer();
-// };
-
 exitBtn.addEventListener("click", async () => {
   await disqualifyPlayer();
 
@@ -50,22 +41,13 @@ exitBtn.addEventListener("click", async () => {
 });
 
 /*
-  *Cuando se presiona el botón 'Bingo' Comprueba si el jugador que lo presiono si es el ganador, lo notifica al backend y a los usuarios terminando el juego, en caso contrario, elimina al jugador del juego.
+ *Cuando se presiona el botón 'Bingo' Comprueba si el jugador que lo presiono si es el ganador, lo notifica al backend y a los usuarios terminando el juego, en caso contrario, elimina al jugador del juego.
  */
 bingo_btn.addEventListener("click", async () => {
   let is_winner = await isWinner();
 
   if (is_winner) {
-    document.getElementById("div-winner").innerHTML = "¡Felicidades, GANASTE!";
-
-    writeWinner(mongoId);
-    isWin = true;
-
-    socket.emit("client:winner", mongoId);
-    clearInterval(intervalId);
-
-    tokens.forEach((btn) => (btn.disabled = true));
-    bingo_btn.disable = true;
+    notifyWinner();
   } else {
     await disqualifyPlayer();
 
@@ -101,7 +83,6 @@ function getId() {
   return pathname;
 }
 
-
 /**
  * *Método donde se ejecutan la mayoría de funcionalidades del programa.
  */
@@ -110,8 +91,15 @@ const main = async () => {
   let userName = await getUserName();
 
   socket.emit("client:user", userName.user);
-
   await verifyNumOfPlayers();
+
+  // Se verifica que ya no exista un ganador del juego
+  await gameHaveWinner();
+  let is_winner = await isWinner();
+
+  if (is_winner) {
+    notifyWinner();
+  }
 
   for (let i = 0; i < 5; i++) {
     let column;
@@ -163,13 +151,13 @@ const main = async () => {
 main();
 
 /*
-* ========================= SOCKETS ==============================
-*/
+ * ========================= SOCKETS ==============================
+ */
 (async () => {
   intervalId = setInterval(async () => {
     socket.on("server:winner", (winner) => {
-       /* 
-        *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los   botones.
+      /*
+       *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los   botones.
        */
       if (winner != "") {
         document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
@@ -189,8 +177,8 @@ socket.on("server:users", (users) => {
 });
 
 /*
-* ===================== SOLICITUDES API ==========================
-*/
+ * ===================== SOLICITUDES API ==========================
+ */
 async function getUserName() {
   let userName;
 
@@ -402,8 +390,36 @@ async function getBallot() {
 }
 
 /*
-* ===================== CONTROLADORES DE VISTAS =====================
-*/
+ * ===================== CONTROLADORES DE VISTAS =====================
+ */
+
+async function gameHaveWinner() {
+  let haveWinner;
+
+  await fetch(`${SERVER}/api/bingo/game-have-winner`, {})
+    .then((res) => res.json())
+    .then((data) => (haveWinner = data))
+    .catch((err) => console.error(err));
+
+  if(haveWinner){
+    tokens.forEach((btn) => (btn.disabled = true));
+    bingo_btn.disable = true;
+  }
+}
+
+function notifyWinner() {
+  document.getElementById("div-winner").innerHTML = "¡Felicidades, GANASTE!";
+
+  writeWinner(mongoId);
+  isWin = true;
+
+  socket.emit("client:winner", mongoId);
+  clearInterval(intervalId);
+
+  tokens.forEach((btn) => (btn.disabled = true));
+  bingo_btn.disable = true;
+}
+
 function writeWinner(id) {
   for (let i = 0; i < gamers_list.length; i++) {
     if (gamers_list[i].mongo_id == id) {

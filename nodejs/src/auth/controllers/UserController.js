@@ -8,15 +8,6 @@ exports.findUserById = async function (id) {
   } catch (err) {
     console.error("ERROR: ", err);
   }
-
-  // await User.findById(id).exec(function (err, User) {
-  //   console.log("ID: " + JSON.stringify(User));
-  //   return ({
-  //     user: User.user,
-  //     id: User.id
-  //   });
-
-  // });
 };
 
 /**

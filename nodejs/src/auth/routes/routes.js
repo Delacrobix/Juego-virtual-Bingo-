@@ -8,10 +8,22 @@ require("../controllers/PassportControllers");
  * *Render de las vistas con sus respectivas rutas.
  */
 router.get("/login", (req, res) => {
+  if(req.isAuthenticated()){
+    let id = req.user.id.toString();
+
+    res.redirect(`/lobby/${id}`);
+  }
+
   res.render("login", { message: req.flash('error') });
 });
 
 router.get("/signup", (req, res) => {
+  if(req.isAuthenticated()){
+    let id = req.user.id.toString();
+
+    res.redirect(`/lobby/${id}`);
+  }
+
   res.render("signup", { message: req.flash('error') });
 });
 
@@ -65,10 +77,19 @@ router.post(
   }),
   (req, res) => {
     let id = req.user.id.toString();
-    console.log(id);
     res.redirect(`/lobby/${id}`);
   }
 );
+
+router.get('/logout', (req, res, next) => {
+  req.logout((err) => {
+    if(err){ 
+      return next(err);
+    }
+
+    res.redirect('/login');
+  });
+});
 
 /**
  * *Rutas dedicadas al registro y control de los usuarios.
@@ -77,35 +98,3 @@ router.route("/getUser/:userId").get(controllers.findUserById);
 router.route("/get-userName/:mongoId").get(controllers.getUserNameByMongoId);
 
 module.exports = router;
-
-// function isLoggedIn(req, res, next) {
-//   req.user ? res.sendStatus(401) : next();
-// }
-
-// router.get("/auth/failure", isLoggedIn, (req, res) => {
-//   res.render("login", {
-//     error: "Something wrong with google authentication. Please try again",
-//   });
-// });
-
-// router.get(
-//   "/auth/google",
-//   passport.authenticate("google", { scope: ["email", "profile"] })
-// );
-// router.get(
-//   "/google/callbackURL",
-//   passport.authenticate("google", {
-//     successRedirect: "/protected",
-//     failureRedirect: "/auth/failure",
-//   })
-// );
-
-// router.get("/auth/logout", (req, res) => {
-//   req.logout((err) => {
-//     if (err) {
-//       return next(err);
-//     }
-//   });
-//   req.session = null;
-//   res.redirect("/login");
-// });

@@ -12,6 +12,7 @@ body {
 }
 
 #principal-div {
+  background-color: rgb(29, 28, 28, 1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,6 +52,7 @@ body {
 }
 
 .ballots-div {
+  background-color: rgb(29, 28, 28, 1);
   align-items: center;
   justify-content: center;
   display: flex;

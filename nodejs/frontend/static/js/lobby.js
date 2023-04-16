@@ -1,11 +1,18 @@
 const socket = io();
 const searchGameButton = document.getElementById("searchGame-btn");
+const logout = document.getElementById("logout-btn");
 
 const environment = {
   local: "https://localhost:7006",
-  prod: "https://www.bingo.somee.com",
+  prod: "https://jeffrm.ga"
 };
 const SERVER = environment.local;
+
+logout.addEventListener('click', async (e) =>{
+  e.preventDefault();
+
+  window.location.href = `/logout`;
+});
 
 function getId() {
   let pathname = window.location.pathname;
@@ -21,25 +28,14 @@ async function mainProcess() {
   let isStarted = await getBingoState();
   let isGamerInGame = await getGamerInGame(getId());
 
-  console.log("1: ", isGamerInGame, !isGamerInGame, " ID: ", getId());
-
-  if (isStarted && !isGamerInGame) {
-    window.alert("Ya hay un juego iniciado, por favor, regrese mas tarde");
-
-    // location.assign(`/lobby/${getId()}`);
-    window.location.href = `/lobby/${getId()}`;
-    console.log("2: ", isGamerInGame);
-  } else{
-
-    if (!isGamerInGame) {
-      await startGame();
-      await gamers(getId());
-      console.log("3: ", isGamerInGame);
-    }
-
-    // location.assign(`/bingo/${getId()}`);
-    window.location.href = `/bingo/${getId()}`;
+  if (!isStarted) {
+    await startGame();
   }
+  if(!isGamerInGame){
+    await gamers(getId());
+  }
+
+  window.location.href = `/bingo/${getId()}`;
 }
 
 /*
@@ -127,8 +123,7 @@ socket.on("server:time", (data) => {
 
 /*
  * ==================== SOLICITUDES API =========================
- */
-
+*/
 async function getGamerInGame() {
   let response;
 

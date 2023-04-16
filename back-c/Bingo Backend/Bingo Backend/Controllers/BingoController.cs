@@ -78,28 +78,28 @@ namespace Bingo_Backend.Controllers
         }
 
         [HttpGet("is-in-current-game/{mongoId}")]
-        public async Task<IActionResult> isInCurrentGame(String mongoId)
+        public async Task<IActionResult> IsInCurrentGame(String mongoId)
         {
             var currentGame = await _bingoRepository.GetCurrentGame();
 
-            if(currentGame == null)
+            if (currentGame == null)
             {
                 return Ok(false);
             }
 
-            if(currentGame.Game_state == false)
+            if (currentGame.Game_state == false)
             {
                 return Ok(false);
             }
 
             var gamer = await _gamerRepository.FindByMongoAndGameId(mongoId, currentGame.Id);
 
-            if(gamer == null)
-            {
-                return Ok(false);
-            } else
+            if (gamer.Id == currentGame.Id)
             {
                 return Ok(true);
+            } else
+            {
+                return Ok(false);
             }
         }
 
@@ -353,6 +353,11 @@ namespace Bingo_Backend.Controllers
 
             var currentGame = await _bingoRepository.GetCurrentGame();
 
+            if(currentGame.Game_state == false)
+            {
+                return BadRequest("There is not a game on course.");
+            }
+
             if (currentGame == null)
             {
                 return BadRequest("There has not a game started yet.");
@@ -364,9 +369,6 @@ namespace Bingo_Backend.Controllers
             {
                 return BadRequest("GamerId not found.");
             }
-
-            //Linea en JAVA que no entiendo su funcion
-            //gamerDatabase.Game_id = currentGame.Id;
 
             var ballotsGamer = (List<int>)(IEnumerable<int>)await _bingoRepository.NumStringToArr(gamerDatabase.Gamer_ballots);
             
@@ -440,6 +442,24 @@ namespace Bingo_Backend.Controllers
             var currentGame = await _bingoRepository.GetCurrentGame();
 
             return Ok(currentGame);
+        }
+
+        [HttpGet("game-have-winner")]
+        public async Task<IActionResult> GameHaveWinner()
+        {
+            var currentGame = await _bingoRepository.GetCurrentGame();
+
+            if (currentGame == null)
+            {
+                return BadRequest("There has not a game started yet.");
+            }
+
+            if (currentGame.Winner_id.Length == 0)
+            {
+                return Ok(false);
+            } else {
+                return Ok(true);
+            }
         }
     }
 }
