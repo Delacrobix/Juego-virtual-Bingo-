@@ -1,22 +1,50 @@
 const socket = io();
 const searchGameButton = document.getElementById("searchGame-btn");
+const logout = document.getElementById("logout-btn");
 
 const environment = {
   local: "https://localhost:7006",
+<<<<<<< HEAD
+  prod: "https://jeffrm.ga"
+=======
   prod: "https://jeffrm.ga",
+>>>>>>> main
 };
-const LOCAL = environment.prod;
+const SERVER = environment.prod;
 
-/**
- * *Obtiene el id del jugador que esta en la url.
- */
+logout.addEventListener('click', async (e) =>{
+  e.preventDefault();
+
+  window.location.href = `/logout`;
+});
+
 function getId() {
   let pathname = window.location.pathname;
-  pathname = pathname.slice(1);
+  pathname = pathname.slice(7);
 
   return pathname;
 }
 
+async function mainProcess() {
+  /*
+   * Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
+   */
+  let isStarted = await getBingoState();
+  let isGamerInGame = await getGamerInGame(getId());
+
+  if (!isStarted) {
+    await startGame();
+  }
+  if(!isGamerInGame){
+    await gamers(getId());
+  }
+
+  window.location.href = `/bingo/${getId()}`;
+}
+
+/*
+ * ================ CONTROLADORES DE LAS VISTAS ===================
+ */
 function deleteChilds(element) {
   let childs = element.childNodes;
 
@@ -50,43 +78,20 @@ function createTable(users) {
   }
 }
 
-async function mainProcess() {
-  /**
-   * *Si ya hay un juego iniciado, no permitirá ingresar a un nuevo jugador.
-   */
-  let isStarted = await getBingoState();
-
-  if (isStarted) {
-    alert(
-      "Ya hay un juego iniciado, por favor, regrese en 5 min o cuando termine el juego"
-    );
-
-    window.location.href = "/login";
-  }
-
-  await startGame();
-
-  /**
-   * *Envía los ids de los jugadores al backend en spring boot.
-   */
-  await gamers(getId());
-
-  window.location.href = "/bingo/" + getId();
-}
-
 /*
  * ==================== SOCKETS =========================
  */
 searchGameButton.addEventListener("click", () => {
   socket.emit("server:lobby-connection");
 
-  searchGameButton.style.display = 'none';
+  searchGameButton.style.display = "none";
 
-  document.getElementById('countdown-min').style.visibility = "visible";
-  document.getElementById('countdown-sec').style.visibility = "visible";
-  document.getElementById('message').style.visibility = "visible";
-  document.getElementById('searchComment').innerHTML = "<h3 style='text-align: center;'>Buscando...</h3>" + "<br></br>Si no se encuentra jugadores al terminar el conteo, se le asignara una partida en single player.";
-
+  document.getElementById("countdown-min").style.visibility = "visible";
+  document.getElementById("countdown-sec").style.visibility = "visible";
+  document.getElementById("message").style.visibility = "visible";
+  document.getElementById("searchComment").innerHTML =
+    "<h3 style='text-align: center;'>Buscando...</h3>" +
+    "<br></br>Si no se encuentra jugadores al terminar el conteo, se le asignara una partida en single player.";
 });
 
 socket.on("server:users", (users) => {
@@ -122,14 +127,25 @@ socket.on("server:time", (data) => {
 
 /*
  * ==================== SOLICITUDES API =========================
- */
-async function gamers(gamer_id) {
+*/
+async function getGamerInGame() {
+  let response;
+
+  await fetch(`${SERVER}/api/bingo/is-in-current-game/${getId()}`, {})
+    .then((res) => res.json())
+    .then((data) => (response = data))
+    .catch((err) => console.error(err));
+
+  return response;
+}
+
+async function gamers(gamerId) {
   let gamer = {
-    Mongo_id: gamer_id,
+    Mongo_id: gamerId,
     Gamer_ballots: "",
   };
 
-  await fetch(`${LOCAL}/api/gamer/save-gamer-in-game`, {
+  await fetch(`${SERVER}/api/gamer/save-gamer-in-game`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -138,7 +154,6 @@ async function gamers(gamer_id) {
     body: JSON.stringify(gamer),
   })
     .then((res) => res.json())
-    .then((data) => {})
     .catch((err) => {
       console.error(err);
     });
@@ -160,7 +175,7 @@ async function getUserName() {
 }
 
 async function startGame() {
-  await fetch(`${LOCAL}/api/Bingo/new-game`, {
+  await fetch(`${SERVER}/api/Bingo/new-game`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -176,7 +191,7 @@ async function startGame() {
 async function getBingoState() {
   let currentGameState;
 
-  await fetch(`${LOCAL}/api/bingo/current-game-state`, {})
+  await fetch(`${SERVER}/api/bingo/current-game-state`, {})
     .then((res) => {
       return res.json();
     })

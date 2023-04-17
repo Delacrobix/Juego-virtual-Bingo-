@@ -3,5 +3,5 @@ nodejs/node_modules
 nodejs/.env
 
 /java
-/back-c/Bingo Backend/.vs
-/.vs
+back-c/Bingo Backend/.vs/
+.vs

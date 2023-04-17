@@ -43,7 +43,7 @@ exports.startCountdown = async (io) => {
   let timeout = 10000;
 
   let timerId = setInterval(() => {
-    io.to("room:lobby").emit(
+    io.to("room:countdown").emit(
       "server:time",
       millisecondsToSecondsAndMinutes(timeout)
     );
@@ -54,7 +54,7 @@ exports.startCountdown = async (io) => {
     clearInterval(timerId);
     await deleteFlag();
 
-    io.to("room:lobby").emit("server:time", false);
+    io.to("room:countdown").emit("server:time", false);
   }, timeout + 1000);
 };
 

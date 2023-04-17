@@ -6,7 +6,7 @@ SELECT * FROM Bingo;
 SELECT * FROM Card;
 SELECT * FROM Ballots_obtained;
 SELECT * FROM Countdown;
-SELECT * FROM Colum_letter;
+SELECT * FROM Column_letter;
 SELECT * FROM Gamers;
 
 DROP TABLE Bingo;

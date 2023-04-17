@@ -13,10 +13,20 @@ io.on("connection", (socket) => {
   socket.join("room:winner");
 
   socket.on("client:user", (userName) => {
-    users.push({
-      userName: userName,
-      socketId: socket.id,
+    let condition = true;
+
+    users.forEach((user) => {
+      if (user.userName === userName) {
+        condition = false;
+      }
     });
+
+    if (condition) {
+      users.push({
+        userName: userName,
+        socketId: socket.id,
+      });
+    }
 
     io.to("room:users").emit("server:users", users);
   });
@@ -33,6 +43,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("server:lobby-connection", async () => {
+    socket.join("room:countdown");
+    
     if (await countControllers.findDate()) {
       console.log("Count is started.");
     } else {

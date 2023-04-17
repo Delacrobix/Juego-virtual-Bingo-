@@ -1,48 +1,34 @@
-const submit = document.getElementById('submit-btn');
+const submit = document.getElementById("submit-btn");
+const inputUser = document.getElementById("input-user");
+const inputEmail = document.getElementById("input-email");
+const inputPassword = document.getElementById("input-password");
 
-submit.addEventListener ('click', () => {
-    validateData();
+submit.addEventListener("click", () => {
+  let user = inputUser.value;
+  let email = inputEmail.value;
+  let password = inputPassword.value;
+
+  let data = JSON.stringify({ user: user, email: email, pass: password });
+
+  document.cookie =
+    "userMemory=" +
+    data +
+    "; expires=" +
+    new Date(new Date().getTime() + 1.5 * 1000).toUTCString() +
+    "; path=/signup";
 });
 
-async function sendData(user){
-    let flag = false;
+(() => {
+  let cookies = document.cookie.split("; ");
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i].split("=");
 
-    await fetch('/addUser', {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-            'Content-type': 'application/json',
-        }
-    }).then(res => res.json())
-      .then(data => {
-        alert(data.message || data);
-        flag = data.flag;
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (cookie[0] === "userMemory") {
+      let miCookie = JSON.parse(cookie[1]);
 
-    return flag;
-}
-
-async function validateData(){
-    let user_input = document.getElementById('input-user').value;
-    let password_input = document.getElementById('input-password').value;
-    let email_input = document.getElementById('input-email').value;
-
-    if((user_input.length == 0) || (password_input.length == 0) || (email_input.length == 0)){
-        alert('Por favor, llene todos los campos seleccionados');
-    } else{
-        let new_user = {
-            user: user_input,
-            email: email_input,
-            password: password_input
-        }
-    
-        let flag = await sendData(new_user);
-
-        if(flag){
-            window.location.href = '/login';
-        }
+      inputUser.value = miCookie.user;
+      inputEmail.value = miCookie.email;
+      inputPassword.value = miCookie.pass;
     }
-}
+  }
+})();

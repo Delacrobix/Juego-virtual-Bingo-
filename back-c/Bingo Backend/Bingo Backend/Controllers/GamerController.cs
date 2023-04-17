@@ -49,6 +49,13 @@ namespace Bingo_Backend.Controllers
                 var currentGame = await _bingoRepository.GetCurrentGame();
 
                 gamer.Game_id = currentGame.Id;
+
+                var auxGamer = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
+
+                if (auxGamer != null) {
+                    return BadRequest("The gamer has been registered previously.");
+                }
+
                 await _gamerRepository.InsertGamer(gamer);
                 gamer = await _gamerRepository.FindByMongoAndGameId(gamer.Mongo_id, currentGame.Id);
 
