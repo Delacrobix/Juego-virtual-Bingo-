@@ -5,15 +5,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-<<<<<<< HEAD
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAB0gjOnJZRki/L3Hjid+HOgAAAAACAAAAAAAQZgAAAAEAACAAAACRVdwvGV5hqUIzQEcqDRFZUEZL/xa0CDfaPWuCPblaQAAAAAAOgAAAAAIAACAAAABoon/BF4jzYJlTWeo8Ykpvg85w1r6Z3ZLraGBvdcLPUTAAAAAEobQZrhbEJBM0n5JdYyPFrDze7xRG0GGN0r+aBXHCKcMAf00Skb8nYskxUgEyAZdAAAAA7ELIm40R65sa8sR9Nn/90dLM0lcNREStSHJbCivPTB2StxHwfAMSZBJ3wp1SFyOFvUExpjbpQgP1bEvTq7hO2Q==</EncryptedPassword>
-    <_PublishTargetUrl>ftp://155.254.244.40/www.Bingo.somee.com</_PublishTargetUrl>
-    <History>True|2023-04-09T16:58:29.8184155Z;</History>
-=======
-    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAB0gjOnJZRki/L3Hjid+HOgAAAAACAAAAAAAQZgAAAAEAACAAAACMFKepmTOwOdQ1uRPC/i+l/+8ic8zzvuN4mZrJVlwctQAAAAAOgAAAAAIAACAAAAA7WLu2/I4UtX381ubV8hWM9fzbTZtyRtTj8NlqCii0YjAAAAABtQElOPbG1UU6rJO6ZFRMu8yU5HRgen2FQEefbKUlEzJL9boJut0pI4Edg1sIJ0xAAAAAPHaFRFfbErFJLMqFMKDSU/wn7cbTon+OfrT4FFflnbtztmAfswENXxKa18BUTj1dIHSzyl35zHRjV21rGOVYog==</EncryptedPassword>
-    <_PublishTargetUrl>ftp://155.254.244.40/www.Bingo.somee.com</_PublishTargetUrl>
-    <History>True|2023-04-09T19:16:03.5209453Z;False|2023-04-09T14:14:42.5706204-05:00;</History>
->>>>>>> main
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAB0gjOnJZRki/L3Hjid+HOgAAAAACAAAAAAAQZgAAAAEAACAAAAASRdoDjSE+kDGBJSiEmvyMm2gOSVb+aQVo5/osm5osewAAAAAOgAAAAAIAACAAAAAlbRM2yuyxq6/GYps20ivs4eug6ObkmuPSHX0YUUMa6DAAAAB3KyW6xyGrOWRPfatVzZRQknRux6wkZYSTgInlbvPtJriJf3W97Yyz8LZeT8w1QjBAAAAAzitzDwDMA/Yu01ttSxyGKoKwOuNotc0fCklWHcnggIDDfmFIq6jt9xsumlnhXDyqlrZtL3OjzRlRZ9eha4j/nA==</EncryptedPassword>
+    <_PublishTargetUrl>ftp://win8005.site4now.net</_PublishTargetUrl>
+    <History>True|2023-04-09T22:20:45.3143916Z;True|2023-04-09T17:02:51.3960068-05:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -21,35 +15,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/07/2023 11:22:01</publishTime>
     </File>
     <File Include="appsettings.json">
-<<<<<<< HEAD
-      <publishTime>03/31/2023 17:28:42</publishTime>
-    </File>
-    <File Include="Bingo Backend.deps.json">
-      <publishTime>04/09/2023 11:57:13</publishTime>
-    </File>
-    <File Include="Bingo Backend.dll">
-      <publishTime>04/09/2023 11:57:12</publishTime>
-    </File>
-    <File Include="Bingo Backend.exe">
-      <publishTime>04/09/2023 11:57:12</publishTime>
-    </File>
-    <File Include="Bingo Backend.pdb">
-      <publishTime>04/09/2023 11:57:12</publishTime>
-=======
       <publishTime>04/09/2023 14:04:45</publishTime>
     </File>
     <File Include="Bingo Backend.deps.json">
-      <publishTime>04/09/2023 14:14:50</publishTime>
+      <publishTime>04/09/2023 17:19:21</publishTime>
     </File>
     <File Include="Bingo Backend.dll">
-      <publishTime>04/09/2023 14:14:50</publishTime>
+      <publishTime>04/09/2023 17:19:21</publishTime>
     </File>
     <File Include="Bingo Backend.exe">
-      <publishTime>04/09/2023 14:14:50</publishTime>
+      <publishTime>04/09/2023 17:19:21</publishTime>
     </File>
     <File Include="Bingo Backend.pdb">
-      <publishTime>04/09/2023 14:14:50</publishTime>
->>>>>>> main
+      <publishTime>04/09/2023 17:19:21</publishTime>
     </File>
     <File Include="Bingo Backend.runtimeconfig.json">
       <publishTime>03/04/2023 17:48:20</publishTime>
@@ -58,21 +36,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>10/19/2021 06:53:34</publishTime>
     </File>
     <File Include="Dapper.dll">
-      <publishTime>11/03/2021 09:07:40</publishTime>
+      <publishTime>03/11/2021 09:07:40</publishTime>
     </File>
     <File Include="Google.Protobuf.dll">
       <publishTime>01/28/2022 03:49:18</publishTime>
     </File>
     <File Include="K4os.Compression.LZ4.dll">
-<<<<<<< HEAD
-      <publishTime>09/11/2020 20:11:58</publishTime>
-    </File>
-    <File Include="K4os.Compression.LZ4.Streams.dll">
-      <publishTime>09/11/2020 20:11:58</publishTime>
-    </File>
-    <File Include="K4os.Hash.xxHash.dll">
-      <publishTime>07/03/2019 15:39:02</publishTime>
-=======
       <publishTime>11/09/2020 20:11:58</publishTime>
     </File>
     <File Include="K4os.Compression.LZ4.Streams.dll">
@@ -80,7 +49,6 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="K4os.Hash.xxHash.dll">
       <publishTime>03/07/2019 15:39:02</publishTime>
->>>>>>> main
     </File>
     <File Include="lib/microsoft/signalr/package.json">
       <publishTime>01/18/2023 16:57:37</publishTime>
@@ -98,17 +66,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/09/2022 09:08:02</publishTime>
     </File>
     <File Include="NETCoreAPIMySQL.Data.dll">
-<<<<<<< HEAD
-      <publishTime>04/09/2023 11:57:11</publishTime>
-    </File>
-    <File Include="NETCoreAPIMySQL.Data.pdb">
-      <publishTime>04/09/2023 11:57:11</publishTime>
-=======
       <publishTime>04/09/2023 14:13:29</publishTime>
     </File>
     <File Include="NETCoreAPIMySQL.Data.pdb">
       <publishTime>04/09/2023 14:13:29</publishTime>
->>>>>>> main
     </File>
     <File Include="NETCoreAPIMySQL.Model.dll">
       <publishTime>03/04/2023 17:48:14</publishTime>
@@ -156,11 +117,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/15/2019 03:56:52</publishTime>
     </File>
     <File Include="web.config">
-<<<<<<< HEAD
-      <publishTime>04/09/2023 11:57:18</publishTime>
-=======
-      <publishTime>04/09/2023 14:14:57</publishTime>
->>>>>>> main
+      <publishTime>04/09/2023 17:19:26</publishTime>
     </File>
     <File Include="ZstdNet.dll">
       <publishTime>09/09/2022 09:03:36</publishTime>

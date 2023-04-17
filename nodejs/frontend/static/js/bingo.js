@@ -11,9 +11,15 @@ const exitBtn = document.getElementById("left-game-btn");
 
 const environment = {
   local: "https://localhost:7006",
+<<<<<<< HEAD
   prod: "https://jeffrm.ga",
 };
 const SERVER = environment.prod;
+=======
+  prod: "https://jeffrm.ga"
+}
+const LOCAL = environment.prod;
+>>>>>>> main
 
 /**
  * *Evento que captura eventos realizados por el usuario en la tabla de bingo.
@@ -519,3 +525,99 @@ function printColumns(column_number, column_content) {
 
   document.getElementById("3-3").innerHTML = "&#128512";
 }
+<<<<<<< HEAD
+=======
+/**
+ * *Método donde se ejecutan la mayoría de funcionalidades del programa.
+ */
+const main = async () => {
+  let card = await getCard();
+  let userName = await getUserName();
+
+  socket.emit("client:user", userName.user);
+
+  await verifyNumOfPlayers();
+
+  for (let i = 0; i < 5; i++) {
+    let column;
+
+    if (i == 0) {
+      column = await setColumn(card.b_id);
+    } else if (i == 1) {
+      column = await setColumn(card.i_id);
+    } else if (i == 2) {
+      column = await setColumn(card.n_id);
+    } else if (i == 3) {
+      column = await setColumn(card.g_id);
+    } else if (i == 4) {
+      column = await setColumn(card.o_id);
+    }
+
+    printColumns(i + 1, column);
+  }
+
+  /**
+   * *Se verifica constantemente si hay balotas nuevas. En caso de que haya un ganador,
+   * *o que todos los jugadores queden descalificados, se termina el ciclo.
+   */
+  const connection = new signalR.HubConnectionBuilder()
+    .withUrl(`${LOCAL}/bingo-sockets`, {
+        skipNegotiation: true,
+        transport: signalR.HttpTransportType.WebSockets,
+      })
+    .build();
+
+  await connection
+    .start()
+    .then(() => {
+      console.log("Connection with SignalR started");
+    })
+    .catch((err) => {
+      console.error(err.message);
+    });
+
+  ballots_obtained = await getBallots();
+
+  markingBallots();
+
+  await connection.on("sendBallot", (ballot) => {
+    ballots_obtained.push(ballot);
+
+    markingBallots();
+  });
+
+  await getBallot();
+};
+
+(async () => {
+  intervalId = setInterval(async () => {
+    socket.on("server:winner", (winner) => {
+      //  * *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los   botones.
+      //  */
+      if (winner != "") {
+        document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
+
+        writeWinner(winner);
+        bingo_btn.disable = true;
+        tokens.forEach((btn) => (btn.disabled = true));
+
+        clearInterval(intervalId);
+      }
+    });
+  }, 1000);
+})();
+
+function markingBallots() {
+  let domElements = document.querySelectorAll(".cell-number");
+
+  domElements.forEach((e) => {
+    ballots_obtained.forEach((ball) => {
+      if (e.innerHTML == ball) {
+        e.style.backgroundColor = "red";
+      }
+    });
+  });
+}
+
+main();
+>>>>>>> main
