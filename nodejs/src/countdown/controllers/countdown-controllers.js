@@ -1,11 +1,5 @@
 const DateSchema = require("../models/date");
 
-// getDeadLine = () => {
-//   const date = new DateSchema();
-
-//   return date.calculateDeadline(10);
-// };
-
 getRemainTime = (remain) => {
   let remain_seconds = ("0" + Math.floor(remain % 60)).slice(-2);
   let remain_minutes = ("0" + Math.floor((remain / 60) % 60)).slice(-2);

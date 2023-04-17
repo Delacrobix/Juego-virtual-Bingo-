@@ -4,11 +4,7 @@ const logout = document.getElementById("logout-btn");
 
 const environment = {
   local: "https://localhost:7006",
-<<<<<<< HEAD
   prod: "https://jeffrm.ga"
-=======
-  prod: "https://jeffrm.ga",
->>>>>>> main
 };
 const SERVER = environment.prod;
 
