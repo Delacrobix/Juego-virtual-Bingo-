@@ -77,10 +77,11 @@ namespace NETCoreAPIMySQL.Data.Respositories
 
             var sql = @" SELECT id, mongo_id, game_id, gamer_ballots 
                          FROM Gamers 
-                         WHERE mongo_id = @Id 
+                         WHERE mongo_id = @Id
+                         AND game_id = @gameId
                          ORDER BY game_id DESC";
 
-            return await db.QueryFirstOrDefaultAsync<Gamer>(sql, new { id = Id });
+            return await db.QueryFirstOrDefaultAsync<Gamer>(sql, new { Id, gameId });
         }
 
         public async Task<IEnumerable<Gamer>> GetAllGamersByGameId(int Game_id)

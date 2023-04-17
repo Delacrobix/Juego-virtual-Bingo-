@@ -6,7 +6,7 @@ const environment = {
   local: "https://localhost:7006",
   prod: "https://jeffrm.ga"
 };
-const SERVER = environment.local;
+const SERVER = environment.prod;
 
 logout.addEventListener('click', async (e) =>{
   e.preventDefault();
@@ -150,7 +150,6 @@ async function gamers(gamerId) {
     body: JSON.stringify(gamer),
   })
     .then((res) => res.json())
-    .then((data) => {})
     .catch((err) => {
       console.error(err);
     });

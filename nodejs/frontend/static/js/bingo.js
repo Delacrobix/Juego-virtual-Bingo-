@@ -13,7 +13,7 @@ const environment = {
   local: "https://localhost:7006",
   prod: "https://jeffrm.ga",
 };
-const SERVER = environment.local;
+const SERVER = environment.prod;
 
 /**
  * *Evento que captura eventos realizados por el usuario en la tabla de bingo.
@@ -392,6 +392,12 @@ async function getBallot() {
 /*
  * ===================== CONTROLADORES DE VISTAS =====================
  */
+
+window.addEventListener("beforeunload", async e => {
+  e.preventDefault();
+  e.returnValue = "¿Seguro que quieres salir?";
+  await disqualifyPlayer();
+});
 
 async function gameHaveWinner() {
   let haveWinner;

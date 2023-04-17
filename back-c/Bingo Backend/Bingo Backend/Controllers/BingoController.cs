@@ -94,6 +94,11 @@ namespace Bingo_Backend.Controllers
 
             var gamer = await _gamerRepository.FindByMongoAndGameId(mongoId, currentGame.Id);
 
+            if(gamer == null)
+            {
+                return Ok(false);
+            }
+
             if (gamer.Id == currentGame.Id)
             {
                 return Ok(true);
@@ -246,7 +251,7 @@ namespace Bingo_Backend.Controllers
                     await _ballotsObteinedRepository.UpdateBallots(currentBallots);
 
                     await _hubContext.Clients.All.SendAsync("sendBallot", ballot);
-                    await Task.Delay(200);
+                    await Task.Delay(2500);
                 } while (ballotsList.Count < 75);
 
                 return Ok("All ballots have been send.");
