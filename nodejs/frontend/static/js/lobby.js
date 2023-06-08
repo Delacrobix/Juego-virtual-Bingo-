@@ -1,14 +1,14 @@
 const socket = io();
-const searchGameButton = document.getElementById("searchGame-btn");
-const logout = document.getElementById("logout-btn");
+const searchGameButton = document.getElementById('searchGame-btn');
+const logout = document.getElementById('logout-btn');
 
 const environment = {
-  local: "https://localhost:7006",
-  prod: "https://jeffrm.ga"
+  local: 'https://localhost:7006',
+  prod: 'https://Delx.bsite.net',
 };
 const SERVER = environment.prod;
 
-logout.addEventListener('click', async (e) =>{
+logout.addEventListener('click', async (e) => {
   e.preventDefault();
 
   window.location.href = `/logout`;
@@ -31,7 +31,7 @@ async function mainProcess() {
   if (!isStarted) {
     await startGame();
   }
-  if(!isGamerInGame){
+  if (!isGamerInGame) {
     await gamers(getId());
   }
 
@@ -50,7 +50,7 @@ function deleteChilds(element) {
 }
 
 function createTable(users) {
-  let t_body = document.getElementById("t-bodyPlayers");
+  let t_body = document.getElementById('t-bodyPlayers');
 
   deleteChilds(t_body);
 
@@ -58,18 +58,18 @@ function createTable(users) {
   let td;
 
   for (let i = 0; i < users.length; i++) {
-    tr = document.createElement("tr");
+    tr = document.createElement('tr');
     t_body.appendChild(tr);
 
-    td = document.createElement("td");
-    td.id = "t-counter" + (i + 1);
+    td = document.createElement('td');
+    td.id = 't-counter' + (i + 1);
     td.innerHTML = i + 1;
     tr.appendChild(td);
 
-    td = document.createElement("td");
-    td.id = "player-" + (i + 1);
+    td = document.createElement('td');
+    td.id = 'player-' + (i + 1);
     td.innerHTML = users[i].userName;
-    tr.style.color = "#FFFFFF";
+    tr.style.color = '#FFFFFF';
     tr.appendChild(td);
   }
 }
@@ -77,31 +77,31 @@ function createTable(users) {
 /*
  * ==================== SOCKETS =========================
  */
-searchGameButton.addEventListener("click", () => {
-  socket.emit("server:lobby-connection");
+searchGameButton.addEventListener('click', () => {
+  socket.emit('server:lobby-connection');
 
-  searchGameButton.style.display = "none";
+  searchGameButton.style.display = 'none';
 
-  document.getElementById("countdown-min").style.visibility = "visible";
-  document.getElementById("countdown-sec").style.visibility = "visible";
-  document.getElementById("message").style.visibility = "visible";
-  document.getElementById("searchComment").innerHTML =
+  document.getElementById('countdown-min').style.visibility = 'visible';
+  document.getElementById('countdown-sec').style.visibility = 'visible';
+  document.getElementById('message').style.visibility = 'visible';
+  document.getElementById('searchComment').innerHTML =
     "<h3 style='text-align: center;'>Buscando...</h3>" +
-    "<br></br>Si no se encuentra jugadores al terminar el conteo, se le asignara una partida en single player.";
+    '<br></br>Si no se encuentra jugadores al terminar el conteo, se le asignara una partida en single player.';
 });
 
-socket.on("server:users", (users) => {
+socket.on('server:users', (users) => {
   createTable(users);
 });
 
 (async () => {
   const userName = await getUserName();
 
-  socket.emit("client:user", userName.user);
+  socket.emit('client:user', userName.user);
 })();
 
-socket.on("server:time", (data) => {
-  if (typeof data === "boolean") {
+socket.on('server:time', (data) => {
+  if (typeof data === 'boolean') {
     mainProcess();
   }
 
@@ -109,21 +109,21 @@ socket.on("server:time", (data) => {
   var min = data.min;
 
   if (seg <= 9) {
-    seg = " 0" + seg;
+    seg = ' 0' + seg;
   }
 
   if (isNaN(seg)) {
-    seg = "00";
-    min = "00";
+    seg = '00';
+    min = '00';
   }
 
-  document.getElementById("countdown-min").innerHTML = min + ":";
-  document.getElementById("countdown-sec").innerHTML = seg;
+  document.getElementById('countdown-min').innerHTML = min + ':';
+  document.getElementById('countdown-sec').innerHTML = seg;
 });
 
 /*
  * ==================== SOLICITUDES API =========================
-*/
+ */
 async function getGamerInGame() {
   let response;
 
@@ -138,14 +138,14 @@ async function getGamerInGame() {
 async function gamers(gamerId) {
   let gamer = {
     Mongo_id: gamerId,
-    Gamer_ballots: "",
+    Gamer_ballots: '',
   };
 
   await fetch(`${SERVER}/api/gamer/save-gamer-in-game`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(gamer),
   })
@@ -172,9 +172,9 @@ async function getUserName() {
 
 async function startGame() {
   await fetch(`${SERVER}/api/Bingo/new-game`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
+      Accept: 'application/json',
     },
   })
     .then((res) => res.json())

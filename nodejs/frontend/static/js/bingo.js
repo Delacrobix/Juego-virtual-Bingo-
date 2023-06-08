@@ -5,13 +5,13 @@ var isWin = false;
 var intervalId;
 const mongoId = getId();
 const socket = io();
-const tokens = document.querySelectorAll(".token");
-const bingo_btn = document.getElementById("bingo-btn");
-const exitBtn = document.getElementById("left-game-btn");
+const tokens = document.querySelectorAll('.token');
+const bingo_btn = document.getElementById('bingo-btn');
+const exitBtn = document.getElementById('left-game-btn');
 
 const environment = {
-  local: "https://localhost:7006",
-  prod: "https://jeffrm.ga",
+  local: 'https://localhost:7006',
+  prod: 'https://Delx.bsite.net',
 };
 const SERVER = environment.prod;
 
@@ -20,21 +20,21 @@ const SERVER = environment.prod;
  * *Solo serán marcados los botones con balotas que ya hayan sido traídas del backend
  */
 tokens.forEach((e) =>
-  e.addEventListener("click", function () {
+  e.addEventListener('click', function () {
     if (isBallot(this.innerHTML)) {
-      this.style.backgroundColor = "red";
+      this.style.backgroundColor = 'red';
 
-      document.getElementById("div-alert").innerHTML = "¡Bien!";
+      document.getElementById('div-alert').innerHTML = '¡Bien!';
 
       sendBallotGamer(mongoId, parseInt(this.innerHTML, 10));
     } else {
-      document.getElementById("div-alert").innerHTML =
-        "No puede marcar una casilla que no ha sido arrojada";
+      document.getElementById('div-alert').innerHTML =
+        'No puede marcar una casilla que no ha sido arrojada';
     }
   })
 );
 
-exitBtn.addEventListener("click", async () => {
+exitBtn.addEventListener('click', async () => {
   await disqualifyPlayer();
 
   location.assign(`/lobby/${getId()}`);
@@ -43,7 +43,7 @@ exitBtn.addEventListener("click", async () => {
 /*
  *Cuando se presiona el botón 'Bingo' Comprueba si el jugador que lo presiono si es el ganador, lo notifica al backend y a los usuarios terminando el juego, en caso contrario, elimina al jugador del juego.
  */
-bingo_btn.addEventListener("click", async () => {
+bingo_btn.addEventListener('click', async () => {
   let is_winner = await isWinner();
 
   if (is_winner) {
@@ -51,7 +51,7 @@ bingo_btn.addEventListener("click", async () => {
   } else {
     await disqualifyPlayer();
 
-    alert("Usted ha sido descalificado por notificar falsamente una victoria");
+    alert('Usted ha sido descalificado por notificar falsamente una victoria');
 
     location.assign(`/lobby/${getId()}`);
   }
@@ -66,7 +66,7 @@ async function verifyNumOfPlayers() {
   if (gamers_list.length < 1) {
     await finishGame();
     alert(
-      "Deben participar en el juego almenos un jugador. El juego sera finalizado."
+      'Deben participar en el juego almenos un jugador. El juego sera finalizado.'
     );
 
     location.assign(`/lobby/${getId()}`);
@@ -90,7 +90,7 @@ const main = async () => {
   let card = await getCard();
   let userName = await getUserName();
 
-  socket.emit("client:user", userName.user);
+  socket.emit('client:user', userName.user);
   await verifyNumOfPlayers();
 
   // Se verifica que ya no exista un ganador del juego
@@ -129,7 +129,7 @@ const main = async () => {
   await connection
     .start()
     .then(() => {
-      console.log("Connection with SignalR started");
+      console.log('Connection with SignalR started');
     })
     .catch((err) => {
       console.error(err.message);
@@ -139,7 +139,7 @@ const main = async () => {
 
   markingBallots();
 
-  await connection.on("sendBallot", (ballot) => {
+  await connection.on('sendBallot', (ballot) => {
     ballots_obtained.push(ballot);
 
     markingBallots();
@@ -155,12 +155,12 @@ main();
  */
 (async () => {
   intervalId = setInterval(async () => {
-    socket.on("server:winner", (winner) => {
+    socket.on('server:winner', (winner) => {
       /*
        *Se avisa a los jugadores perdedores que hay un ganador y se bloquean los   botones.
        */
-      if (winner != "") {
-        document.getElementById("div-winner").innerHTML = "¡Ya hay un ganador!";
+      if (winner != '') {
+        document.getElementById('div-winner').innerHTML = '¡Ya hay un ganador!';
 
         writeWinner(winner);
         bingo_btn.disable = true;
@@ -172,7 +172,7 @@ main();
   }, 1000);
 })();
 
-socket.on("server:users", (users) => {
+socket.on('server:users', (users) => {
   createTable(users);
 });
 
@@ -196,10 +196,10 @@ async function getUserName() {
 
 async function finishGame() {
   await fetch(`${SERVER}/api/bingo/finish-current`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   })
     .then((res) => {
@@ -215,11 +215,11 @@ async function disqualifyPlayer() {
   let playerList;
 
   await fetch(`${SERVER}/api/bingo/disqualify`, {
-    method: "PUT",
+    method: 'PUT',
     body: JSON.stringify(mongoId),
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   })
     .then((res) => {
@@ -256,11 +256,11 @@ async function isWinner() {
   let is_winner;
 
   await fetch(`${SERVER}/api/bingo/is-winner`, {
-    method: "PUT",
+    method: 'PUT',
     body: JSON.stringify(mongoId),
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   })
     .then((res) => {
@@ -283,11 +283,11 @@ async function getCard() {
   };
 
   await fetch(`${SERVER}/api/Bingo/send-card`, {
-    method: "POST",
+    method: 'POST',
     body: JSON.stringify(gamer),
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   })
     .then((res) => res.json())
@@ -335,11 +335,11 @@ async function setColumn(column_id) {
 
 async function sendBallotGamer(id, ballot) {
   await fetch(`${SERVER}/api/bingo/ballot-marked/${id}`, {
-    method: "PUT",
+    method: 'PUT',
     body: JSON.stringify(ballot),
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   })
     .then((res) => {
@@ -372,8 +372,8 @@ async function getBallot() {
 
   await fetch(`${SERVER}/api/bingo/send-ballot`, {
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   })
     .then((res) => {
@@ -393,9 +393,9 @@ async function getBallot() {
  * ===================== CONTROLADORES DE VISTAS =====================
  */
 
-window.addEventListener("beforeunload", async e => {
+window.addEventListener('beforeunload', async (e) => {
   e.preventDefault();
-  e.returnValue = "¿Seguro que quieres salir?";
+  e.returnValue = '¿Seguro que quieres salir?';
   await disqualifyPlayer();
 });
 
@@ -407,19 +407,19 @@ async function gameHaveWinner() {
     .then((data) => (haveWinner = data))
     .catch((err) => console.error(err));
 
-  if(haveWinner){
+  if (haveWinner) {
     tokens.forEach((btn) => (btn.disabled = true));
     bingo_btn.disable = true;
   }
 }
 
 function notifyWinner() {
-  document.getElementById("div-winner").innerHTML = "¡Felicidades, GANASTE!";
+  document.getElementById('div-winner').innerHTML = '¡Felicidades, GANASTE!';
 
   writeWinner(mongoId);
   isWin = true;
 
-  socket.emit("client:winner", mongoId);
+  socket.emit('client:winner', mongoId);
   clearInterval(intervalId);
 
   tokens.forEach((btn) => (btn.disabled = true));
@@ -429,7 +429,7 @@ function notifyWinner() {
 function writeWinner(id) {
   for (let i = 0; i < gamers_list.length; i++) {
     if (gamers_list[i].mongo_id == id) {
-      document.getElementById(`winner-${i + 1}`).innerHTML = "&#128081";
+      document.getElementById(`winner-${i + 1}`).innerHTML = '&#128081';
     }
   }
 }
@@ -446,7 +446,7 @@ function deleteChilds(element) {
  * *Imprime los usuarios que están en el juego en una tabla.
  */
 function createTable(users) {
-  let t_body = document.getElementById("t-bodyPlayers");
+  let t_body = document.getElementById('t-bodyPlayers');
 
   deleteChilds(t_body);
 
@@ -454,20 +454,20 @@ function createTable(users) {
   let td;
 
   for (let i = 0; i < users.length; i++) {
-    tr = document.createElement("tr");
+    tr = document.createElement('tr');
     t_body.appendChild(tr);
 
-    td = document.createElement("td");
+    td = document.createElement('td');
     td.innerHTML = i + 1;
     tr.appendChild(td);
 
-    td = document.createElement("td");
-    td.id = "player-" + (i + 1);
+    td = document.createElement('td');
+    td.id = 'player-' + (i + 1);
     td.innerHTML = users[i].userName;
     tr.appendChild(td);
 
-    td = document.createElement("td");
-    td.id = "winner-" + (i + 1);
+    td = document.createElement('td');
+    td.id = 'winner-' + (i + 1);
     tr.appendChild(td);
   }
 }
@@ -483,12 +483,12 @@ function isBallot(ballot) {
 }
 
 function markingBallots() {
-  let domElements = document.querySelectorAll(".cell-number");
+  let domElements = document.querySelectorAll('.cell-number');
 
   domElements.forEach((e) => {
     ballots_obtained.forEach((ball) => {
       if (e.innerHTML == ball) {
-        e.style.backgroundColor = "red";
+        e.style.backgroundColor = 'red';
       }
     });
   });
@@ -517,5 +517,5 @@ function printColumns(column_number, column_content) {
     }
   }
 
-  document.getElementById("3-3").innerHTML = "&#128512";
+  document.getElementById('3-3').innerHTML = '&#128512';
 }
