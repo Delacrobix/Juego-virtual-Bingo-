@@ -1,7 +1,16 @@
-### Nodejs Files ###
-nodejs/node_modules
-nodejs/.env
-
+#General
+/.vscode
 /java
-back-c/Bingo Backend/.vs/
-.vs
+/.vs
+
+#Nodejs Files
+/nodejs/node_modules
+/nodejs/.env
+/nodejs/TODO.md
+
+#dotnet backend
+/back-c/.vs
+/back-c/.vscode
+/back-c/bin
+/back-c/obj
+/back-c/Bingo Backend/Properties/appsettings.json
