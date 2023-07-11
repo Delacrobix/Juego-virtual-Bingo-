@@ -1,30 +1,25 @@
-doctype html
 html(lang='en')
-    head
-        meta(charset='UTF-8')
-        meta(http-equiv='X-UA-Compatible' content='IE=edge')
-        meta(name='viewport' content='width=device-width, initial-scale=1.0')
-        link(rel='stylesheet' href='/css/login.css')
-        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx' crossorigin='anonymous')
-        script(src='https://cdn.socket.io/4.5.3/socket.io.min.js' integrity='sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi' crossorigin='anonymous')
-        title Login
-    body 
-        div#principal-div
-            div#input-form
-                form(role='form' method='POST' action='/login')
-                    h3 Ingresar
-                    div.mb-3
-                        label.form-label(for='input-user') Usuario
-                        input#input-user.form-control(type='text' aria-describedby='emailHelp' name='username' required)
-                    div.mb-3
-                        label.form-label(for='input-password') Contraseña
-                        input#input-password.form-control(type='password' name='password' autocomplete='current-password' required)
-                    p ¿No estas registrado? 
-                        a(href='signup') registrarse
-                    div#error-message  
-                        if message 
-                            p #{message}
-                    button.btn.btn-primary(type='submit' id='submit-btn') Login
-
-        script(type='text/javascript' src='/js/login.js')
-        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')
+	head
+		meta(charset='UTF-8')
+		title Login
+		meta(http-equiv='X-UA-Compatible' content='IE=edge')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet' href='/css/styles.css')
+		script(src='https://cdn.socket.io/4.5.3/socket.io.min.js' integrity='sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi' crossorigin='anonymous')
+	body 
+		div.login-container
+			div.login-container__title
+				h1 Bingo multijugador online
+			div.login-container__form
+				h2 Ingresar
+				form#login-form(role='form' method='POST' action='/login')
+					input#input-user(type='text' name='username' placeholder='Username' required='required')
+					input#input-password(type='password' name='password' placeholder='Password' required='required')
+					button#submit-btn.btn.btn-primary.btn-block.btn-large(type='submit') Entrar.
+					p.handler-signup ¿No estas registrado? 
+						a(href='signup') registrarse
+					#error-message.error-message
+						if message 
+							p #{message}
+					button#invite-btn.btn.btn-primary.btn-block.btn-large.btn-invite(type='button') Ingresar como invitado
+	script(type='text/javascript' src='/js/login.js')

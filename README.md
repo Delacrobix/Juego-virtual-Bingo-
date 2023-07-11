@@ -11,7 +11,7 @@ Este proyecto fue construido para mi portafolio personal como desarrollador. El 
 - C#
 - VanillaJS
 - Pug
-- CSS
+- SASS
 - API REST
 - SocketIO
 - SignalR

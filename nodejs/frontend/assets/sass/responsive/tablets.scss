@@ -1,0 +1,56 @@
+@media (max-width: 960px) {
+  body {
+    //Nav
+    .nav-container {
+      margin: 0 0 4rem 0;
+
+      .nav {
+        height: 4rem;
+        ul {
+          li {
+            font-size: 1.3rem;
+          }
+        }
+      }
+    }
+
+    //Lobby
+    .lobby-container {
+      height: 107vh;
+
+      .paper-container {
+        .paper-div {
+          width: 70%;
+          .header-paper {
+            width: 100%;
+          }
+
+          .body-paper {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    //Bingo
+    .bingo {
+      &__gamers {
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 0 0 0;
+      }
+
+      &__ballots {
+        padding: 3rem 0 1rem 0;
+        .ballots {
+          tr {
+            .cell-number {
+              padding: 0.2rem 0.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

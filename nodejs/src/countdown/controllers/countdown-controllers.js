@@ -1,8 +1,8 @@
-const DateSchema = require("../models/date");
+const DateSchema = require('../models/date');
 
 getRemainTime = (remain) => {
-  let remain_seconds = ("0" + Math.floor(remain % 60)).slice(-2);
-  let remain_minutes = ("0" + Math.floor((remain / 60) % 60)).slice(-2);
+  let remain_seconds = ('0' + Math.floor(remain % 60)).slice(-2);
+  let remain_minutes = ('0' + Math.floor((remain / 60) % 60)).slice(-2);
 
   return {
     remain: remain,
@@ -13,9 +13,9 @@ getRemainTime = (remain) => {
 
 const addCero = (valor) => {
   if (valor < 10) {
-    return "0" + valor;
+    return '0' + valor;
   } else {
-    return "" + valor;
+    return '' + valor;
   }
 };
 
@@ -37,8 +37,8 @@ exports.startCountdown = async (io) => {
   let timeout = 10000;
 
   let timerId = setInterval(() => {
-    io.to("room:countdown").emit(
-      "server:time",
+    io.to('room:countdown').emit(
+      'server:time',
       millisecondsToSecondsAndMinutes(timeout)
     );
     timeout = timeout - 1000;
@@ -48,7 +48,7 @@ exports.startCountdown = async (io) => {
     clearInterval(timerId);
     await deleteFlag();
 
-    io.to("room:countdown").emit("server:time", false);
+    io.to('room:countdown').emit('server:time', false);
   }, timeout + 1000);
 };
 
@@ -70,18 +70,12 @@ exports.saveFlag = async () => {
   await flag.save((err, res) => {
     if (err) {
       console.error(err);
-    } else {
-      console.log(res);
     }
   });
 };
 
 deleteFlag = async () => {
-  await DateSchema.deleteMany({ flag: { $gte: 0 } })
-    .then(function () {
-      console.log("Date deleted.");
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  await DateSchema.deleteMany({ flag: { $gte: 0 } }).catch(function (error) {
+    console.error(error);
+  });
 };

@@ -1,0 +1,20 @@
+//Fonts
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+//General
+@import './variables.scss';
+@import './body.scss';
+
+//Pages
+@import './bingo.scss';
+@import './signup.scss';
+@import './login.scss';
+@import './lobby.scss';
+
+//Responsive
+@import './responsive/desktop.scss';
+@import './responsive/tablets.scss';
+@import './responsive/mobile.scss';

@@ -1,0 +1,778 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url("https://fonts.googleapis.com/css2?family=Rowdies:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-size: 16px;
+  background: #092756;
+  background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104, 128, 138, 0.4) 10%, rgba(138, 114, 76, 0) 40%), -moz-linear-gradient(top, rgba(57, 173, 219, 0.25) 0%, rgba(42, 60, 87, 0.4) 100%), -moz-linear-gradient(-45deg, #670d10 0%, #092756 100%);
+  background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104, 128, 138, 0.4) 10%, rgba(138, 114, 76, 0) 40%), -webkit-linear-gradient(top, rgba(57, 173, 219, 0.25) 0%, rgba(42, 60, 87, 0.4) 100%), -webkit-linear-gradient(-45deg, #670d10 0%, #092756 100%);
+  background: -o-radial-gradient(0% 100%, ellipse cover, rgba(104, 128, 138, 0.4) 10%, rgba(138, 114, 76, 0) 40%), -o-linear-gradient(top, rgba(57, 173, 219, 0.25) 0%, rgba(42, 60, 87, 0.4) 100%), -o-linear-gradient(-45deg, #670d10 0%, #092756 100%);
+  background: -ms-radial-gradient(0% 100%, ellipse cover, rgba(104, 128, 138, 0.4) 10%, rgba(138, 114, 76, 0) 40%), -ms-linear-gradient(top, rgba(57, 173, 219, 0.25) 0%, rgba(42, 60, 87, 0.4) 100%), -ms-linear-gradient(-45deg, #670d10 0%, #092756 100%);
+  background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104, 128, 138, 0.4) 10%, rgba(138, 114, 76, 0) 40%), linear-gradient(to bottom, rgba(57, 173, 219, 0.25) 0%, rgba(42, 60, 87, 0.4) 100%), linear-gradient(135deg, #670d10 0%, #092756 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr="#3E1D6D", endColorstr="#092756",GradientType=1 );
+}
+body .nav-container {
+  margin: 0 0 3rem 0;
+}
+body .nav-container .nav {
+  background-color: rgba(0, 0, 0, 0.2745098039);
+  height: 3rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+body .nav-container .nav .h2-container {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 1rem;
+}
+body .nav-container .nav .h2-container h2 {
+  color: #ffffff;
+  font-family: "Rowdies", cursive;
+  letter-spacing: 0.08rem;
+  font-size: 1.9rem;
+}
+body .nav-container .nav ul {
+  display: flex;
+  position: absolute;
+  right: 0;
+  list-style: none;
+  font-family: "Lato", sans-serif;
+}
+body .nav-container .nav ul li {
+  padding: 0 2rem 0 0;
+}
+body .nav-container .nav ul li .logout-container {
+  padding: 0 0 0.5rem 0;
+}
+body .nav-container .nav ul li .logout-container a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.6784313725);
+  border-bottom: rgba(255, 255, 255, 0.6431372549) 1px solid;
+  cursor: pointer;
+  transition: color 0.4s, border 0.4s;
+}
+body .nav-container .nav ul li .logout-container a:hover {
+  transition: color 0.4s, border 0.4s;
+  border-bottom: #ffffff 1px solid;
+  color: #ffffff;
+}
+
+.bingo {
+  height: 95vh;
+  overflow-y: hidden;
+  font-family: "Lato", sans-serif;
+}
+.bingo__gamers {
+  display: flex;
+  position: absolute;
+  z-index: -1;
+  padding: 1rem 0 0 1rem;
+}
+.bingo__gamers .table-container {
+  display: flex;
+}
+.bingo__gamers .table-container .table {
+  width: 25rem;
+  border-radius: 7px;
+  background-color: #e7e7e9;
+}
+.bingo__gamers .table-container .table tbody tr td {
+  text-align: center;
+}
+.bingo__ballots {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 2rem 0;
+}
+.bingo__ballots h3 {
+  color: #f1f1f1;
+}
+.bingo__ballots .ballots {
+  background-color: beige;
+  color: black;
+  border-radius: 7px;
+}
+.bingo__ballots .ballots tr .ballots-th {
+  border: solid rgba(0, 0, 0, 0.65) 2px;
+  background-color: #eff77f;
+  padding: 0.5rem;
+  border-radius: 7px;
+}
+.bingo__ballots .ballots tr .cell-number {
+  padding: 0.5rem;
+  border: solid #555555 1px;
+  border-radius: 7px;
+  text-align: center;
+}
+.bingo__card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bingo__card .card {
+  background: -webkit-linear-gradient(to right, #3f2b96, #a8c0ff);
+  background: linear-gradient(to right, #3f2b96, #a8c0ff);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+.bingo__card .card .card-table {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.bingo__card .card .card-table thead {
+  padding: 0 0 0.4rem 0;
+}
+.bingo__card .card .card-table thead tr th .bingo-letter {
+  background-color: rgb(255, 193, 7);
+  border-radius: 30%;
+  margin: 0.35rem 1.2rem;
+  height: 3.5rem;
+  width: 3.5rem;
+}
+.bingo__card .card .card-table tbody tr td .token {
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid black;
+  margin: 0.35rem 1.2rem;
+  height: 3.5rem;
+  width: 3.5rem;
+}
+.bingo__win-btn {
+  display: flex;
+  justify-content: center;
+}
+.bingo__win-btn .win-btn {
+  background: rgba(239, 247, 127, 0.6);
+  border: none;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
+  padding: 0.9rem;
+  width: 30.9rem;
+  cursor: pointer;
+  transition: background 0.4s;
+}
+.bingo__win-btn .win-btn:hover {
+  background: #eff77f;
+  transition: background 0.4s;
+}
+.bingo__alert {
+  display: flex;
+  justify-content: center;
+  color: #f1f1f1;
+}
+.bingo__alert .alert {
+  text-align: center;
+  margin: 0;
+  font-size: 1.5rem;
+}
+.bingo__winner {
+  font-family: "Rowdies", cursive;
+  display: flex;
+  justify-content: center;
+  color: #f1f1f1;
+}
+.bingo__winner .p-winner {
+  margin: 0.2rem;
+  font-size: 2rem;
+}
+
+.signup {
+  height: 100%;
+  width: 100%;
+}
+.signup__form {
+  font-family: "Open Sans", sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -150px 0 0 -150px;
+  width: 300px;
+  height: 300px;
+}
+.signup__form h2 {
+  font-family: "Lato", sans-serif;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+  text-align: center;
+}
+.signup__form form input {
+  width: 100%;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 13px;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
+  -webkit-transition: box-shadow 0.5s ease;
+  -moz-transition: box-shadow 0.5s ease;
+  -o-transition: box-shadow 0.5s ease;
+  -ms-transition: box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease;
+}
+.signup__form form input:focus {
+  box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+.signup__form form .btn {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  padding: 4px 10px 4px;
+  margin-bottom: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  vertical-align: middle;
+  background-color: #f5f5f5;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(top, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr=#ffffff, endColorstr=#e6e6e6, GradientType=0);
+  border-color: #e6e6e6 #e6e6e6 #e6e6e6;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border: 1px solid #e6e6e6;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  *margin-left: 0.3em;
+}
+.signup__form form .btn:hover {
+  color: #333333;
+  text-decoration: none;
+  background-color: #e6e6e6;
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+  -moz-transition: background-position 0.1s linear;
+  -ms-transition: background-position 0.1s linear;
+  -o-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+.signup__form form .btn:hover,
+.signup__form form .btn:active,
+.signup__form form .btn.active,
+.signup__form form .btn.disabled,
+.signup__form form .btn[disabled] {
+  background-color: #e6e6e6;
+}
+.signup__form form .btn-large {
+  padding: 9px 14px;
+  font-size: 15px;
+  line-height: normal;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.signup__form form .btn-primary,
+.signup__form form .btn-primary:hover {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+}
+.signup__form form .btn-primary.active {
+  color: rgba(255, 255, 255, 0.75);
+}
+.signup__form form .btn-primary {
+  background-color: #4a77d4;
+  background-image: -moz-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: -ms-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6eb6de), to(#4a77d4));
+  background-image: -webkit-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: -o-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: linear-gradient(top, #6eb6de, #4a77d4);
+  background-repeat: repeat-x;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr=#6eb6de, endColorstr=#4a77d4, GradientType=0);
+  border: 1px solid #3762bc;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.signup__form form .btn-primary:hover,
+.signup__form form .btn-primary:active,
+.signup__form form .btn-primary.active,
+.signup__form form .btn-primary.disabled,
+.signup__form form .btn-primary[disabled] {
+  filter: none;
+  background-color: #4a77d4;
+}
+.signup__form form .btn-block {
+  width: 100%;
+  display: block;
+}
+.signup__form form .handler-login {
+  color: #ffffff;
+}
+.signup__form form .handler-login a {
+  text-decoration: none;
+  color: #b9bdff;
+}
+.signup__form form .handler-login a:hover {
+  color: #3762bc;
+}
+.signup__form form .error-message {
+  background-color: rgb(250, 183, 183);
+  border-radius: 5px;
+  color: rgb(243, 36, 36);
+}
+.signup__form form .error-message p {
+  padding-left: 3px;
+}
+
+.login-container__title {
+  font-family: "Rowdies", cursive;
+  font-size: 1.5rem;
+  padding: 10rem;
+  text-align: center;
+  color: #b9bdff;
+}
+.login-container__form {
+  font-family: "Open Sans", sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -150px 0 0 -150px;
+  width: 300px;
+  height: 300px;
+}
+.login-container__form h2 {
+  font-family: "Lato", sans-serif;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+.login-container__form form input {
+  width: 100%;
+  margin-bottom: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 13px;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
+  -webkit-transition: box-shadow 0.5s ease;
+  -moz-transition: box-shadow 0.5s ease;
+  -o-transition: box-shadow 0.5s ease;
+  -ms-transition: box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease;
+}
+.login-container__form form input:focus {
+  box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+.login-container__form form .btn {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  padding: 4px 10px 4px;
+  margin-bottom: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  vertical-align: middle;
+  background-color: #f5f5f5;
+  background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -ms-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+  background-image: linear-gradient(top, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr=#ffffff, endColorstr=#e6e6e6, GradientType=0);
+  border-color: #e6e6e6 #e6e6e6 #e6e6e6;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  border: 1px solid #e6e6e6;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  *margin-left: 0.3em;
+}
+.login-container__form form .btn:hover {
+  color: #333333;
+  text-decoration: none;
+  background-color: #e6e6e6;
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+  -moz-transition: background-position 0.1s linear;
+  -ms-transition: background-position 0.1s linear;
+  -o-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+.login-container__form form .btn:hover,
+.login-container__form form .btn:active,
+.login-container__form form .btn.active,
+.login-container__form form .btn.disabled,
+.login-container__form form .btn[disabled] {
+  background-color: #e6e6e6;
+}
+.login-container__form form .btn-large {
+  padding: 9px 14px;
+  font-size: 15px;
+  line-height: normal;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.login-container__form form .btn-primary,
+.login-container__form form .btn-primary:hover {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+}
+.login-container__form form .btn-primary.active {
+  color: rgba(255, 255, 255, 0.75);
+}
+.login-container__form form .btn-primary {
+  background-color: #4a77d4;
+  background-image: -moz-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: -ms-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6eb6de), to(#4a77d4));
+  background-image: -webkit-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: -o-linear-gradient(top, #6eb6de, #4a77d4);
+  background-image: linear-gradient(top, #6eb6de, #4a77d4);
+  background-repeat: repeat-x;
+  filter: progid:dximagetransform.microsoft.gradient(startColorstr=#6eb6de, endColorstr=#4a77d4, GradientType=0);
+  border: 1px solid #3762bc;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.login-container__form form .btn-primary:hover,
+.login-container__form form .btn-primary:active,
+.login-container__form form .btn-primary.active,
+.login-container__form form .btn-primary.disabled,
+.login-container__form form .btn-primary[disabled] {
+  filter: none;
+  background-color: #4a77d4;
+}
+.login-container__form form .btn-block {
+  width: 100%;
+  display: block;
+}
+.login-container__form form .handler-signup {
+  color: aliceblue;
+}
+.login-container__form form .handler-signup a {
+  text-decoration: none;
+  color: #b9bdff;
+}
+.login-container__form form .handler-signup a:hover {
+  color: #3762bc;
+}
+.login-container__form form .error-message {
+  background-color: rgb(250, 183, 183);
+  border-radius: 5px;
+  color: rgb(243, 36, 36);
+}
+.login-container__form form .error-message p {
+  padding-left: 3px;
+}
+.login-container__form form .btn-invite {
+  padding: 1rem;
+}
+
+.lobby-container {
+  font-family: "Lato", sans-serif;
+  height: 100vh;
+}
+.lobby-container .gamers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.lobby-container .gamers .table-container .table {
+  padding: 0 0 1rem 0;
+}
+.lobby-container .gamers .table-container .table thead {
+  font-size: 1.2rem;
+}
+.lobby-container .gamers .table-container .table thead tr th {
+  border-bottom: rgba(255, 255, 255, 0.4588235294) solid 1px;
+  padding: 0.5rem 0.5rem;
+  color: #ffffff;
+}
+.lobby-container .gamers .table-container .table tbody {
+  font-size: 1.1rem;
+}
+.lobby-container .gamers .table-container .table tbody tr td {
+  padding: 0.2rem 0.5rem;
+  text-align: center;
+  border-bottom: rgba(255, 255, 255, 0.4588235294) solid 1px;
+}
+.lobby-container .search-button {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  color: #ffffff;
+}
+.lobby-container .search-button a {
+  padding: 1rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #ffffff;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#6eb6de), to(#4a77d4));
+  border: 1px solid #3762bc;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+.lobby-container .search-button a:hover {
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#61a4c9), to(#4b7ad6));
+}
+.lobby-container .countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+}
+.lobby-container .countdown__message p {
+  font-size: 2rem;
+  visibility: hidden;
+}
+.lobby-container .countdown__counter {
+  display: flex;
+  padding: 0 0 1rem 0;
+  margin: -2rem 0 0 0;
+}
+.lobby-container .countdown__counter-min {
+  font-size: 2rem;
+  visibility: hidden;
+}
+.lobby-container .countdown__counter-seg {
+  font-size: 2rem;
+  visibility: hidden;
+}
+.lobby-container .paper-container {
+  padding: 0 0 2rem 0;
+}
+.lobby-container .paper-container .paper-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  margin: auto;
+}
+.lobby-container .paper-container .paper-div .header-paper {
+  background: repeating-linear-gradient(#f1ede9, #f1ede9 31px, #727171 31px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  padding: 0 2rem;
+  height: 3rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+.lobby-container .paper-container .paper-div .header-paper h3 {
+  font-size: 1.5rem;
+}
+.lobby-container .paper-container .paper-div .body-paper {
+  background: repeating-linear-gradient(#f1ede9, #f1ede9 31px, #727171 31px, rgb(100, 100, 100) 32px);
+  font-size: 1rem;
+  font-family: "Indie Flower", cursive;
+  line-height: 2rem;
+  padding: 0.3rem 2rem;
+  border-radius: 0 0 0.5rem 0.5rem;
+  width: 70%;
+}
+.lobby-container .paper-container .paper-div .body-paper .rules {
+  background-color: transparent;
+  color: black;
+  font-size: 1.5rem;
+}
+.lobby-container .paper-container .paper-div .body-paper .rules .rule1 {
+  padding: 0.55rem 0 0 0;
+}
+.lobby-container .paper-container .paper-div .body-paper .rules .rule2 {
+  padding: 0.55rem 0 0 0;
+}
+.lobby-container .paper-container .paper-div .body-paper .rules .rule3 {
+  padding: 0.55rem 0 0 0;
+}
+.lobby-container .paper-container .paper-div .body-paper .rules .rule4 {
+  padding: 0.55rem 0 0 0;
+}
+.lobby-container .paper-container .paper-div .body-paper .rules .rule5 {
+  padding: 0.55rem 0 0 0;
+}
+
+@media (max-width: 960px) {
+  body .nav-container {
+    margin: 0 0 4rem 0;
+  }
+  body .nav-container .nav {
+    height: 4rem;
+  }
+  body .nav-container .nav ul li {
+    font-size: 1.3rem;
+  }
+  body .lobby-container {
+    height: 107vh;
+  }
+  body .lobby-container .paper-container .paper-div {
+    width: 70%;
+  }
+  body .lobby-container .paper-container .paper-div .header-paper {
+    width: 100%;
+  }
+  body .lobby-container .paper-container .paper-div .body-paper {
+    width: 100%;
+  }
+  body .bingo__gamers {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0 0 0;
+  }
+  body .bingo__ballots {
+    padding: 3rem 0 1rem 0;
+  }
+  body .bingo__ballots .ballots tr .cell-number {
+    padding: 0.2rem 0.5rem;
+  }
+}
+@media (max-width: 450px) {
+  body .login-container__title {
+    font-size: 1.2rem;
+    padding: 2rem 0.5rem 0;
+  }
+  body .login-container__form {
+    margin: -110px 0 0 -150px;
+  }
+  body .nav-container .nav {
+    height: 3.5rem;
+  }
+  body .nav-container .nav .h2-container h2 {
+    font-size: 1.5rem;
+  }
+  body .nav-container .nav ul li {
+    font-size: 1.2rem;
+  }
+  body .lobby-container .search-button div {
+    text-align: center;
+  }
+  body .lobby-container .paper-container .paper-div {
+    width: 92%;
+  }
+  body .lobby-container .paper-container .paper-div .header-paper {
+    height: 2rem;
+    padding: 0 1rem;
+    width: 100%;
+  }
+  body .lobby-container .paper-container .paper-div .header-paper h3 {
+    font-size: 1.3rem;
+  }
+  body .lobby-container .paper-container .paper-div .body-paper {
+    padding: 0 1rem;
+    width: 100%;
+    font-size: 0.8rem;
+  }
+  body .bingo {
+    overflow-y: auto;
+  }
+  body .bingo__ballots .ballots tr .cell-number {
+    padding: 0 0.1rem;
+  }
+  body .bingo__card .card .card-table thead {
+    padding: 0;
+  }
+  body .bingo__card .card .card-table thead tr th .bingo-letter {
+    margin: 0.3rem 0.5rem;
+  }
+  body .bingo__card .card .card-table tbody tr td .token {
+    margin: 0.3rem 0.5rem;
+  }
+  body .bingo__win-btn .win-btn {
+    width: 23.9rem;
+  }
+}
+@media (max-width: 330px) {
+  body {
+    height: 120vh;
+  }
+  body .login-container__title {
+    font-size: 1rem;
+    padding: 2rem 0.4rem 0;
+  }
+  body .login-container__form {
+    margin: -50px 0 0 -150px;
+  }
+  body .nav-container .nav {
+    height: 2.7rem;
+  }
+  body .nav-container .nav .h2-container {
+    padding: 0 0 0 0.5rem;
+  }
+  body .nav-container .nav .h2-container h2 {
+    font-size: 1.3rem;
+  }
+  body .nav-container .nav ul li {
+    font-size: 1rem;
+  }
+  body .nav-container .nav ul li .logout-container {
+    margin: 0 -1rem 0 0;
+  }
+  body .bingo {
+    overflow-y: auto;
+  }
+  body .bingo__gamers .table-container .table {
+    width: 19rem;
+  }
+  body .bingo__ballots .ballots tr .ballots-th {
+    padding: 0.2rem 0.1rem;
+  }
+  body .bingo__ballots .ballots tr .cell-number {
+    font-size: 0.8rem;
+    padding: 0 0.1rem;
+  }
+  body .bingo__card .card .card-table thead {
+    padding: 0;
+  }
+  body .bingo__card .card .card-table thead tr th .bingo-letter {
+    margin: 0.2rem 0.3rem;
+    height: 3rem;
+    width: 3rem;
+  }
+  body .bingo__card .card .card-table tbody tr td .token {
+    margin: 0.2rem 0.3rem;
+    height: 3rem;
+    width: 3rem;
+  }
+  body .bingo__win-btn .win-btn {
+    padding: 0.9rem 0;
+    width: 19.4rem;
+  }
+}
+
+/*# sourceMappingURL=styles.css.map */

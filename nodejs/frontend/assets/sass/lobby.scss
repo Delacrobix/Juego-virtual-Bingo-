@@ -1,0 +1,181 @@
+.lobby-container {
+  font-family: $lato;
+  height: 100vh;
+
+  .gamers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+
+    .table-container {
+      .table {
+        thead {
+          font-size: 1.2rem;
+          tr {
+            th {
+              border-bottom: #ffffff75 solid 1px;
+              padding: 0.5rem 0.5rem;
+              color: #ffffff;
+            }
+          }
+        }
+
+        tbody {
+          font-size: 1.1rem;
+          tr {
+            td {
+              padding: 0.2rem 0.5rem;
+              text-align: center;
+              border-bottom: #ffffff75 solid 1px;
+            }
+          }
+        }
+
+        padding: 0 0 1rem 0;
+      }
+    }
+  }
+
+  .search-button {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    color: #ffffff;
+
+    a {
+      padding: 1rem;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #ffffff;
+      background-image: -webkit-gradient(
+        linear,
+        0 0,
+        0 100%,
+        from(#6eb6de),
+        to(#4a77d4)
+      );
+      border: 1px solid #3762bc;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 1px 2px rgba(0, 0, 0, 0.5);
+      cursor: pointer;
+
+      &:hover {
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+        color: #ffffff;
+        background-image: -webkit-gradient(
+          linear,
+          0 0,
+          0 100%,
+          from(#61a4c9),
+          to(#4b7ad6)
+        );
+      }
+    }
+  }
+
+  .countdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+
+    &__message {
+      p {
+        font-size: 2rem;
+        visibility: hidden;
+      }
+    }
+
+    &__counter {
+      display: flex;
+      padding: 0 0 1rem 0;
+      margin: -2rem 0 0 0;
+
+      &-min {
+        font-size: 2rem;
+        visibility: hidden;
+      }
+
+      &-seg {
+        font-size: 2rem;
+        visibility: hidden;
+      }
+    }
+  }
+
+  .paper-container {
+    padding: 0 0 2rem 0;
+
+    .paper-div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      margin: auto;
+
+      .header-paper {
+        background: repeating-linear-gradient(
+          #f1ede9,
+          #f1ede9 31px,
+          #727171 31px
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 70%;
+        padding: 0 2rem;
+        height: 3rem;
+
+        border-radius: 0.5rem 0.5rem 0 0;
+
+        h3 {
+          font-size: 1.5rem;
+        }
+      }
+
+      .body-paper {
+        background: repeating-linear-gradient(
+          #f1ede9,
+          #f1ede9 31px,
+          #727171 31px,
+          rgb(100, 100, 100) 32px
+        );
+        font-size: 1rem;
+        font-family: $indieFlower;
+        line-height: 2rem;
+        padding: 0.3rem 2rem;
+        border-radius: 0 0 0.5rem 0.5rem;
+        width: 70%;
+
+        .rules {
+          background-color: transparent;
+          color: black;
+          font-size: 1.5rem;
+
+          .rule1 {
+            padding: 0.55rem 0 0 0;
+          }
+
+          .rule2 {
+            padding: 0.55rem 0 0 0;
+          }
+
+          .rule3 {
+            padding: 0.55rem 0 0 0;
+          }
+
+          .rule4 {
+            padding: 0.55rem 0 0 0;
+          }
+
+          .rule5 {
+            padding: 0.55rem 0 0 0;
+          }
+        }
+      }
+    }
+  }
+}

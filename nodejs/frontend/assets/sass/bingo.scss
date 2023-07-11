@@ -1,0 +1,159 @@
+.bingo {
+  height: 95vh;
+  overflow-y: hidden;
+  font-family: $lato;
+
+  &__gamers {
+    display: flex;
+    position: absolute;
+    z-index: -1;
+    padding: 1rem 0 0 1rem;
+
+    .table-container {
+      display: flex;
+
+      .table {
+        width: 25rem;
+        border-radius: 7px;
+        background-color: #e7e7e9;
+
+        tbody {
+          tr {
+            td {
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__ballots {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 2rem 0;
+
+    h3 {
+      color: #f1f1f1;
+    }
+
+    .ballots {
+      background-color: beige;
+      color: black;
+      border-radius: 7px;
+
+      tr {
+        .ballots-th {
+          border: solid rgba(#000000, 0.65) 2px;
+          background-color: #eff77f;
+          padding: 0.5rem;
+          border-radius: 7px;
+        }
+
+        .cell-number {
+          padding: 0.5rem;
+          border: solid #555555 1px;
+          border-radius: 7px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  &__card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .card {
+      background: -webkit-linear-gradient(to right, #3f2b96, #a8c0ff);
+      background: linear-gradient(to right, #3f2b96, #a8c0ff);
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+
+      .card-table {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        thead {
+          padding: 0 0 0.4rem 0;
+
+          tr {
+            th {
+              .bingo-letter {
+                background-color: rgb(255, 193, 7);
+                border-radius: 30%;
+                margin: 0.35rem 1.2rem;
+                height: 3.5rem;
+                width: 3.5rem;
+              }
+            }
+          }
+        }
+
+        tbody {
+          tr {
+            td {
+              .token {
+                cursor: pointer;
+                border-radius: 50%;
+                border: 1px solid black;
+                margin: 0.35rem 1.2rem;
+                height: 3.5rem;
+                width: 3.5rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__win-btn {
+    display: flex;
+    justify-content: center;
+
+    .win-btn {
+      background: rgba(#eff77f, 0.6);
+      border: none;
+      border-bottom-left-radius: 9px;
+      border-bottom-right-radius: 9px;
+      padding: 0.9rem;
+      width: 30.9rem;
+      cursor: pointer;
+      transition: background 0.4s;
+
+      &:hover {
+        background: rgba(#eff77f, 1);
+        transition: background 0.4s;
+      }
+    }
+  }
+
+  &__alert {
+    display: flex;
+    justify-content: center;
+    color: #f1f1f1;
+
+    .alert {
+      text-align: center;
+      margin: 0;
+      font-size: 1.5rem;
+    }
+  }
+
+  &__winner {
+    font-family: $rowdies;
+    display: flex;
+    justify-content: center;
+    color: #f1f1f1;
+
+    .p-winner {
+      margin: 0.2rem;
+      font-size: 2rem;
+    }
+  }
+}

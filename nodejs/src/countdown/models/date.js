@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 var DateSchema = new Schema({
@@ -14,4 +14,4 @@ DateSchema.methods.calculateDeadline = (remain_seconds) => {
   return deadline;
 };
 
-module.exports = mongoose.model("Date", DateSchema);
+module.exports = mongoose.model('Date', DateSchema);

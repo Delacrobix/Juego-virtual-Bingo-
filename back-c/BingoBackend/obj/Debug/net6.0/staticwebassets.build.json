@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "AdOEnFhusVjfYK9sGkKA8gLZdD7oSKtV7qsEg7XdvTw=",
+  "Source": "BingoBackend",
+  "BasePath": "_content/BingoBackend",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

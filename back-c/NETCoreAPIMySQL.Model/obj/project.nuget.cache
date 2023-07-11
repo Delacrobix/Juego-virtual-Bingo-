@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3jDGO6fMAOjXm7BUI6rWjrOQmWpYd+ZpdTbk0h7dvN290Yts5w59utrd6Dj2t/Zw0mn9NK2a10j/VOZGPTP6TA==",
+  "dgSpecHash": "LTyvJjr8Z9e99T0A2No/0zNS7Oe97FwbF2WZlP1YjD5YKwBHmDWDH9rOL1bIV6UpgHAGabLxoGzcxwfA27EhvA==",
   "success": true,
-  "projectFilePath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\Bingo Backend\\NETCoreAPIMySQL.Model\\NETCoreAPIMySQL.Model.csproj",
+  "projectFilePath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\NETCoreAPIMySQL.Model\\NETCoreAPIMySQL.Model.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

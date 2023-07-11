@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "KzwSbJ0Y1dLaON2AwOfqayZRWLHkPT8KjWXLY+7cDcUic90kJ1MNgU0nZg3WuU3ee/IzvLDamP0dI6ZJPa2kog==",
+  "dgSpecHash": "MkaR0J1d9WuGg0RL88nyNJCAv1ipXru0Se2UEi6P0W05pmkHf/bPau1YoHKvaFjWfy/skWv21vDu8EcyCPhqHQ==",
   "success": true,
-  "projectFilePath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\Bingo Backend\\NETCoreAPIMySQL.Data\\NETCoreAPIMySQL.Data.csproj",
+  "projectFilePath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\NETCoreAPIMySQL.Data\\NETCoreAPIMySQL.Data.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jeffr\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512",
     "C:\\Users\\Jeffr\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",

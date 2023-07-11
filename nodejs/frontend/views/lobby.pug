@@ -1,47 +1,48 @@
 doctype html
 html(lang='en')
-    head
-        meta(charset='UTF-8')
-        meta(http-equiv='X-UA-Compatible' content='IE=edge')
-        meta(name='viewport' content='width=device-width, initial-scale=1.0')
-        link(rel='stylesheet' href='/css/lobby.css')
-        link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx' crossorigin='anonymous')
-        script(src='https://cdn.socket.io/4.5.3/socket.io.min.js' integrity='sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi' crossorigin='anonymous')
-        title Lobby
-    body 
-        div.color-body
-            div#principal-div
-                h1 Sala de espera
-            div.secondary-div
-                div#div-gamers(class='table-responsive')
-                    table#table-gamers(class='table')
-                        thead
-                            tr
-                                th(scope='col') N°
-                                th(scope='col') JUGADOR
-                        tbody#t-bodyPlayers
-            div.searchLobby-container
-                a#searchGame-btn Buscar jugadores
-                div#searchComment
-            div.secondary-div
-                p#message El juego inicia en:
-            div.secondary-div
-                div#countdown-min
-                div#countdown-sec
-            
-            div#principal-div
-                div.paper-div
-                    div.header-paper
-                        h2 Reglas  
-                    div.body-paper 
-                        div.rules
-                            p.rule1 1 - Cada jugador tendrá una carta tradicional de bingo con el centro sin enumerar.
-                            p.rule2 2 - Las maneras de ganar son: Llenar una fila, llenar una columna o llenar las 4 esquinas.
-                            p.rule3 3 - En pantalla se imprimen las balotas que se obtienen de la ruleta, usted debe marcarlas.
-                            p.rule4 4 - Solo le sera posible marcar las balotas que hayan salido de la ruleta.
-                            p.rule5 5 - El botón 'Bingo' solo debe ser presionado en caso de que haya ganado, si lo presiona sin cumplir las condiciones de victoria, sera descalificado del juego.
-            div.logout-container
-                a.logout-btn#logout-btn Cerrar sesion 
-       
-        script(type='text/javascript' src='/js/lobby.js')
-        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa' crossorigin='anonymous')
+	head
+		meta(charset='UTF-8')
+		title Lobby
+		meta(http-equiv='X-UA-Compatible' content='IE=edge')
+		meta(name='viewport' content='width=device-width, initial-scale=1.0')
+		link(rel='stylesheet' href='/css/styles.css')
+		script(src='https://cdn.socket.io/4.5.3/socket.io.min.js' integrity='sha384-WPFUvHkB1aHA5TDSZi6xtDgkF0wXJcIIxXhC6h8OT8EH3fC5PWro5pWJ1THjcfEi' crossorigin='anonymous')
+	body 
+		div.nav-container
+			nav.nav 
+				div.h2-container
+					h2 Sala de espera
+				ul  
+					li 
+						div.logout-container
+							a.logout-btn#logout-btn Cerrar sesion 
+		div.lobby-container
+			div.gamers
+				div#div-gamers.table-container
+					table#table-gamers.table
+						thead
+							tr
+								th(scope='col') N°
+								th(scope='col') JUGADOR
+						tbody#t-bodyPlayers
+			div.search-button
+				a#searchGame-btn Buscar jugadores
+				div#searchComment
+			div.countdown
+				div.countdown__message
+					p#message El juego inicia en:
+				div.countdown__counter
+					div#countdown-min.countdown__counter-min
+					div#countdown-sec.countdown__counter-seg
+			div.paper-container
+				div.paper-div
+					div.header-paper
+						h3 Reglas  
+					div.body-paper 
+						div.rules
+							p.rule1 1 - Cada jugador tendrá una carta tradicional de bingo.
+							p.rule2 2 - Condiciones de victoria: Llenar una fila, llenar una columna o llenar las 4 esquinas.
+							p.rule3 3 - En pantalla se imprimen las balotas que se obtienen al azar, usted debe marcarlas.
+							p.rule4 4 - Solo le sera posible marcar las balotas que hayan salido.
+							p.rule5 5 - El botón 'Bingo' solo debe ser presionado al cumplir una de las condiciones de victoria, de lo contrario, sera descalificado del juego.
+	script(type='module' src='/js/lobby.mjs')

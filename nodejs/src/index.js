@@ -1,4 +1,4 @@
-const app = require("./app");
+const app = require('./app');
 const PORT = process.env.PORT || 8081;
 
 function executeServer() {
@@ -16,4 +16,4 @@ function executeServer() {
 const server = executeServer();
 module.exports = server;
 
-require("./sockets/sockets");
+require('./sockets/sockets');

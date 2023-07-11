@@ -1,7 +1,6 @@
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth2").Strategy;
-const PassportLocal = require("passport-local").Strategy;
-const userControllers = require("./UserController");
+const passport = require('passport');
+const PassportLocal = require('passport-local').Strategy;
+const userControllers = require('./UserController');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -13,7 +12,7 @@ passport.deserializeUser(async (id, done) => {
 });
 
 passport.use(
-  "local-auth",
+  'local-auth',
   new PassportLocal(async (username, password, done) => {
     let user = await userControllers.findUserAndPassword(username, password);
 
@@ -26,12 +25,12 @@ passport.use(
 );
 
 passport.use(
-  "local-auth-register",
+  'local-auth-register',
 
   new PassportLocal(
     {
-      usernameField: "username",
-      passwordField: "password",
+      usernameField: 'username',
+      passwordField: 'password',
       passReqToCallback: true,
     },
     async (req, username, password, done) => {

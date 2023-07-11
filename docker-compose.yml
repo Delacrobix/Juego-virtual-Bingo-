@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  nodejs:
+    build:
+      context: ./nodejs
+      dockerfile: Dockerfile
+    ports:
+      - '8081:8081'
+    volumes:
+      - ./nodejs:/front/nodejs
+  dotnet:
+    build:
+      context: ./back-c
+      dockerfile: Dockerfile
+    ports:
+      - '7006:7006'
+      - '5100:5100'
+    volumes:
+      - ./back-c:/backend/dotnet

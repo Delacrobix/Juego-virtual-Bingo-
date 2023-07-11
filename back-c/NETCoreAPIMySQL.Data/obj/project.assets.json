@@ -946,11 +946,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\Bingo Backend\\NETCoreAPIMySQL.Data\\NETCoreAPIMySQL.Data.csproj",
+      "projectUniqueName": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\NETCoreAPIMySQL.Data\\NETCoreAPIMySQL.Data.csproj",
       "projectName": "NETCoreAPIMySQL.Data",
-      "projectPath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\Bingo Backend\\NETCoreAPIMySQL.Data\\NETCoreAPIMySQL.Data.csproj",
+      "projectPath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\NETCoreAPIMySQL.Data\\NETCoreAPIMySQL.Data.csproj",
       "packagesPath": "C:\\Users\\Jeffr\\.nuget\\packages\\",
-      "outputPath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\Bingo Backend\\NETCoreAPIMySQL.Data\\obj\\",
+      "outputPath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\NETCoreAPIMySQL.Data\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jeffr\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -967,8 +967,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\Bingo Backend\\NETCoreAPIMySQL.Model\\NETCoreAPIMySQL.Model.csproj": {
-              "projectPath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\Bingo Backend\\NETCoreAPIMySQL.Model\\NETCoreAPIMySQL.Model.csproj"
+            "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\NETCoreAPIMySQL.Model\\NETCoreAPIMySQL.Model.csproj": {
+              "projectPath": "D:\\PROGRAMACION\\Curriculum\\bingo\\back-c\\NETCoreAPIMySQL.Model\\NETCoreAPIMySQL.Model.csproj"
             }
           }
         }
