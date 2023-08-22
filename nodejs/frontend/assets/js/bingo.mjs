@@ -82,6 +82,7 @@ async function verifyNumOfPlayers() {
 
   if (gamersList.length < 1) {
     await finishGame();
+
     alert(
       'Deben participar en el juego almenos un jugador. El juego sera finalizado.'
     );
@@ -197,6 +198,7 @@ socket.on('server:users', (users) => {
 window.addEventListener('beforeunload', async (e) => {
   e.preventDefault();
   e.returnValue = '¿Seguro que quieres salir?';
+
   await disqualifyPlayer(mongoId);
 });
 

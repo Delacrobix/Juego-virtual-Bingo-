@@ -65,7 +65,7 @@ body .nav-container .nav ul li .logout-container a:hover {
 }
 
 .bingo {
-  height: 95vh;
+  height: 100%;
   overflow-y: hidden;
   font-family: "Lato", sans-serif;
 }
@@ -627,6 +627,11 @@ body .nav-container .nav ul li .logout-container a:hover {
   padding: 0.55rem 0 0 0;
 }
 
+@media (max-width: 1350px) {
+  .bingo__gamers {
+    padding: 0;
+  }
+}
 @media (max-width: 960px) {
   body .nav-container {
     margin: 0 0 4rem 0;
@@ -699,10 +704,20 @@ body .nav-container .nav ul li .logout-container a:hover {
     font-size: 0.8rem;
   }
   body .bingo {
-    overflow-y: auto;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  body .bingo__ballots {
+    overflow: hidden;
+    width: 100%;
   }
   body .bingo__ballots .ballots tr .cell-number {
+    font-size: 0.7rem;
     padding: 0 0.1rem;
+  }
+  body .bingo__card {
+    overflow: hidden;
   }
   body .bingo__card .card .card-table thead {
     padding: 0;
@@ -719,7 +734,7 @@ body .nav-container .nav ul li .logout-container a:hover {
 }
 @media (max-width: 330px) {
   body {
-    height: 120vh;
+    height: 130vh;
   }
   body .login-container__title {
     font-size: 1rem;
@@ -743,9 +758,6 @@ body .nav-container .nav ul li .logout-container a:hover {
   body .nav-container .nav ul li .logout-container {
     margin: 0 -1rem 0 0;
   }
-  body .bingo {
-    overflow-y: auto;
-  }
   body .bingo__gamers .table-container .table {
     width: 19rem;
   }
@@ -753,7 +765,6 @@ body .nav-container .nav ul li .logout-container a:hover {
     padding: 0.2rem 0.1rem;
   }
   body .bingo__ballots .ballots tr .cell-number {
-    font-size: 0.8rem;
     padding: 0 0.1rem;
   }
   body .bingo__card .card .card-table thead {
