@@ -29,7 +29,7 @@ var intervalId;
 
 const environment = {
   local: 'https://localhost:7006',
-  prod: 'https://Delx.bsite.net',
+  prod: 'https://bingo-web.somee.com',
 };
 const SERVER = environment.prod;
 

@@ -1,6 +1,6 @@
 const environment = {
   local: 'https://localhost:7006',
-  prod: 'http://bingo-web.somee.com',
+  prod: 'https://bingo-web.somee.com',
 };
 
 const SERVER = environment.prod;

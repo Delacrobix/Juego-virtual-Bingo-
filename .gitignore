@@ -14,4 +14,11 @@
 /back-c/.vscode
 /back-c/bin
 /back-c/obj
-/back-c/Bingo Backend/appsettings.json
+/back-c/*.suo
+/back-c/*.user
+/back-c/*.userosscache
+/back-c/*.sln.docstates
+/back-c/BingoBackend/out
+/back-c/BingoBackend/appsettings.json
+/back-c/BingoBackend/appsettings.*.json
+
