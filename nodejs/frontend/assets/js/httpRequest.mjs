@@ -1,7 +1,8 @@
 const environment = {
   local: 'https://localhost:7006',
-  prod: 'https://Delx.bsite.net',
+  prod: 'http://bingo-web.somee.com',
 };
+
 const SERVER = environment.prod;
 
 export async function getGamerInGame(id) {

@@ -10,3 +10,15 @@ D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\NETCoreAPIMySQL.Model\obj\
 D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\NETCoreAPIMySQL.Model\obj\Release\net6.0\refint\NETCoreAPIMySQL.Model.dll
 D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\NETCoreAPIMySQL.Model\obj\Release\net6.0\NETCoreAPIMySQL.Model.pdb
 D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\NETCoreAPIMySQL.Model\obj\Release\net6.0\ref\NETCoreAPIMySQL.Model.dll
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\bin\Release\net6.0\NETCoreAPIMySQL.Model.deps.json
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\bin\Release\net6.0\NETCoreAPIMySQL.Model.dll
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\bin\Release\net6.0\NETCoreAPIMySQL.Model.pdb
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\NETCoreAPIMySQL.Model.GeneratedMSBuildEditorConfig.editorconfig
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\NETCoreAPIMySQL.Model.AssemblyInfoInputs.cache
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\NETCoreAPIMySQL.Model.AssemblyInfo.cs
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\NETCoreAPIMySQL.Model.csproj.CoreCompileInputs.cache
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\NETCoreAPIMySQL.Model.sourcelink.json
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\NETCoreAPIMySQL.Model.dll
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\refint\NETCoreAPIMySQL.Model.dll
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\NETCoreAPIMySQL.Model.pdb
+D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Model\obj\Release\net6.0\ref\NETCoreAPIMySQL.Model.dll

@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = NETCoreAPIMySQL.Data
-build_property.ProjectDir = D:\PROGRAMACION\Curriculum\bingo\back-c\Bingo Backend\NETCoreAPIMySQL.Data\
+build_property.ProjectDir = D:\PROGRAMACION\Curriculum\bingo\back-c\NETCoreAPIMySQL.Data\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
